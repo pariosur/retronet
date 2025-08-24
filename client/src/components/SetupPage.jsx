@@ -1,12 +1,10 @@
 import { useState } from 'react';
 import { Settings, ArrowRight, CheckCircle, XCircle, Brain, Eye, EyeOff } from 'lucide-react';
 import axios from 'axios';
+import AppLayout from './AppLayout';
 
-function SetupPage({ onComplete }) {
-  const [dateRange, setDateRange] = useState({
-    start: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-    end: new Date().toISOString().split('T')[0]
-  });
+function SetupPage({ onComplete, onNavigate }) {
+  // Date range moved to Whiteboard top bar for clarity
   const [teamMembers, setTeamMembers] = useState('');
   const [linearStatus, setLinearStatus] = useState(null);
   const [testingLinear, setTestingLinear] = useState(false);
@@ -28,7 +26,7 @@ function SetupPage({ onComplete }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onComplete({
-      dateRange,
+      dateRange: undefined,
       teamMembers: teamMembers.split(',').map(m => m.trim()).filter(Boolean)
     });
   };
@@ -159,58 +157,23 @@ function SetupPage({ onComplete }) {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-8">
-      <div className="text-center mb-8">
-        <div className="flex items-center justify-center mb-4">
-          <Settings className="w-12 h-12 text-blue-600" />
-        </div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          Retro Assistant Setup
-        </h1>
-        <p className="text-gray-600">
-          Configure your retro meeting parameters
-        </p>
+    <AppLayout onNavigate={onNavigate}>
+      <div className="max-w-3xl mx-auto">
+      <div className="mb-4">
+        <h1 className="text-xl font-semibold text-gray-900 mb-4">Integrations</h1>
+        <p className="text-md text-gray-600">Connect your tools to power insights</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="bg-white p-6 rounded-lg shadow-sm border">
-          <h2 className="text-lg font-semibold mb-4">Date Range</h2>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Start Date
-              </label>
-              <input
-                type="date"
-                value={dateRange.start}
-                onChange={(e) => setDateRange(prev => ({ ...prev, start: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                End Date
-              </label>
-              <input
-                type="date"
-                value={dateRange.end}
-                onChange={(e) => setDateRange(prev => ({ ...prev, end: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
-            </div>
-          </div>
-        </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border">
+        <div className="bg-white p-4 rounded-xl border border-gray-200">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold">Linear Integration</h2>
             <button
               type="button"
               onClick={testLinearConnection}
               disabled={testingLinear}
-              className="px-3 py-1 text-sm bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200 disabled:opacity-50"
+              className="px-3 py-1 text-sm bg-gray-900 text-white rounded-md hover:bg-black disabled:opacity-60"
             >
               {testingLinear ? 'Testing...' : 'Test Connection'}
             </button>
@@ -237,14 +200,14 @@ function SetupPage({ onComplete }) {
           </p>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border">
+        <div className="bg-white p-4 rounded-xl border border-gray-200">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold">Slack Integration</h2>
             <button
               type="button"
               onClick={testSlackConnection}
               disabled={testingSlack}
-              className="px-3 py-1 text-sm bg-green-100 text-green-700 rounded-md hover:bg-green-200 disabled:opacity-50"
+              className="px-3 py-1 text-sm bg-gray-900 text-white rounded-md hover:bg-black disabled:opacity-60"
             >
               {testingSlack ? 'Testing...' : 'Test Connection'}
             </button>
@@ -271,14 +234,14 @@ function SetupPage({ onComplete }) {
           </p>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border">
+        <div className="bg-white p-4 rounded-xl border border-gray-200">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold">GitHub Integration</h2>
             <button
               type="button"
               onClick={testGithubConnection}
               disabled={testingGithub}
-              className="px-3 py-1 text-sm bg-purple-100 text-purple-700 rounded-md hover:bg-purple-200 disabled:opacity-50"
+              className="px-3 py-1 text-sm bg-gray-900 text-white rounded-md hover:bg-black disabled:opacity-60"
             >
               {testingGithub ? 'Testing...' : 'Test Connection'}
             </button>
@@ -305,7 +268,7 @@ function SetupPage({ onComplete }) {
           </p>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border">
+        <div className="bg-white p-4 rounded-xl border border-gray-200">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <Brain className="w-5 h-5 text-purple-600" />
@@ -416,7 +379,7 @@ function SetupPage({ onComplete }) {
                     type="checkbox"
                     checked={llmConfig.privacyMode}
                     onChange={(e) => handleLlmConfigChange('privacyMode', e.target.checked)}
-                    className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                    className="rounded border-gray-300 text-gray-900 focus:ring-gray-700"
                   />
                   <span className="text-sm text-gray-700">Privacy Mode</span>
                 </label>
@@ -441,7 +404,7 @@ function SetupPage({ onComplete }) {
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border">
+        <div className="bg-white p-4 rounded-xl border border-gray-200">
           <h2 className="text-lg font-semibold mb-4">Team Members</h2>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Team Members (comma-separated)
@@ -460,13 +423,14 @@ function SetupPage({ onComplete }) {
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+          className="w-full bg-gray-900 text-white py-3 px-4 rounded-md hover:bg-black transition-colors flex items-center justify-center gap-2"
         >
-          Continue to Generate
+          Continue
           <ArrowRight className="w-4 h-4" />
         </button>
       </form>
-    </div>
+      </div>
+    </AppLayout>
   );
 }
 
