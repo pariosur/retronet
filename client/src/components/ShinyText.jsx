@@ -12,7 +12,7 @@ function ShinyText({ text, disabled = false, speed = 3, className = '', once = f
 
   const animationDuration = `${speed}s`;
   const gradient =
-    'linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 45%, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0) 55%, rgba(255,255,255,0) 100%)';
+    'linear-gradient(120deg, rgba(147,51,234,0) 0%, rgba(147,51,234,0) 40%, rgba(147,51,234,0.6) 50%, rgba(147,51,234,0) 60%, rgba(147,51,234,0) 100%)';
   return (
     <span className={`relative inline-block ${className}`}>
       <span className="text-gray-800">{text}</span>
@@ -22,7 +22,8 @@ function ShinyText({ text, disabled = false, speed = 3, className = '', once = f
           className="absolute inset-0 text-transparent bg-clip-text pointer-events-none select-none animate-shine"
           style={{
             backgroundImage: gradient,
-            backgroundSize: '200% 100%',
+            backgroundSize: '400% 100%',
+            backgroundPosition: '200% 0%',
             WebkitBackgroundClip: 'text',
             animationDuration,
           }}

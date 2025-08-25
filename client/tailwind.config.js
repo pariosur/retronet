@@ -8,12 +8,12 @@ export default {
     extend: {
       keyframes: {
         shine: {
-          '0%': { 'background-position': '100%' },
-          '100%': { 'background-position': '-100%' },
+          '0%': { backgroundPosition: '200% 0%' },
+          '100%': { backgroundPosition: '-200% 0%' },
         },
       },
       animation: {
-        shine: 'shine 5s linear infinite',
+        shine: 'shine 2.2s linear infinite',
       },
     },
   },

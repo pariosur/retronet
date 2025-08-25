@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { LayoutGrid, Sparkles, Settings, BarChart, Edit2, Trash2 } from 'lucide-react';
+import { LayoutGrid, Sparkles, Settings, BarChart, Edit2, Trash2, Save } from 'lucide-react';
 import AppLayout from './AppLayout';
 import ShinyText from './ShinyText';
 import axios from 'axios';
@@ -48,6 +48,9 @@ function DraggableCard({ item, onEdit, onDelete, onDragStart }) {
             <span className={`${item.isSample ? 'text-gray-600' : ''}`}>{item.text}</span>
           )}
           <div className="flex items-center gap-2">
+            {isAI && (
+              <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-purple-100 text-purple-700">AI</span>
+            )}
             {item.isSample && (
               <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-gray-200 text-gray-700">Sample</span>
             )}
@@ -173,43 +176,48 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem('retromate_board', JSON.stringify(board));
-  }, [board]);
-
-  useEffect(() => {
-    localStorage.setItem('retromate_title', title || '');
-  }, [title]);
+  // Removed autosave of board/title to localStorage; saving is now manual via Save button
 
   useEffect(() => {
     if (!title) setTitle('Retro');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Debounced autosave: update localStorage retro entry for current date range
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      try {
-        setSaveStatus('saving');
-        localStorage.setItem('retromate_board', JSON.stringify(board));
-        localStorage.setItem('retromate_title', title || '');
-        const start = dateRange?.start; const end = dateRange?.end;
-        if (start && end) {
-          const key = `${start}_${end}`;
-          const rangeLabel = `${start} → ${end}`;
-          const retros = JSON.parse(localStorage.getItem('retromate_retros') || '[]');
-          const next = retros.filter((r) => r.key !== key);
-          next.unshift({ key, dateRange: { start, end }, rangeLabel, title: title || 'Retro', board, savedAt: lastGeneratedAt || new Date().toISOString() });
-          localStorage.setItem('retromate_retros', JSON.stringify(next));
-        }
-        setSaveStatus('saved');
-        setTimeout(() => setSaveStatus(''), 1200);
-      } catch {
-        setSaveStatus('');
+  // Removed autosave of retros list; replaced with explicit Save action
+
+  const saveRetro = () => {
+    try {
+      setSaveStatus('saving');
+      // Ensure we have an id for this retro
+      let id = currentId;
+      if (!id) {
+        id = `r-${Date.now()}`;
+        setCurrentId(id);
+        localStorage.setItem('retromate_current_id', id);
       }
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [board, title, dateRange?.start, dateRange?.end, lastGeneratedAt, currentId]);
+
+      const start = dateRange?.start; const end = dateRange?.end;
+      const retrosRaw = JSON.parse(localStorage.getItem('retromate_retros') || '[]');
+      const retros = Array.isArray(retrosRaw) ? retrosRaw.map(r => (r.id ? r : { id: r.key || `legacy-${Date.now()}`, ...r })) : [];
+      const updated = {
+        id,
+        dateRange: { start, end },
+        title: title || 'Retro',
+        board,
+        savedAt: new Date().toISOString()
+      };
+      const next = retros.filter(r => (r.id || r.key) !== id);
+      next.unshift(updated);
+      localStorage.setItem('retromate_retros', JSON.stringify(next));
+      // Persist ephemeral hydration of the current working board/title for convenience
+      localStorage.setItem('retromate_board', JSON.stringify(board));
+      localStorage.setItem('retromate_title', title || '');
+      setSaveStatus('saved');
+      setTimeout(() => setSaveStatus(''), 1200);
+    } catch {
+      setSaveStatus('');
+    }
+  };
 
   const startDrag = (e, item, from) => {
     e.dataTransfer.setData('application/json', JSON.stringify({ id: item.id, from }));
@@ -226,7 +234,7 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
       const [moved] = next[from].filter(x => x.id === id);
       if (!moved) return prev;
       next[from] = next[from].filter(x => x.id !== id);
-      next[to] = [...next[to], { ...moved, isSample: false }];
+      next[to] = [...next[to], { ...moved, isSample: false, source: moved.source }];
       return next;
     });
   };
@@ -234,14 +242,14 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
   const handleEdit = (column) => (updated) => {
     setBoard(prev => ({
       ...prev,
-      [column]: prev[column].map(i => (i.id === updated.id ? { ...updated, isSample: false } : i))
+      [column]: prev[column].map(i => (i.id === updated.id ? { ...updated, isSample: false, source: i.source } : i))
     }));
   };
 
   const handleAdd = (column) => (text) => {
     setBoard(prev => ({
       ...prev,
-      [column]: [...prev[column].filter(i => !i.isSample), { id: `${Date.now()}-${Math.random()}`, text, isSample: false }]
+      [column]: [...prev[column].filter(i => !i.isSample), { id: `${Date.now()}-${Math.random()}`, text, isSample: false, source: 'user' }]
     }));
   };
 
@@ -279,30 +287,7 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
       const ts = new Date().toISOString();
       setLastGeneratedAt(ts);
       localStorage.setItem('retromate_last_generated', ts);
-
-      // Save/append as a retro with a unique id (allow multiple per date range)
-      let id = currentId;
-      if (!id) {
-        id = `r-${Date.now()}`;
-        setCurrentId(id);
-        localStorage.setItem('retromate_current_id', id);
-      }
-      const retrosRaw = JSON.parse(localStorage.getItem('retromate_retros') || '[]');
-      const retros = Array.isArray(retrosRaw) ? retrosRaw.map(r => (r.id ? r : { id: r.key || `legacy-${Date.now()}`, ...r })) : [];
-      const updated = {
-        id,
-        dateRange: { start, end },
-        title: title || 'Retro',
-        board: {
-          wentWell: [...toItems(aiWW).map(x => ({ ...x, source: 'ai' }))],
-          didntGoWell: [...toItems(aiDW).map(x => ({ ...x, source: 'ai' }))],
-          actionItems: [...toItems(aiAI).map(x => ({ ...x, source: 'ai' }))]
-        },
-        savedAt: ts
-      };
-      const next = retros.filter(r => r.id !== id);
-      next.unshift(updated);
-      localStorage.setItem('retromate_retros', JSON.stringify(next));
+      // Note: no auto-save here. Use the Save Retro button to persist.
     } catch (e) {
       alert(e.response?.data?.error || 'Failed to generate retro');
     } finally {
@@ -317,7 +302,8 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
       onChangeTitle={setTitle}
       headerPrefix={(() => {
         const retros = JSON.parse(localStorage.getItem('retromate_retros') || '[]');
-        const idx = retros.findIndex(r => r.dateRange?.start === dateRange?.start && r.dateRange?.end === dateRange?.end);
+        const ids = retros.map(r => r.id || r.key);
+        const idx = ids.indexOf(currentId);
         if (idx === -1) return `#${retros.length + 1}`;
         return `#${retros.length - idx}`;
       })()}
@@ -344,7 +330,10 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
       }}
       selectedTitleKey={currentId}
       onNewRetro={() => {
-        // Clear board (keep samples), reset title, clear timestamp
+        // Create a fresh whiteboard with a brand-new id so Save won't overwrite
+        const newId = `r-${Date.now()}`;
+        setCurrentId(newId);
+        localStorage.setItem('retromate_current_id', newId);
         setBoard({
           wentWell: toItems(placeholders.wentWell, true),
           didntGoWell: toItems(placeholders.didntGoWell, true),
@@ -352,10 +341,14 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
         });
         setLastGeneratedAt(null);
         setTitle('Retro');
-        // Do not change dates; user can adjust then Generate to create
-        localStorage.removeItem('retromate_board');
-        localStorage.removeItem('retromate_last_generated');
+        // Clear ephemeral hydration values
+        localStorage.setItem('retromate_board', JSON.stringify({
+          wentWell: toItems(placeholders.wentWell, true),
+          didntGoWell: toItems(placeholders.didntGoWell, true),
+          actionItems: toItems(placeholders.actionItems, true)
+        }));
         localStorage.setItem('retromate_title', 'Retro');
+        localStorage.removeItem('retromate_last_generated');
       }}
     >
       <div className="bg-white border border-gray-200 rounded-xl p-4 mb-4">
@@ -384,6 +377,14 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
           {saveStatus === 'saving' ? 'Saving…' : saveStatus === 'saved' ? 'Saved' : null}
         </div>
         <button
+          onClick={saveRetro}
+          disabled={saveStatus === 'saving'}
+          className="bg-white border border-gray-300 text-gray-800 px-3 py-2 rounded-md text-sm hover:bg-gray-50 inline-flex items-center gap-2 disabled:opacity-60"
+        >
+          <Save className="w-4 h-4" /> Save
+        </button>
+        
+        <button
           onClick={generateFromServer}
           disabled={isGenerating}
           className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm hover:bg-black inline-flex items-center gap-2 disabled:opacity-60"
@@ -394,6 +395,9 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
             <><Sparkles className="w-4 h-4" /> Generate</>
           )}
         </button>
+        {saveStatus === 'saved' && (
+          <span className="ml-2 text-xs text-gray-600">Saved</span>
+        )}
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
