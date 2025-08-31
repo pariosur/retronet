@@ -48,9 +48,6 @@ function DraggableCard({ item, onEdit, onDelete, onDragStart }) {
             <span className={`${item.isSample ? 'text-gray-600' : ''}`}>{item.text}</span>
           )}
           <div className="flex items-center gap-2">
-            {isAI && (
-              <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-purple-100 text-purple-700">AI</span>
-            )}
             {item.isSample && (
               <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-gray-200 text-gray-700">Sample</span>
             )}
