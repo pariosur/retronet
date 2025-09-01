@@ -53,16 +53,24 @@ export class PromptBuilder {
   generateRetroPrompt(teamData, context = {}) {
     const { dateRange, teamSize, repositories, channels, model, provider } = context;
 
-    // 1) Build system prompt first to measure its actual token size
-    const preliminarySystemPrompt = this._buildSystemPrompt(dateRange, teamSize, repositories, channels, model);
+    // Decide chosen provider/model up-front so system prompt uses correct rules (e.g., GPT-5 strict JSON)
+    const chosenProvider = provider || this.defaultProvider;
+    const chosenModel = model || this.defaultModel;
+
+    // 1) Build system prompt first to measure its actual token size (using chosenModel)
+    const preliminarySystemPrompt = this._buildSystemPrompt(
+      dateRange,
+      teamSize,
+      repositories,
+      channels,
+      chosenModel
+    );
     const actualSystemTokens = this.estimateTokens(preliminarySystemPrompt);
 
     // 2) Update token limits using real system prompt token count
     //    so the available data budget is accurate
     // Use actual system prompt size for accurate budgeting
     this.config.systemPromptTokens = actualSystemTokens;
-    const chosenProvider = provider || this.defaultProvider;
-    const chosenModel = model || this.defaultModel;
     this._updateTokenLimits(chosenProvider, chosenModel);
 
     // 3) Optimize data for the now-accurate data token budget
@@ -483,7 +491,18 @@ Quality Requirements for Insights:
 
     if (isGPT5 || isGemini) {
       // GPT-5/Gemini optimized prompt with reasoning guidance and strict JSON contract
-      const strictRules = `\n\nStrict Output Rules:\n- Return ONLY valid JSON. No markdown, no prose, no code fences.\n- Exactly 5 items in each of wentWell, didntGoWell, actionItems. Not fewer. Not more.\n- Do not include any extra keys or commentary.`;
+      const minimalOutputFormat = `
+Output Format:
+Provide your analysis as a JSON object with the following structure:
+{
+  "wentWell": [
+    { "title": "..." }
+  ],
+  "didntGoWell": [
+    { "title": "..." }
+  ]
+}`;
+      const strictRules = `\n\nStrict Output Rules:\n- Return ONLY valid JSON. No markdown, no prose, no code fences.\n- Exactly 3 items in each of wentWell and didntGoWell. Not fewer. Not more.\n- Do NOT include actionItems.\n- Each object MUST have ONLY the key: title (string). No other keys are allowed.\n- Do not include any extra keys or commentary.`;
       return `${basePrompt}
 
 Reasoning Approach:
@@ -493,7 +512,7 @@ Before generating insights, think through:
 3. What underlying factors might explain observed trends?
 4. Which insights would be most valuable for the team's growth?
 
-${outputFormat}${strictRules}`;
+${minimalOutputFormat}${strictRules}`;
     } else {
       return `${basePrompt}${outputFormat}`;
     }

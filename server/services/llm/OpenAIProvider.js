@@ -172,14 +172,47 @@ export class OpenAIProvider extends BaseLLMProvider {
           const requestConfig = {
             model: model,
             input: `${prompt.system}\n\n${prompt.user}`,
-            instructions: 'Return ONLY valid JSON with keys wentWell, didntGoWell, actionItems. No reasoning or code fences.',
+            instructions: 'Return ONLY valid JSON with keys wentWell, didntGoWell. Each array must contain exactly 3 objects with ONLY the key "title" (string). No other keys. No actionItems. No reasoning, no details, no code fences, no markdown.',
             reasoning: { effort: this.config.reasoningEffort || 'low' },
             text: {
               verbosity: this.config.verbosity || 'medium',
-              format: { type: 'json_object' }
+              format: {
+                type: 'json_schema',
+                name: 'RetroTitles',
+                strict: true,
+                schema: {
+                  type: 'object',
+                  additionalProperties: false,
+                  required: ['wentWell', 'didntGoWell'],
+                  properties: {
+                    wentWell: {
+                      type: 'array',
+                      minItems: 3,
+                      maxItems: 3,
+                      items: {
+                        type: 'object',
+                        additionalProperties: false,
+                        required: ['title'],
+                        properties: { title: { type: 'string' } }
+                      }
+                    },
+                    didntGoWell: {
+                      type: 'array',
+                      minItems: 3,
+                      maxItems: 3,
+                      items: {
+                        type: 'object',
+                        additionalProperties: false,
+                        required: ['title'],
+                        properties: { title: { type: 'string' } }
+                      }
+                    }
+                  }
+                }
+              }
             },
-            // Keep completions concise; we generate ~10 bullets/section
-            max_output_tokens: Math.min(1200, this.config.maxTokens || 1200)
+            // Allow ample room for structured JSON without truncation
+            max_output_tokens: Math.min(3000, this.config.maxTokens || 3000)
           };
           
           response = await this.client.responses.create(requestConfig);
@@ -190,10 +223,46 @@ export class OpenAIProvider extends BaseLLMProvider {
             const fallbackConfig = {
               model: model,
               input: `${prompt.system}\n\n${prompt.user}`,
-              instructions: 'Return ONLY valid JSON with keys wentWell, didntGoWell, actionItems. No reasoning or code fences.',
+              instructions: 'Return ONLY valid JSON with keys wentWell, didntGoWell. Each array must contain exactly 3 objects with ONLY the key "title" (string). No other keys. No actionItems. No reasoning, no details, no code fences, no markdown.',
               reasoning: { effort: this.config.reasoningEffort || 'low' },
-              text: { format: { type: 'json_object' }, verbosity: 'low' },
-              max_output_tokens: Math.min(1200, this.config.maxTokens || 1200)
+              text: {
+                verbosity: 'low',
+                format: {
+                  type: 'json_schema',
+                  name: 'RetroTitles',
+                  strict: true,
+                  schema: {
+                    type: 'object',
+                    additionalProperties: false,
+                    required: ['wentWell', 'didntGoWell'],
+                    properties: {
+                      wentWell: {
+                        type: 'array',
+                        minItems: 3,
+                        maxItems: 3,
+                        items: {
+                          type: 'object',
+                          additionalProperties: false,
+                          required: ['title'],
+                          properties: { title: { type: 'string' } }
+                        }
+                      },
+                      didntGoWell: {
+                        type: 'array',
+                        minItems: 3,
+                        maxItems: 3,
+                        items: {
+                          type: 'object',
+                          additionalProperties: false,
+                          required: ['title'],
+                          properties: { title: { type: 'string' } }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              max_output_tokens: Math.min(3000, this.config.maxTokens || 3000)
             };
             response = await this.client.responses.create(fallbackConfig);
             // One more fallback: if still no text, route to Chat Completions on gpt-4o for final aggregation
@@ -203,12 +272,47 @@ export class OpenAIProvider extends BaseLLMProvider {
               const chatFallback = await this.client.chat.completions.create({
                 model: 'gpt-4o',
                 messages: [
-                  { role: 'system', content: 'You are a helpful assistant that returns ONLY valid JSON with keys: wentWell, didntGoWell, actionItems. No extra text.' },
+                  { role: 'system', content: 'You are a helpful assistant that returns ONLY valid JSON with keys: wentWell, didntGoWell. Each array must contain exactly 3 objects with ONLY the key "title" (string). No actionItems. No other keys. No extra text.' },
                   { role: 'user', content: `${prompt.system}\n\n${prompt.user}` }
                 ],
                 temperature: 0.2,
-                response_format: { type: 'json_object' },
-                max_tokens: 1200
+                response_format: {
+                  type: 'json_schema',
+                  json_schema: {
+                    name: 'RetroTitles',
+                    strict: true,
+                    schema: {
+                      type: 'object',
+                      additionalProperties: false,
+                      required: ['wentWell', 'didntGoWell'],
+                      properties: {
+                        wentWell: {
+                          type: 'array',
+                          minItems: 3,
+                          maxItems: 3,
+                          items: {
+                            type: 'object',
+                            additionalProperties: false,
+                            required: ['title'],
+                            properties: { title: { type: 'string' } }
+                          }
+                        },
+                        didntGoWell: {
+                          type: 'array',
+                          minItems: 3,
+                          maxItems: 3,
+                          items: {
+                            type: 'object',
+                            additionalProperties: false,
+                            required: ['title'],
+                            properties: { title: { type: 'string' } }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                max_tokens: 2000
               });
               return chatFallback;
             }
@@ -296,11 +400,7 @@ export class OpenAIProvider extends BaseLLMProvider {
     
     if (!content) {
       console.error('OpenAI empty/unknown response shape:', JSON.stringify(response).slice(0, 500));
-      // If GPT-5 returned reasoning-only, try a one-time fallback to gpt-4o chat for final aggregation
-      // Cannot use await here; delegate fallback to a helper that returns synchronously if not possible
-      // We will attempt fallback synchronously only if the chat API is usable without await (not possible), so skip here.
       if (!content) {
-        // Final partial fallback
         return this._extractPartialInsights(JSON.stringify(response || {}).slice(0, 1000));
       }
     }
@@ -326,14 +426,14 @@ export class OpenAIProvider extends BaseLLMProvider {
       }
       console.log('OpenAI parsed JSON keys:', Object.keys(parsed || {}));
       
-      // Validate structure - if missing sections, throw to trigger fallback
-      if (!parsed.wentWell || !parsed.didntGoWell || !parsed.actionItems) {
+      // Validate structure - only require wentWell and didntGoWell now
+      if (!parsed.wentWell || !parsed.didntGoWell) {
         throw new Error('Response missing required sections');
       }
 
       // Add metadata to insights
       const addMetadata = (insights) => {
-        return insights.map(insight => ({
+        return (insights || []).map(insight => ({
           ...insight,
           source: 'ai',
           llmProvider: 'openai',
@@ -346,7 +446,7 @@ export class OpenAIProvider extends BaseLLMProvider {
       return {
         wentWell: addMetadata(parsed.wentWell || []),
         didntGoWell: addMetadata(parsed.didntGoWell || []),
-        actionItems: addMetadata(parsed.actionItems || []),
+        actionItems: [],
         metadata: {
           provider: 'openai',
           model: this.config.model || 'gpt-3.5-turbo',
