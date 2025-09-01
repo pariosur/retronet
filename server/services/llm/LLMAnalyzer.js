@@ -49,11 +49,16 @@ export class LLMAnalyzer {
       // Create LLM provider with performance monitor
       this.provider = LLMServiceFactory.createProvider(this.config, this.performanceMonitor);
       
-      // Create prompt builder with token limits from provider config
+      // Create prompt builder with explicit provider/model so logs and limits match actual usage
       this.promptBuilder = new PromptBuilder({
+        provider: this.config.provider,
+        model: this.config.model,
         maxTokens: this.config.maxTokens || 4000,
         systemPromptTokens: 800,
-        reserveTokens: 200
+        reserveTokens: 200,
+        safetyMargin: this.config.inputMargin, // user-data safety
+        totalHeadroom: this.config.totalHeadroom, // final total headroom
+        targetUtilization: this.config.targetUtilization // aim under data budget
       });
       
       // Create data sanitizer for privacy protection
@@ -129,13 +134,14 @@ export class LLMAnalyzer {
       
       // Step 3: Get optimization recommendations
       const modelRecommendation = this.performanceOptimizer.selectOptimalModel(dataCharacteristics);
-      console.log(`Performance optimizer recommends: ${modelRecommendation.provider}/${modelRecommendation.model} - ${modelRecommendation.reason}`);
+      // Log only the model actually configured for this run to reduce noise
+      console.log(`Using model: ${this.config.provider}/${this.config.model} (${modelRecommendation.reason})`);
       
       if (progressTracker) {
         progressTracker.updateStepProgress(1, 0.6, 'Generating optimized prompt...');
       }
       
-      // Step 4: Generate optimized prompt
+      // Step 4: Decide analysis mode (direct vs progressive)
       const analysisContext = {
         dateRange,
         teamSize: context.teamSize,
@@ -143,52 +149,59 @@ export class LLMAnalyzer {
         channels: context.channels || [],
         ...context
       };
-      
-      let prompt = this.promptBuilder.generateRetroPrompt(sanitizedData, analysisContext);
-      
-      // Step 5: Optimize prompt if needed
-      const estimatedTokens = this.provider.estimateTokenCount(prompt.system + prompt.user);
-      const promptOptimization = this.performanceOptimizer.optimizePromptSize(
-        prompt.system + prompt.user,
-        this.config.provider,
-        this.config.model,
-        estimatedTokens
+      const directEstimated = this.provider.estimateTokenCount(
+        JSON.stringify(sanitizedData).slice(0, 2_000_000) // guard
       );
-      
-      if (promptOptimization.optimized) {
-        console.log(`Prompt optimized: ${promptOptimization.reason}`);
-        // Split optimized prompt back into system and user parts
-        const parts = promptOptimization.prompt.split('\n\nUser Data:\n');
-        prompt = {
-          system: parts[0],
-          user: parts[1] || '',
-          metadata: {
-            ...prompt.metadata,
-            optimized: true,
-            originalTokens: promptOptimization.originalTokens,
-            optimizedTokens: promptOptimization.optimizedTokens
-          }
-        };
-      }
-      
-      // Validate prompt size
-      if (!this.promptBuilder.validatePromptSize(prompt)) {
-        console.warn('Prompt exceeds token limits, analysis may be truncated');
-      }
+      const progressiveThreshold = 150000; // tokens (tighter to avoid provider caps)
+      const useProgressive = directEstimated > progressiveThreshold;
 
-      if (progressTracker) {
-        progressTracker.completeStep(1, {
-          promptTokens: this.provider.estimateTokenCount(prompt.system + prompt.user),
-          optimized: promptOptimization.optimized
-        });
-        progressTracker.startStep(2, {
-          provider: this.config.provider,
-          model: this.provider.getModel()
-        });
+      let llmResponse;
+      let promptOptimization = { optimized: false };
+      let finalPrompt = null;
+      if (useProgressive) {
+        console.log(`Using progressive analysis (estimated ${directEstimated} tokens > ${progressiveThreshold})`);
+        if (progressTracker) progressTracker.updateStepProgress(1, 0.7, 'Running progressive chunk summaries...');
+        llmResponse = await this._analyzeTeamDataProgressive(sanitizedData, analysisContext, progressTracker);
+      } else {
+        // Generate optimized prompt and call LLM once
+        let prompt = this.promptBuilder.generateRetroPrompt(sanitizedData, analysisContext);
+        finalPrompt = prompt;
+        const estimatedTokens = this.provider.estimateTokenCount(prompt.system + prompt.user);
+        promptOptimization = this.performanceOptimizer.optimizePromptSize(
+          prompt.system + prompt.user,
+          this.config.provider,
+          this.config.model,
+          estimatedTokens
+        );
+        if (promptOptimization.optimized) {
+          console.log(`Prompt optimized: ${promptOptimization.reason}`);
+          const parts = promptOptimization.prompt.split('\n\nUser Data:\n');
+          prompt = {
+            system: parts[0],
+            user: parts[1] || '',
+            metadata: {
+              ...prompt.metadata,
+              optimized: true,
+              originalTokens: promptOptimization.originalTokens,
+              optimizedTokens: promptOptimization.optimizedTokens
+            }
+          };
+        }
+        if (!this.promptBuilder.validatePromptSize(prompt)) {
+          console.warn('Prompt exceeds token limits, analysis may be truncated');
+        }
+        if (progressTracker) {
+          progressTracker.completeStep(1, {
+            promptTokens: this.provider.estimateTokenCount(prompt.system + prompt.user),
+            optimized: !!promptOptimization.optimized
+          });
+          progressTracker.startStep(2, {
+            provider: this.config.provider,
+            model: this.provider.getModel()
+          });
+        }
+        llmResponse = await this._callLLMWithRetry(sanitizedData, analysisContext, progressTracker);
       }
-
-      // Step 6: Call LLM with timeout and retry logic
-      const llmResponse = await this._callLLMWithRetry(sanitizedData, analysisContext, progressTracker);
       
       if (progressTracker) {
         progressTracker.completeStep(2, {
@@ -220,7 +233,7 @@ export class LLMAnalyzer {
         dataSize,
         modelRecommendation,
         promptOptimization: promptOptimization.optimized ? promptOptimization : null,
-        tokenUsage: this.promptBuilder.getTokenUsage(prompt),
+        tokenUsage: finalPrompt ? this.promptBuilder.getTokenUsage(finalPrompt) : null,
         sanitized: sanitizedData !== teamData
       });
 
@@ -251,6 +264,123 @@ export class LLMAnalyzer {
       // Re-throw for recoverable errors that should be retried
       throw llmError;
     }
+  }
+
+  // Progressive analysis: chunk per source, summarize, then aggregate
+  async _analyzeTeamDataProgressive(teamData, analysisContext, progressTracker = null) {
+    // Chunk sizes per source to keep prompts small
+    const commitChunkSize = 50;
+    const prChunkSize = 25;
+    const issueChunkSize = 200;
+    const slackChunkSize = 200;
+    const summaries = { github: [], linear: [], slack: [] };
+
+    // GitHub chunks
+    const commits = teamData.github?.commits || [];
+    const prs = teamData.github?.pullRequests || [];
+    const commitChunks = this._chunkArray(commits, commitChunkSize);
+    const prChunks = this._chunkArray(prs, prChunkSize);
+    for (let i = 0; i < commitChunks.length; i++) {
+      const subset = this._trimChunkDataFields({ github: { commits: commitChunks[i], pullRequests: [] } });
+      const s = await this.provider.generateChunkSummary(subset, { ...analysisContext, source: 'github', part: `commits:${i+1}/${commitChunks.length}` });
+      summaries.github.push(s);
+      if (progressTracker) progressTracker.updateStepProgress(1, 0.75 * ((i+1)/ (commitChunks.length + prChunks.length)), `Summarized GitHub commits ${i+1}/${commitChunks.length}`);
+    }
+    for (let i = 0; i < prChunks.length; i++) {
+      const subset = this._trimChunkDataFields({ github: { commits: [], pullRequests: prChunks[i] } });
+      const s = await this.provider.generateChunkSummary(subset, { ...analysisContext, source: 'github', part: `prs:${i+1}/${prChunks.length}` });
+      summaries.github.push(s);
+      if (progressTracker) progressTracker.updateStepProgress(1, 0.75 * ((commitChunks.length + i + 1)/ (commitChunks.length + prChunks.length)), `Summarized GitHub PRs ${i+1}/${prChunks.length}`);
+    }
+
+    // Linear chunks
+    const issues = teamData.linear?.issues || [];
+    const issueChunks = this._chunkArray(issues, issueChunkSize);
+    for (let i = 0; i < issueChunks.length; i++) {
+      const subset = this._trimChunkDataFields({ linear: { issues: issueChunks[i] } });
+      const s = await this.provider.generateChunkSummary(subset, { ...analysisContext, source: 'linear', part: `${i+1}/${issueChunks.length}` });
+      summaries.linear.push(s);
+    }
+
+    // Slack chunks
+    const messages = teamData.slack?.messages || [];
+    const msgChunks = this._chunkArray(messages, slackChunkSize);
+    for (let i = 0; i < msgChunks.length; i++) {
+      const subset = this._trimChunkDataFields({ slack: { messages: msgChunks[i] } });
+      const s = await this.provider.generateChunkSummary(subset, { ...analysisContext, source: 'slack', part: `${i+1}/${msgChunks.length}` });
+      summaries.slack.push(s);
+    }
+
+    // Aggregate summaries into a compact synthetic dataset
+    let synthetic = this._buildSyntheticDataFromSummaries(summaries);
+    // Extra clamp: trim synthetic dataset if still large
+    let syntheticStr = JSON.stringify(synthetic);
+    const maxSyntheticChars = 400_000; // ~100k-130k tokens
+    if (syntheticStr.length > maxSyntheticChars) {
+      console.warn(`Synthetic summaries too large (${syntheticStr.length} chars), trimming...`);
+      syntheticStr = syntheticStr.slice(0, maxSyntheticChars);
+      try { synthetic = JSON.parse(syntheticStr); } catch { /* ignore parse errors; use trimmed string later */ }
+    }
+    if (progressTracker) progressTracker.startStep(2, { phase: 'final-aggregation' });
+    const final = await this._callLLMWithRetry(synthetic, analysisContext, progressTracker);
+    return final;
+  }
+
+  _chunkArray(arr, size) {
+    if (!Array.isArray(arr) || size <= 0) return [];
+    const out = [];
+    for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
+    return out;
+  }
+
+  _buildSyntheticDataFromSummaries(summaries) {
+    const take = (list) => list.filter(Boolean).map(s => s?.summary || s?.text || s).slice(0, 100);
+    return {
+      github: { summaries: take(summaries.github) },
+      linear: { summaries: take(summaries.linear) },
+      slack: { summaries: take(summaries.slack) }
+    };
+  }
+
+  // Trim long text fields in chunks to reduce prompt size
+  _trimChunkDataFields(data) {
+    const maxLen = 300;
+    const clone = JSON.parse(JSON.stringify(data));
+    if (clone.github) {
+      if (Array.isArray(clone.github.commits)) {
+        clone.github.commits = clone.github.commits.map(c => ({
+          ...c,
+          message: c?.message && String(c.message).length > maxLen ? String(c.message).slice(0, maxLen) + '…' : c?.message,
+          title: c?.title && String(c.title).length > maxLen ? String(c.title).slice(0, maxLen) + '…' : c?.title
+        }));
+      }
+      if (Array.isArray(clone.github.pullRequests)) {
+        clone.github.pullRequests = clone.github.pullRequests.map(pr => ({
+          ...pr,
+          title: pr?.title && String(pr.title).length > maxLen ? String(pr.title).slice(0, maxLen) + '…' : pr?.title,
+          body: pr?.body && String(pr.body).length > maxLen ? String(pr.body).slice(0, maxLen) + '…' : pr?.body,
+          description: pr?.description && String(pr.description).length > maxLen ? String(pr.description).slice(0, maxLen) + '…' : pr?.description
+        }));
+      }
+    }
+    if (clone.linear) {
+      if (Array.isArray(clone.linear.issues)) {
+        clone.linear.issues = clone.linear.issues.map(issue => ({
+          ...issue,
+          title: issue?.title && String(issue.title).length > maxLen ? String(issue.title).slice(0, maxLen) + '…' : issue?.title,
+          description: issue?.description && String(issue.description).length > maxLen ? String(issue.description).slice(0, maxLen) + '…' : issue?.description
+        }));
+      }
+    }
+    if (clone.slack) {
+      if (Array.isArray(clone.slack.messages)) {
+        clone.slack.messages = clone.slack.messages.map(m => ({
+          ...m,
+          text: m?.text && String(m.text).length > maxLen ? String(m.text).slice(0, maxLen) + '…' : m?.text
+        }));
+      }
+    }
+    return clone;
   }
 
   /**

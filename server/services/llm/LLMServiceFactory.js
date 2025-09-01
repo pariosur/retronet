@@ -154,6 +154,7 @@ export class LLMServiceFactory {
       openai: "gpt-4o",
       anthropic: "claude-3-sonnet-20240229",
       local: "llama2",
+      gemini: "gemini-2.5-flash",
     };
 
     return defaultModels[provider] || "default";
@@ -182,7 +183,15 @@ export class LLMServiceFactory {
    * @returns {Object|null} Configuration object or null if not configured
    */
   static createConfigFromEnv(env) {
-    const provider = env.LLM_PROVIDER;
+    let provider = env.LLM_PROVIDER;
+
+    // If provider not explicitly set, infer from available API keys/endpoints (prefer Gemini)
+    if (!provider) {
+      if (env.GEMINI_API_KEY) provider = 'gemini';
+      else if (env.OPENAI_API_KEY) provider = 'openai';
+      else if (env.ANTHROPIC_API_KEY) provider = 'anthropic';
+      else if (env.LOCAL_LLM_ENDPOINT) provider = 'local';
+    }
 
     if (!provider) {
       return null; // LLM not configured
@@ -204,6 +213,10 @@ export class LLMServiceFactory {
         config.apiKey = env.ANTHROPIC_API_KEY;
         config.model = env.ANTHROPIC_MODEL || "claude-3-sonnet-20240229";
         break;
+      case "gemini":
+        config.apiKey = env.GEMINI_API_KEY;
+        config.model = env.GOOGLE_MODEL || env.GEMINI_MODEL || "gemini-2.5-flash";
+        break;
       case "local":
         config.model = env.LOCAL_MODEL || "llama2";
         config.endpoint = env.LOCAL_LLM_ENDPOINT || "http://localhost:11434";
@@ -221,6 +234,20 @@ export class LLMServiceFactory {
 
     if (env.LLM_TEMPERATURE) {
       config.temperature = parseFloat(env.LLM_TEMPERATURE);
+    }
+
+    // Optional prompt budgeting controls
+    if (env.LLM_INPUT_MARGIN) {
+      const v = parseFloat(env.LLM_INPUT_MARGIN);
+      if (!Number.isNaN(v)) config.inputMargin = v; // e.g. 0.9 -> 90% of user-data budget
+    }
+    if (env.LLM_TOTAL_HEADROOM) {
+      const v = parseFloat(env.LLM_TOTAL_HEADROOM);
+      if (!Number.isNaN(v)) config.totalHeadroom = v; // e.g. 0.9 -> 90% of total capacity
+    }
+    if (env.LLM_TARGET_UTILIZATION) {
+      const v = parseFloat(env.LLM_TARGET_UTILIZATION);
+      if (!Number.isNaN(v)) config.targetUtilization = v; // e.g. 0.9 -> aim for 90% of data budget
     }
 
     // GPT-5 specific configurations

@@ -107,21 +107,36 @@ export class OpenAIProvider extends BaseLLMProvider {
       await this._applyRateLimit();
       
       // Generate optimized prompt using PromptBuilder
-      const prompt = this.promptBuilder.generateRetroPrompt(sanitizedData, context);
+      let prompt = this.promptBuilder.generateRetroPrompt(sanitizedData, context);
+      // Hard clamp to ensure we never exceed model limits despite estimator variance
+      prompt = this.promptBuilder.clampPromptToBudget(prompt);
       
       // Start performance tracking
       const estimatedInputTokens = this.estimateTokenCount(prompt.system + prompt.user);
       requestId = this.startPerformanceTracking(estimatedInputTokens);
+      console.log('OpenAI generateInsights start', {
+        model: this.config.model || 'gpt-3.5-turbo',
+        provider: 'openai',
+        approxInputTokens: estimatedInputTokens
+      });
       
       // Make request with retry logic
       const response = await this._makeRequestWithRetry(prompt);
+      console.log('OpenAI response received', {
+        hasOutputText: !!response?.output_text,
+        outputLen: Array.isArray(response?.output) ? response.output.length : undefined,
+        hasChoices: Array.isArray(response?.choices),
+        choicesLen: Array.isArray(response?.choices) ? response.choices.length : undefined,
+        status: response?.status
+      });
       
       // Complete performance tracking with success
       const outputTokens = response.usage?.completion_tokens || 0;
       this.completePerformanceTracking(requestId, outputTokens, 'success');
       
       // Parse and validate response
-      return this._parseResponse(response, prompt);
+      const parsed = this._parseResponse(response, prompt);
+      return parsed;
       
     } catch (error) {
       // Complete performance tracking with error
@@ -157,15 +172,47 @@ export class OpenAIProvider extends BaseLLMProvider {
           const requestConfig = {
             model: model,
             input: `${prompt.system}\n\n${prompt.user}`,
-            reasoning: {
-              effort: this.config.reasoningEffort || 'medium'
-            },
+            instructions: 'Return ONLY valid JSON with keys wentWell, didntGoWell, actionItems. No reasoning or code fences.',
+            reasoning: { effort: this.config.reasoningEffort || 'low' },
             text: {
-              verbosity: this.config.verbosity || 'medium'
-            }
+              verbosity: this.config.verbosity || 'medium',
+              format: { type: 'json_object' }
+            },
+            // Keep completions concise; we generate ~10 bullets/section
+            max_output_tokens: Math.min(1200, this.config.maxTokens || 1200)
           };
           
           response = await this.client.responses.create(requestConfig);
+          // If reasoning-only output (no message text), reissue without any optional knobs
+          const maybeText = this._extractResponseText(response);
+          if (!maybeText) {
+            console.warn('OpenAI GPT-5 returned reasoning-only; reissuing request without extras...');
+            const fallbackConfig = {
+              model: model,
+              input: `${prompt.system}\n\n${prompt.user}`,
+              instructions: 'Return ONLY valid JSON with keys wentWell, didntGoWell, actionItems. No reasoning or code fences.',
+              reasoning: { effort: this.config.reasoningEffort || 'low' },
+              text: { format: { type: 'json_object' }, verbosity: 'low' },
+              max_output_tokens: Math.min(1200, this.config.maxTokens || 1200)
+            };
+            response = await this.client.responses.create(fallbackConfig);
+            // One more fallback: if still no text, route to Chat Completions on gpt-4o for final aggregation
+            const maybeText2 = this._extractResponseText(response);
+            if (!maybeText2) {
+              console.warn('OpenAI GPT-5 still reasoning-only; falling back to gpt-4o chat for final JSON...');
+              const chatFallback = await this.client.chat.completions.create({
+                model: 'gpt-4o',
+                messages: [
+                  { role: 'system', content: 'You are a helpful assistant that returns ONLY valid JSON with keys: wentWell, didntGoWell, actionItems. No extra text.' },
+                  { role: 'user', content: `${prompt.system}\n\n${prompt.user}` }
+                ],
+                temperature: 0.2,
+                response_format: { type: 'json_object' },
+                max_tokens: 1200
+              });
+              return chatFallback;
+            }
+          }
         } else {
           // Legacy models use Chat Completions API
           const requestConfig = {
@@ -225,10 +272,20 @@ export class OpenAIProvider extends BaseLLMProvider {
     
     if (isGPT5Model) {
       // GPT-5 Responses API format
-      if (!response || !response.output_text) {
-        throw new Error('Invalid response from OpenAI');
+      if (!response) {
+        console.error('OpenAI empty response object');
+        content = '';
+      } else {
+        const meta = {
+          id: response?.id,
+          status: response?.status,
+          hasOutputText: !!response?.output_text,
+          outputTypes: Array.isArray(response?.output) ? response.output.map(o => o?.type) : [],
+          hasMessageChoice: Array.isArray(response?.choices)
+        };
+        console.log('OpenAI Responses metadata', meta);
+        content = this._extractResponseText(response);
       }
-      content = response.output_text;
     } else {
       // Legacy Chat Completions API format
       if (!response || !response.choices || response.choices.length === 0) {
@@ -238,11 +295,36 @@ export class OpenAIProvider extends BaseLLMProvider {
     }
     
     if (!content) {
-      throw new Error('Empty response from OpenAI');
+      console.error('OpenAI empty/unknown response shape:', JSON.stringify(response).slice(0, 500));
+      // If GPT-5 returned reasoning-only, try a one-time fallback to gpt-4o chat for final aggregation
+      // Cannot use await here; delegate fallback to a helper that returns synchronously if not possible
+      // We will attempt fallback synchronously only if the chat API is usable without await (not possible), so skip here.
+      if (!content) {
+        // Final partial fallback
+        return this._extractPartialInsights(JSON.stringify(response || {}).slice(0, 1000));
+      }
     }
 
     try {
-      const parsed = JSON.parse(content);
+      // Strip code fences if present
+      let cleaned = content.trim();
+      if (cleaned.startsWith('```')) cleaned = cleaned.replace(/^```json\s*/i, '').replace(/^```\s*/i, '');
+      if (cleaned.endsWith('```')) cleaned = cleaned.replace(/```\s*$/i, '');
+      // If still not valid JSON, try to extract the largest JSON block
+      let parsed;
+      try {
+        parsed = JSON.parse(cleaned);
+      } catch (_) {
+        const first = cleaned.indexOf('{');
+        const last = cleaned.lastIndexOf('}');
+        if (first !== -1 && last !== -1 && last > first) {
+          const candidate = cleaned.slice(first, last + 1);
+          parsed = JSON.parse(candidate);
+        } else {
+          throw new Error('No JSON block found');
+        }
+      }
+      console.log('OpenAI parsed JSON keys:', Object.keys(parsed || {}));
       
       // Validate structure - if missing sections, throw to trigger fallback
       if (!parsed.wentWell || !parsed.didntGoWell || !parsed.actionItems) {
@@ -281,6 +363,25 @@ export class OpenAIProvider extends BaseLLMProvider {
       // Try to extract partial insights from malformed JSON
       return this._extractPartialInsights(content);
     }
+  }
+
+  _extractResponseText(resp) {
+    if (!resp) return '';
+    if (resp.output_text) return resp.output_text;
+    // Responses API: prefer message content parts with type output_text
+    if (Array.isArray(resp.output)) {
+      for (const out of resp.output) {
+        const contents = Array.isArray(out?.content) ? out.content : (Array.isArray(out?.contents) ? out.contents : []);
+        for (const part of contents) {
+          if (typeof part?.text === 'string') return part.text;
+          if (part?.type === 'output_text' && typeof part?.text === 'string') return part.text;
+        }
+      }
+    }
+    // Fallbacks
+    if (resp.choices?.[0]?.message?.content) return resp.choices[0].message.content;
+    if (resp.response?.text) return resp.response.text;
+    return '';
   }
 
   /**
@@ -416,5 +517,71 @@ export class OpenAIProvider extends BaseLLMProvider {
       dateRange: { start: '2024-01-01', end: '2024-01-31' },
       teamSize: 5
     });
+  }
+
+  /**
+   * Summarize a chunk for progressive analysis.
+   */
+  async generateChunkSummary(chunkData, context = {}) {
+    const model = this.config.model || 'gpt-3.5-turbo';
+    const isGPT5Model = model.startsWith('gpt-5');
+    const isO1Model = model.startsWith('o1-');
+    let prompt = this._buildChunkSummaryPrompt(chunkData, context);
+    if (prompt.length > 200000) {
+      prompt = prompt.slice(0, 200000) + '\n...';
+    }
+
+    try {
+      let text;
+      if (isGPT5Model) {
+        const response = await this.client.responses.create({
+          model,
+          input: prompt,
+          reasoning: { effort: 'low' },
+          text: { verbosity: 'low' }
+        });
+        text = response?.output_text || this._extractResponseText(response);
+      } else {
+        const requestConfig = {
+          model,
+          messages: isO1Model 
+            ? [{ role: 'user', content: prompt }]
+            : [
+                { role: 'system', content: 'You are a helpful assistant that returns ONLY JSON.' },
+                { role: 'user', content: prompt }
+              ],
+          max_tokens: 1000
+        };
+        if (!isO1Model) requestConfig.response_format = { type: 'json_object' };
+        const response = await this.client.chat.completions.create(requestConfig);
+        text = response?.choices?.[0]?.message?.content;
+      }
+
+      if (!text) return { summary: '', source: context.source, part: context.part };
+      let cleaned = text.trim();
+      if (cleaned.startsWith('```')) cleaned = cleaned.replace(/^```json\s*/i, '').replace(/^```\s*/i, '');
+      if (cleaned.endsWith('```')) cleaned = cleaned.replace(/```\s*$/i, '');
+      try {
+        const parsed = JSON.parse(cleaned);
+        if (parsed && typeof parsed === 'object' && parsed.summary) {
+          return { summary: String(parsed.summary).slice(0, 4000), source: context.source, part: context.part };
+        }
+      } catch (_) {}
+      return { summary: cleaned.slice(0, 4000), source: context.source, part: context.part };
+    } catch (error) {
+      console.warn('OpenAI chunk summary failed:', error?.message || String(error));
+      return { summary: '', source: context.source, part: context.part };
+    }
+  }
+
+  _buildChunkSummaryPrompt(chunkData, context) {
+    const header = `Summarize the following data chunk as compact JSON with shape { "summary": string }.
+Rules:
+- 3-5 sentences with key patterns, metrics, and themes.
+- Team-level perspective; avoid PII.
+- Return ONLY JSON.`;
+    const body = JSON.stringify(chunkData, null, 2);
+    const ctx = `Source: ${context?.source || 'unknown'} ${context?.part || ''}`;
+    return `${header}\n\n${ctx}\n\nData:\n${body}\n\nReturn JSON now:`;
   }
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { LayoutGrid, Sparkles, Settings, BarChart, Edit2, Trash2, Save } from 'lucide-react';
 import AppLayout from './AppLayout';
+import DateRangePicker from './DateRangePicker';
 import ShinyText from './ShinyText';
 import axios from 'axios';
 
@@ -351,21 +352,10 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
       <div className="bg-white border border-gray-200 rounded-xl p-4 mb-4">
         <div className="flex items-end gap-3">
         <div>
-          <label className="block text-xs text-gray-600 mb-1">Start</label>
-          <input
-            type="date"
-            value={dateRange.start}
-            onChange={(e) => onChangeDateRange?.({ ...dateRange, start: e.target.value })}
-            className="px-2 py-1 border border-gray-300 rounded-md text-sm"
-          />
-        </div>
-        <div>
-          <label className="block text-xs text-gray-600 mb-1">End</label>
-          <input
-            type="date"
-            value={dateRange.end}
-            onChange={(e) => onChangeDateRange?.({ ...dateRange, end: e.target.value })}
-            className="px-2 py-1 border border-gray-300 rounded-md text-sm"
+          <label className="block text-xs text-gray-600 mb-1">Date Range</label>
+          <DateRangePicker
+            value={dateRange}
+            onChange={(dr) => onChangeDateRange?.(dr)}
           />
         </div>
         <div className="flex-1" />

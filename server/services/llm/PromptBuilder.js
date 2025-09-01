@@ -34,10 +34,13 @@ export class PromptBuilder {
     
     this.currentLimits = limits;
     this.maxTokens = limits.total;
-    this.maxDataTokens = split.userData;
+    // Apply a safety margin so real tokenization overhead never exceeds limits
+    const targetMargin = this.config.safetyMargin ?? 0.85;
+    const safetyMargin = Math.max(0.75, Math.min(0.99, targetMargin));
+    this.maxDataTokens = Math.floor(split.userData * safetyMargin);
     this.outputBuffer = split.outputBuffer;
     
-    console.log(`PromptBuilder configured for ${provider}/${model}: ${this.maxDataTokens.toLocaleString()} tokens available for data`);
+    console.log(`PromptBuilder configured for ${provider}/${model}: ${this.maxDataTokens.toLocaleString()} tokens available for data (safety ${Math.round(safetyMargin*100)}%, inputCap ${this.currentLimits.input})`);
   }
 
   /**
@@ -49,28 +52,32 @@ export class PromptBuilder {
    */
   generateRetroPrompt(teamData, context = {}) {
     const { dateRange, teamSize, repositories, channels, model, provider } = context;
-    
-    // Update token limits if model information is provided
-    if (provider && model) {
-      this._updateTokenLimits(provider, model);
-    } else if (model) {
-      // Try to infer provider from model name
-      const inferredProvider = this._inferProvider(model);
-      this._updateTokenLimits(inferredProvider, model);
-    }
-    
-    // Optimize data for current model's token limits
+
+    // 1) Build system prompt first to measure its actual token size
+    const preliminarySystemPrompt = this._buildSystemPrompt(dateRange, teamSize, repositories, channels, model);
+    const actualSystemTokens = this.estimateTokens(preliminarySystemPrompt);
+
+    // 2) Update token limits using real system prompt token count
+    //    so the available data budget is accurate
+    // Use actual system prompt size for accurate budgeting
+    this.config.systemPromptTokens = actualSystemTokens;
+    const chosenProvider = provider || this.defaultProvider;
+    const chosenModel = model || this.defaultModel;
+    this._updateTokenLimits(chosenProvider, chosenModel);
+
+    // 3) Optimize data for the now-accurate data token budget
     const optimizedData = this.optimizeDataForTokens(teamData, context);
-    
-    const systemPrompt = this._buildSystemPrompt(dateRange, teamSize, repositories, channels, model);
+
+    // 4) Reuse the same system prompt (content identical) and build user prompt
+    const systemPrompt = preliminarySystemPrompt;
     const userPrompt = this._buildUserPrompt(optimizedData, model);
     
     const prompt = {
       system: systemPrompt,
       user: userPrompt,
       metadata: {
-        provider: provider || this.defaultProvider,
-        model: model || this.defaultModel,
+        provider: chosenProvider,
+        model: chosenModel,
         tokenLimits: this.currentLimits,
         maxDataTokens: this.maxDataTokens,
         estimatedTokens: this.estimateTokens(systemPrompt) + this.estimateTokens(userPrompt),
@@ -400,6 +407,7 @@ Analysis Guidelines:
    */
   _buildSystemPrompt(dateRange, teamSize, repositories, channels, model) {
     const isGPT5 = model && model.startsWith('gpt-5');
+    const isGemini = model && model.startsWith('gemini');
     
     const contextInfo = `
 Context Information:
@@ -473,8 +481,9 @@ Quality Requirements for Insights:
 - Focus on actionable patterns that the team can learn from or improve upon
 - Avoid generic advice - make insights specific to this team's actual behavior and data`;
 
-    if (isGPT5) {
-      // GPT-5 optimized prompt with reasoning guidance
+    if (isGPT5 || isGemini) {
+      // GPT-5/Gemini optimized prompt with reasoning guidance and strict JSON contract
+      const strictRules = `\n\nStrict Output Rules:\n- Return ONLY valid JSON. No markdown, no prose, no code fences.\n- Exactly 5 items in each of wentWell, didntGoWell, actionItems. Not fewer. Not more.\n- Do not include any extra keys or commentary.`;
       return `${basePrompt}
 
 Reasoning Approach:
@@ -484,7 +493,7 @@ Before generating insights, think through:
 3. What underlying factors might explain observed trends?
 4. Which insights would be most valuable for the team's growth?
 
-${outputFormat}`;
+${outputFormat}${strictRules}`;
     } else {
       return `${basePrompt}${outputFormat}`;
     }
@@ -496,6 +505,15 @@ ${outputFormat}`;
    */
   _buildUserPrompt(teamData, model) {
     const dataString = JSON.stringify(teamData, null, 2);
+    // Clamp user prompt to the current max data tokens to avoid overflow due to JSON structure noise
+    const approxTokens = this.estimateTokens(dataString);
+    if (approxTokens > this.maxDataTokens) {
+      // Heuristic: trim end of the string to fit within budget
+      const ratio = this.maxDataTokens / approxTokens;
+      const targetChars = Math.floor(dataString.length * ratio);
+      const safe = dataString.slice(0, Math.max(0, targetChars - 3)) + '...';
+      return `Team Data for Analysis:\n\n${safe}\n\nAnalysis Instructions:\n1. **Thoroughly examine all provided data** - don't miss important patterns in any section\n2. **Generate 3-5 insights per category** (wentWell, didntGoWell, actionItems) with rich detail\n3. **Use specific examples** from the data to support each insight\n4. **Look for cross-platform correlations** - how do GitHub commits relate to Linear issues and Slack discussions?\n5. **Provide comprehensive details** - each insight should be substantial and informative\n6. **Focus on team-level patterns** that reveal systemic strengths or improvement opportunities\n\nPlease analyze this data according to the instructions and provide comprehensive insights in the specified JSON format.`;
+    }
     return `Team Data for Analysis:
 
 ${dataString}
@@ -530,7 +548,10 @@ Please analyze this data according to the instructions and provide comprehensive
     
     // Create deep copy to avoid mutating original data
     const optimized = JSON.parse(JSON.stringify(teamData));
-    const reductionRatio = this.maxDataTokens / estimatedTokens;
+    // Aim to stay under target utilization of the data budget (e.g., 90%)
+    const targetUtil = Math.max(0.7, Math.min(0.95, this.config.targetUtilization ?? 0.85));
+    const targetDataBudget = Math.floor(this.maxDataTokens * targetUtil);
+    const reductionRatio = targetDataBudget / estimatedTokens;
     
     console.log(`Applying ${(reductionRatio * 100).toFixed(1)}% reduction ratio`);
     
@@ -548,7 +569,7 @@ Please analyze this data according to the instructions and provide comprehensive
     }
     
     const optimizedSize = this.estimateTokens(JSON.stringify(optimized));
-    console.log(`Optimization complete: ${optimizedSize.toLocaleString()} tokens (${((optimizedSize / this.maxDataTokens) * 100).toFixed(1)}% utilization)`);
+    console.log(`Optimization complete: ${optimizedSize.toLocaleString()} tokens (${((optimizedSize / this.maxDataTokens) * 100).toFixed(1)}% utilization; target ${(targetUtil*100).toFixed(0)}%)`);
     
     return optimized;
   }
@@ -671,8 +692,12 @@ Please analyze this data according to the instructions and provide comprehensive
     const systemTokens = this.estimateTokens(prompt.system);
     const userTokens = this.estimateTokens(prompt.user);
     const totalTokens = systemTokens + userTokens;
-    
-    return totalTokens <= this.maxTokens;
+    // Require headroom beyond model ceiling (configurable)
+    const totalHeadroom = this.config.totalHeadroom ?? 0.85; // 85% of total by default
+    // Reserve explicit output buffer before headroom
+    const availableTotal = Math.max(0, Math.floor((this.maxTokens - (this.outputBuffer || 0)) * totalHeadroom));
+    const hardCap = availableTotal;
+    return totalTokens <= hardCap;
   }
 
   /**
@@ -703,6 +728,48 @@ Please analyze this data according to the instructions and provide comprehensive
         dataUtilization: userTokens / this.maxDataTokens,
         overallUtilization: totalTokens / this.maxTokens,
         availableTokens: this.maxTokens - totalTokens
+      }
+    };
+  }
+
+  /**
+   * Clamp the prompt so total estimated tokens stay within the hard cap.
+   * Returns a new prompt object if clamping occurs; otherwise the original.
+   */
+  clampPromptToBudget(prompt) {
+    const systemTokens = this.estimateTokens(prompt.system);
+    const userTokens = this.estimateTokens(prompt.user);
+    const totalTokens = systemTokens + userTokens;
+    const totalHeadroom = this.config.totalHeadroom ?? 0.92;
+    const hardCap = Math.floor(this.maxTokens * totalHeadroom);
+
+    if (totalTokens <= hardCap) return prompt;
+
+    const maxUserTokens = Math.max(0, hardCap - systemTokens);
+    if (maxUserTokens <= 0) {
+      return {
+        ...prompt,
+        user: ''
+      };
+    }
+
+    // Compute ratio of allowed user tokens vs current
+    const ratio = maxUserTokens / Math.max(1, userTokens);
+    const userText = prompt.user || '';
+    const targetChars = Math.max(0, Math.floor(userText.length * ratio) - 3);
+    const trimmed = userText.slice(0, targetChars) + '...';
+    return {
+      ...prompt,
+      user: trimmed,
+      metadata: {
+        ...prompt.metadata,
+        clamped: true,
+        clamp: {
+          hardCap,
+          systemTokens,
+          userTokensBefore: userTokens,
+          userTokensAfter: this.estimateTokens(trimmed)
+        }
       }
     };
   }

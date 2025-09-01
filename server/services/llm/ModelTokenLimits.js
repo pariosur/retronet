@@ -38,11 +38,13 @@ export class ModelTokenLimits {
           bufferPercentage: 10
         },
         'gpt-5': { 
-          total: 400000, // Actual GPT-5 context window
-          input: 272000, // 400K - 128K output = 272K for input
-          output: 128000, // Actual GPT-5 max output tokens
+          total: 400000, // GPT-5 context window
+          input: 272000, // enforce input cap aligned with provider limits
+          // We rarely need massive outputs; reserve a small, sane cap
+          output: 4000,
           tokenizer: 'o200k_base',
-          bufferPercentage: 5 // Lower buffer since we have so much capacity
+          // Keep buffer small so most capacity goes to input
+          bufferPercentage: 1
         }
       },
       'anthropic': {
@@ -82,6 +84,22 @@ export class ModelTokenLimits {
           output: 4768,
           tokenizer: 'mistral',
           bufferPercentage: 15
+        }
+      },
+      'gemini': {
+        'gemini-2.5-pro': {
+          total: 1000000,
+          input: 900000,
+          output: 100000,
+          tokenizer: 'gemini',
+          bufferPercentage: 2
+        },
+        'gemini-2.5-flash': {
+          total: 1000000,
+          input: 900000,
+          output: 100000,
+          tokenizer: 'gemini',
+          bufferPercentage: 2
         }
       }
     };
@@ -144,11 +162,13 @@ export class ModelTokenLimits {
   calculateOptimalSplit(provider, model, systemPromptTokens = 500) {
     const limits = this.getModelLimits(provider, model);
     
-    // Calculate buffer based on model's buffer percentage
-    const outputBuffer = Math.max(limits.output, limits.total * (limits.bufferPercentage / 100));
+    // Calculate buffer based on model's buffer percentage (bounded by explicit output cap)
+    const outputBuffer = Math.max(limits.output, Math.floor(limits.total * (limits.bufferPercentage / 100)));
     
-    // Available tokens for user data
-    const availableForData = limits.total - systemPromptTokens - outputBuffer;
+    // Available tokens for user data. Respect explicit input capacity if provided.
+    // Some providers (e.g., GPT-5) have a lower input window than total.
+    const maxInputCapacity = Math.max(0, (limits.input || (limits.total - outputBuffer)));
+    const availableForData = Math.max(0, Math.min(maxInputCapacity, limits.total - outputBuffer) - systemPromptTokens);
     
     return {
       total: limits.total,

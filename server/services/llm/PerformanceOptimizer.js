@@ -226,8 +226,8 @@ class PerformanceOptimizer {
     }
     
     return reasons.length > 0 
-      ? `Selected for ${reasons.join(', ')}`
-      : 'Best overall balance of speed, cost, and quality';
+        ? `Selected for ${reasons.join(', ')}`
+        : 'Best overall performance';
   }
 
   /**
