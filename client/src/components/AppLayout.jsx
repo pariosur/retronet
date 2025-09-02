@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { LayoutGrid, Sparkles, Settings, BarChart, PanelLeftOpen, PanelLeftClose } from 'lucide-react';
+import { LayoutGrid, Sparkles, Settings, BarChart, FileText, PanelLeftOpen, PanelLeftClose } from 'lucide-react';
 
 function Sidebar({ onNavigate }) {
   const items = [
     { key: 'whiteboard', label: 'Whiteboard', icon: LayoutGrid },
     { key: 'setup', label: 'Integrations', icon: Settings },
     { key: 'retros', label: 'Retros', icon: BarChart },
+    { key: 'release-notes', label: 'Release Notes', icon: FileText },
   ];
   return (
     <div className="w-56">

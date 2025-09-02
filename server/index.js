@@ -8,15 +8,19 @@ import { LLMAnalyzer, LLMServiceFactory } from './services/llm/index.js';
 import { InsightMerger } from './services/InsightMerger.js';
 import { ProgressManager, DEFAULT_LLM_STEPS } from './services/llm/ProgressTracker.js';
 import { LLMErrorHandler } from './services/llm/ErrorHandler.js';
+import { ReleaseNotesProgressManager } from './services/ReleaseNotesProgressTracker.js';
+import { ReleaseNotesErrorHandler } from './services/ReleaseNotesErrorHandler.js';
 import ExportService from './services/ExportService.js';
+import ReleaseNotesService from './services/ReleaseNotesService.js';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Initialize progress manager
+// Initialize progress managers
 const progressManager = new ProgressManager();
+const releaseNotesProgressManager = new ReleaseNotesProgressManager();
 
 // Middleware
 app.use(cors());
@@ -110,6 +114,25 @@ app.get('/api/test-github', async (req, res) => {
     console.error('GitHub test failed:', error);
     res.status(500).json({ 
       error: 'GitHub connection failed: ' + error.message 
+    });
+  }
+});
+
+// Test Release Notes Service
+app.get('/api/test-release-notes', async (req, res) => {
+  try {
+    const releaseNotesService = new ReleaseNotesService();
+    const status = releaseNotesService.getServiceStatus();
+    
+    res.json({
+      status: 'Release Notes Service initialized successfully',
+      services: status,
+      message: 'Ready to generate release notes'
+    });
+  } catch (error) {
+    console.error('Release Notes Service test failed:', error);
+    res.status(500).json({
+      error: 'Release Notes Service test failed: ' + error.message
     });
   }
 });
@@ -659,6 +682,299 @@ app.post('/api/export-retro/preview', (req, res) => {
     console.error('Error generating export preview:', error);
     res.status(500).json({ 
       error: 'Failed to generate export preview: ' + error.message 
+    });
+  }
+});
+
+// Release Notes API Endpoints
+
+// In-memory storage for release notes (in production, use a database)
+const releaseNotesStorage = new Map();
+
+// Generate release notes endpoint with comprehensive error handling and progress tracking
+app.post('/api/generate-release-notes', async (req, res) => {
+  const sessionId = `rn_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  let progressTracker = null;
+
+  try {
+    const { dateRange, options = {} } = req.body;
+    
+    // Validate input
+    if (!dateRange || !dateRange.start || !dateRange.end) {
+      const error = ReleaseNotesErrorHandler.createError(
+        new Error('Date range with start and end dates is required'),
+        'validation'
+      );
+      
+      return res.status(400).json({ 
+        error: error.message,
+        type: error.type,
+        code: error.code,
+        userFriendlyError: ReleaseNotesErrorHandler.getUserFriendlyError(error)
+      });
+    }
+
+    console.log('Generating release notes for:', { dateRange, options, sessionId });
+
+    // Create progress tracker
+    progressTracker = releaseNotesProgressManager.createTracker(sessionId, options);
+    
+    // Set up progress event handlers for real-time updates
+    progressTracker.on('step_started', (data) => {
+      console.log(`Step started: ${data.step.name}`);
+    });
+    
+    progressTracker.on('step_completed', (data) => {
+      console.log(`Step completed: ${data.step.name} (${data.step.duration}ms)`);
+    });
+    
+    progressTracker.on('degradation', (data) => {
+      console.warn('Degradation detected:', data.degradationInfo.message);
+    });
+
+    // Initialize release notes service
+    const releaseNotesService = new ReleaseNotesService();
+
+    // Generate release notes with progress tracking
+    const releaseNotesDocument = await releaseNotesService.generateReleaseNotes(dateRange, {
+      ...options,
+      progressTracker
+    });
+
+    // Store the generated release notes with a unique ID
+    const releaseNotesId = sessionId;
+    releaseNotesStorage.set(releaseNotesId, {
+      ...releaseNotesDocument,
+      id: releaseNotesId,
+      sessionId,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    });
+
+    console.log('Release notes generated successfully:', {
+      id: releaseNotesId,
+      newFeatures: releaseNotesDocument.entries.newFeatures.length,
+      improvements: releaseNotesDocument.entries.improvements.length,
+      fixes: releaseNotesDocument.entries.fixes.length,
+      errors: releaseNotesDocument.metadata.errors || 0
+    });
+
+    // Include progress information and any warnings in response
+    const response = {
+      id: releaseNotesId,
+      sessionId,
+      ...releaseNotesDocument,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      progressInfo: progressTracker.getStatus()
+    };
+
+    // Add warnings if there were errors during generation
+    if (releaseNotesDocument.metadata.errors > 0) {
+      response.warnings = {
+        message: 'Release notes generated with some limitations',
+        details: releaseNotesDocument.metadata.errorSummary,
+        degradationInfo: releaseNotesDocument.metadata.degradationInfo
+      };
+    }
+
+    res.json(response);
+
+  } catch (error) {
+    console.error('Error generating release notes:', error);
+    
+    // Create structured error response
+    const releaseNotesError = ReleaseNotesErrorHandler.createError(error, 'generation');
+    const userFriendlyError = ReleaseNotesErrorHandler.getUserFriendlyError(releaseNotesError);
+    
+    // Determine appropriate HTTP status code
+    let statusCode = 500;
+    if (releaseNotesError.type === 'INVALID_DATE_RANGE') {
+      statusCode = 400;
+    } else if (releaseNotesError.type === 'ALL_SOURCES_FAILED') {
+      statusCode = 503;
+    }
+
+    const errorResponse = {
+      error: releaseNotesError.message,
+      type: releaseNotesError.type,
+      code: releaseNotesError.code,
+      sessionId,
+      userFriendlyError,
+      timestamp: releaseNotesError.timestamp,
+      recoverable: releaseNotesError.recoverable
+    };
+
+    // Include retry information if applicable
+    const retryStrategy = ReleaseNotesErrorHandler.getRetryStrategy(releaseNotesError);
+    if (retryStrategy) {
+      errorResponse.retryInfo = {
+        recommended: true,
+        maxAttempts: retryStrategy.maxAttempts,
+        delay: retryStrategy.delay,
+        backoff: retryStrategy.backoff
+      };
+    }
+
+    // Include progress information if available
+    if (progressTracker) {
+      errorResponse.progressInfo = progressTracker.getStatus();
+    }
+
+    res.status(statusCode).json(errorResponse);
+  }
+});
+
+// Get release notes progress endpoint
+app.get('/api/release-notes-progress/:sessionId', (req, res) => {
+  try {
+    const { sessionId } = req.params;
+    
+    const progressTracker = releaseNotesProgressManager.getTracker(sessionId);
+    if (!progressTracker) {
+      return res.status(404).json({ 
+        error: 'Progress session not found',
+        sessionId 
+      });
+    }
+
+    const status = progressTracker.getStatus();
+    const userFriendlyStatus = progressTracker.getUserFriendlyStatus();
+
+    res.json({
+      sessionId,
+      status,
+      userFriendlyStatus,
+      timestamp: new Date().toISOString()
+    });
+
+  } catch (error) {
+    console.error('Error getting release notes progress:', error);
+    res.status(500).json({ 
+      error: 'Failed to get progress: ' + error.message 
+    });
+  }
+});
+
+// Get release notes by ID endpoint
+app.get('/api/release-notes/:id', (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    if (!releaseNotesStorage.has(id)) {
+      return res.status(404).json({ 
+        error: 'Release notes not found',
+        id 
+      });
+    }
+
+    const releaseNotes = releaseNotesStorage.get(id);
+    res.json(releaseNotes);
+
+  } catch (error) {
+    console.error('Error retrieving release notes:', error);
+    res.status(500).json({ 
+      error: 'Failed to retrieve release notes: ' + error.message 
+    });
+  }
+});
+
+// Update release notes endpoint
+app.put('/api/release-notes/:id', (req, res) => {
+  try {
+    const { id } = req.params;
+    const updates = req.body;
+    
+    if (!releaseNotesStorage.has(id)) {
+      return res.status(404).json({ 
+        error: 'Release notes not found',
+        id 
+      });
+    }
+
+    const existingReleaseNotes = releaseNotesStorage.get(id);
+    
+    // Merge updates with existing data
+    const updatedReleaseNotes = {
+      ...existingReleaseNotes,
+      ...updates,
+      id, // Ensure ID doesn't change
+      createdAt: existingReleaseNotes.createdAt, // Preserve creation time
+      updatedAt: new Date().toISOString()
+    };
+
+    // Store updated release notes
+    releaseNotesStorage.set(id, updatedReleaseNotes);
+
+    console.log('Release notes updated successfully:', { id });
+
+    res.json(updatedReleaseNotes);
+
+  } catch (error) {
+    console.error('Error updating release notes:', error);
+    res.status(500).json({ 
+      error: 'Failed to update release notes: ' + error.message 
+    });
+  }
+});
+
+// Export release notes endpoint
+app.post('/api/release-notes/:id/export', (req, res) => {
+  try {
+    const { id } = req.params;
+    const { format = 'markdown', options = {} } = req.body;
+    
+    if (!releaseNotesStorage.has(id)) {
+      return res.status(404).json({ 
+        error: 'Release notes not found',
+        id 
+      });
+    }
+
+    const releaseNotes = releaseNotesStorage.get(id);
+    const exportService = new ExportService();
+    
+    let exportedContent;
+    let contentType;
+    let filename;
+
+    switch (format.toLowerCase()) {
+      case 'markdown':
+      case 'md':
+        exportedContent = exportService.exportReleaseNotesToMarkdown(releaseNotes, options);
+        contentType = 'text/markdown';
+        filename = `release-notes-${releaseNotes.dateRange.start}-to-${releaseNotes.dateRange.end}.md`;
+        break;
+      
+      case 'html':
+        exportedContent = exportService.exportReleaseNotesToHTML(releaseNotes, options);
+        contentType = 'text/html';
+        filename = `release-notes-${releaseNotes.dateRange.start}-to-${releaseNotes.dateRange.end}.html`;
+        break;
+      
+      case 'json':
+        exportedContent = exportService.exportReleaseNotesToJSON(releaseNotes, options);
+        contentType = 'application/json';
+        filename = `release-notes-${releaseNotes.dateRange.start}-to-${releaseNotes.dateRange.end}.json`;
+        break;
+      
+      default:
+        return res.status(400).json({ 
+          error: 'Unsupported format. Supported formats: markdown, html, json' 
+        });
+    }
+
+    // Set appropriate headers for download
+    res.setHeader('Content-Type', contentType);
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+    res.setHeader('Content-Length', Buffer.byteLength(exportedContent, 'utf8'));
+    
+    res.send(exportedContent);
+
+  } catch (error) {
+    console.error('Error exporting release notes:', error);
+    res.status(500).json({ 
+      error: 'Failed to export release notes: ' + error.message 
     });
   }
 });
