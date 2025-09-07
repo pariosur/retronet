@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import WhiteboardPage from './components/WhiteboardPage';
 import SetupPage from './components/SetupPage';
 import RetrosPage from './components/RetrosPage';
-import ReleaseNotesPage from './components/ReleaseNotesPage';
+
 
 function App() {
   const [currentPage, setCurrentPage] = useState('whiteboard');
@@ -34,7 +34,6 @@ function App() {
           onNavigate={(key) => {
             if (key === 'setup') return setCurrentPage('setup');
             if (key === 'retros') return setCurrentPage('retros');
-            if (key === 'release-notes') return setCurrentPage('release-notes');
             setCurrentPage('whiteboard');
           }} 
         />
@@ -45,7 +44,6 @@ function App() {
           onNavigate={(key) => {
             if (key === 'setup') return setCurrentPage('setup');
             if (key === 'retros') return setCurrentPage('retros');
-            if (key === 'release-notes') return setCurrentPage('release-notes');
             setCurrentPage('whiteboard');
           }}
         />
@@ -54,7 +52,6 @@ function App() {
         <RetrosPage 
           onNavigate={(key) => {
             if (key === 'setup') return setCurrentPage('setup');
-            if (key === 'release-notes') return setCurrentPage('release-notes');
             setCurrentPage('whiteboard');
           }}
           onLoadRetro={(key) => {
@@ -68,15 +65,7 @@ function App() {
           }}
         />
       )}
-      {currentPage === 'release-notes' && (
-        <ReleaseNotesPage 
-          onNavigate={(key) => {
-            if (key === 'setup') return setCurrentPage('setup');
-            if (key === 'retros') return setCurrentPage('retros');
-            setCurrentPage('whiteboard');
-          }}
-        />
-      )}
+
     </div>
   );
 }

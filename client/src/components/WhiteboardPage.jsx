@@ -5,7 +5,7 @@ import DateRangePicker from './DateRangePicker';
 import ShinyText from './ShinyText';
 import axios from 'axios';
 
-function DraggableCard({ item, onEdit, onDelete, onDragStart }) {
+function DraggableCard({ item, onEdit, onDelete }) {
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(item.text);
 
@@ -21,8 +21,6 @@ function DraggableCard({ item, onEdit, onDelete, onDragStart }) {
 
   return (
     <div
-      draggable
-      onDragStart={(e) => onDragStart(e, item)}
       className={`relative overflow-hidden bg-gray-50 border ${item.isSample ? 'border-dashed' : 'border-solid'} border-gray-200 rounded-lg p-3 text-sm text-gray-800 group`}
       style={aiStyle}
     >
@@ -73,14 +71,12 @@ function DraggableCard({ item, onEdit, onDelete, onDragStart }) {
   );
 }
 
-function Column({ title, items = [], placeholderItems = [], onDropItem, onEditItem, onAddItem, onDeleteItem }) {
+function Column({ title, items = [], placeholderItems = [], onEditItem, onAddItem, onDeleteItem }) {
   return (
     <div className="flex-1 min-w-0 bg-white border border-gray-200 rounded-xl p-4">
       <h2 className="text-sm font-semibold text-gray-700 mb-3">{title}</h2>
       <div
         className="space-y-2 min-h-[120px]"
-        onDragOver={(e) => e.preventDefault()}
-        onDrop={(e) => onDropItem(e)}
       >
         {items.length === 0 && placeholderItems.length > 0
           ? placeholderItems.map((t, i) => (
@@ -92,7 +88,7 @@ function Column({ title, items = [], placeholderItems = [], onDropItem, onEditIt
               </div>
             ))
           : items.map((item) => (
-              <DraggableCard key={item.id} item={item} onEdit={onEditItem} onDelete={onDeleteItem} onDragStart={onDropItem.onDragStart} />
+              <DraggableCard key={item.id} item={item} onEdit={onEditItem} onDelete={onDeleteItem} />
             ))}
       </div>
       <div className="mt-3">
@@ -217,25 +213,7 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
     }
   };
 
-  const startDrag = (e, item, from) => {
-    e.dataTransfer.setData('application/json', JSON.stringify({ id: item.id, from }));
-  };
-
-  const handleDropTo = (to) => (e) => {
-    e.preventDefault();
-    const data = e.dataTransfer.getData('application/json');
-    if (!data) return;
-    const { id, from } = JSON.parse(data);
-    if (!from) return;
-    setBoard(prev => {
-      const next = { ...prev };
-      const [moved] = next[from].filter(x => x.id === id);
-      if (!moved) return prev;
-      next[from] = next[from].filter(x => x.id !== id);
-      next[to] = [...next[to], { ...moved, isSample: false, source: moved.source }];
-      return next;
-    });
-  };
+  
 
   const handleEdit = (column) => (updated) => {
     setBoard(prev => ({
@@ -392,7 +370,6 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
           title="What Went Well"
           items={board.wentWell}
           placeholderItems={placeholders.wentWell}
-          onDropItem={Object.assign(handleDropTo('wentWell'), { onDragStart: (e, item) => startDrag(e, item, 'wentWell') })}
           onEditItem={handleEdit('wentWell')}
           onAddItem={handleAdd('wentWell')}
           onDeleteItem={handleDelete('wentWell')}
@@ -401,7 +378,6 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
           title="What Didn't Go Well"
           items={board.didntGoWell}
           placeholderItems={placeholders.didntGoWell}
-          onDropItem={Object.assign(handleDropTo('didntGoWell'), { onDragStart: (e, item) => startDrag(e, item, 'didntGoWell') })}
           onEditItem={handleEdit('didntGoWell')}
           onAddItem={handleAdd('didntGoWell')}
           onDeleteItem={handleDelete('didntGoWell')}
@@ -410,7 +386,6 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
           title="Action Items"
           items={board.actionItems}
           placeholderItems={placeholders.actionItems}
-          onDropItem={Object.assign(handleDropTo('actionItems'), { onDragStart: (e, item) => startDrag(e, item, 'actionItems') })}
           onEditItem={handleEdit('actionItems')}
           onAddItem={handleAdd('actionItems')}
           onDeleteItem={handleDelete('actionItems')}

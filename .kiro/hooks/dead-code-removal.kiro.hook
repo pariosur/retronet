@@ -1,0 +1,20 @@
+{
+  "enabled": true,
+  "name": "Dead Code Detector",
+  "description": "Analyzes code changes to identify and suggest removal of unused or dead code when new implementations replace existing functionality",
+  "version": "1",
+  "when": {
+    "type": "userTriggered",
+    "patterns": [
+      "**/*.js",
+      "**/*.jsx",
+      "**/*.py",
+      "**/*.ts",
+      "**/*.tsx"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Analyze the recent code changes in the modified files. Look for patterns where new code might have replaced existing functionality, making some code unreachable or unused. Identify:\n\n1. Functions, methods, or classes that are no longer called or referenced\n2. Import statements for modules that are no longer used\n3. Configuration or constants that have been superseded\n4. Duplicate functionality that could be consolidated\n5. Test files that may no longer be relevant due to code changes\n\nFor each piece of potentially dead code found, provide:\n- The file path and line numbers\n- A brief explanation of why it appears to be unused\n- The confidence level (high/medium/low) that it's safe to remove\n- Any dependencies or side effects to consider before removal\n\nPresent your findings in a clear, actionable format that helps developers safely clean up their codebase."
+  }
+}

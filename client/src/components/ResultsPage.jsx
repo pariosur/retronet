@@ -147,8 +147,18 @@ function ResultsPage({ retroData, onBack, onNavigate }) {
 
   const copyToClipboard = () => {
     const text = formatRetroText(retroData);
-    navigator.clipboard.writeText(text);
-    alert('Retro copied to clipboard!');
+    navigator.clipboard.writeText(text).then(() => {
+      // Create a temporary notification
+      const notification = document.createElement('div');
+      notification.textContent = 'Retro copied to clipboard!';
+      notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg z-50';
+      document.body.appendChild(notification);
+      setTimeout(() => {
+        document.body.removeChild(notification);
+      }, 2000);
+    }).catch(() => {
+      alert('Failed to copy to clipboard. Please try selecting and copying manually.');
+    });
   };
 
   const handleExport = async (format) => {
@@ -197,23 +207,40 @@ function ResultsPage({ retroData, onBack, onNavigate }) {
     }
   };
 
+  // Helper function to format source attribution
+  const formatSource = (item) => {
+    const sources = [];
+    if (item.source === 'ai') sources.push('AI');
+    else if (item.source === 'rules') sources.push('Rules');
+    else if (item.source === 'hybrid') sources.push('Hybrid');
+    else sources.push('System');
+    
+    if (item.confidence && typeof item.confidence === 'number') {
+      sources.push(`${Math.round(item.confidence * 100)}%`);
+    }
+    
+    return sources.length > 0 ? ` [${sources.join(', ')}]` : '';
+  };
+
+  const formatSingleItem = (item) => {
+    let text = `• ${item.title}${formatSource(item)}\n`;
+    if (item.details) {
+      text += `  ${item.details}\n`;
+    }
+    if (item.reasoning) {
+      text += `  Reasoning: ${item.reasoning}\n`;
+    }
+    if (item.priority) {
+      text += `  Priority: ${item.priority}\n`;
+    }
+    if (item.assignee) {
+      text += `  Assignee: ${item.assignee}\n`;
+    }
+    return text;
+  };
+
   const formatRetroText = (data) => {
     let text = '# Sprint Retro\n\n';
-    
-    // Helper function to format source attribution
-    const formatSource = (item) => {
-      const sources = [];
-      if (item.source === 'ai') sources.push('AI');
-      else if (item.source === 'rules') sources.push('Rules');
-      else if (item.source === 'hybrid') sources.push('Hybrid');
-      else sources.push('System');
-      
-      if (item.confidence && typeof item.confidence === 'number') {
-        sources.push(`${Math.round(item.confidence * 100)}%`);
-      }
-      
-      return sources.length > 0 ? ` [${sources.join(', ')}]` : '';
-    };
     
     text += '## 🎉 What Went Well\n';
     data.wentWell.forEach(item => {
@@ -500,11 +527,32 @@ function ResultsPage({ retroData, onBack, onNavigate }) {
   );
 
   const RetroSection = ({ title, items, emoji, bgColor }) => (
-    <div className={`${bgColor} p-6 rounded-lg`}>
-      <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-        <span className="text-2xl">{emoji}</span>
-        {title}
-      </h2>
+    <div className={`${bgColor} p-6 rounded-lg select-text`}>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xl font-bold flex items-center gap-2">
+          <span className="text-2xl">{emoji}</span>
+          {title}
+        </h2>
+        <button
+          onClick={() => {
+            const sectionText = items.map(item => formatSingleItem(item)).join('\n');
+            navigator.clipboard.writeText(`${title}\n\n${sectionText}`).then(() => {
+              const notification = document.createElement('div');
+              notification.textContent = `${title} section copied!`;
+              notification.className = 'fixed top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-md shadow-lg z-50';
+              document.body.appendChild(notification);
+              setTimeout(() => {
+                document.body.removeChild(notification);
+              }, 2000);
+            });
+          }}
+          className="flex items-center gap-1 px-3 py-1 text-sm bg-white/20 hover:bg-white/30 rounded-md transition-colors"
+          title={`Copy all ${title} items`}
+        >
+          <Copy className="w-3 h-3" />
+          Copy Section
+        </button>
+      </div>
       <div className="space-y-3">
         {items.map((item, index) => {
           const sectionKey = title.toLowerCase().replace(/\s+/g, '');
@@ -514,14 +562,11 @@ function ResultsPage({ retroData, onBack, onNavigate }) {
           const hasExpandableContent = item.details || item.reasoning || item.sourceInsights;
 
           return (
-            <div key={index} className="bg-white/50 rounded-md p-3 border border-white/20">
-              <div 
-                className={`flex items-start justify-between ${hasExpandableContent ? 'cursor-pointer' : ''}`}
-                onClick={hasExpandableContent ? () => toggleExpanded(sectionKey, index) : undefined}
-              >
+            <div key={index} className="bg-white/50 rounded-md p-3 border border-white/20 select-text">
+              <div className="flex items-start justify-between">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start gap-2 mb-2">
-                    <span className="font-medium text-gray-900 flex-1">{item.title}</span>
+                    <span className="font-medium text-gray-900 flex-1 select-text">{item.title}</span>
                     <div className="flex items-center gap-2 flex-shrink-0">
                       {/* Category Badge */}
                       {item.category && item.category !== 'general' && (
@@ -568,11 +613,37 @@ function ResultsPage({ retroData, onBack, onNavigate }) {
                         </span>
                       )}
                       
-                      {/* Expand/Collapse Icon */}
+                      {/* Copy Button */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          const text = formatSingleItem(item);
+                          navigator.clipboard.writeText(text).then(() => {
+                            // You could add a toast notification here
+                            console.log('Item copied to clipboard');
+                          });
+                        }}
+                        className="p-1 hover:bg-gray-100 rounded transition-colors"
+                        title="Copy this item"
+                      >
+                        <Copy className="w-3 h-3 text-gray-500" />
+                      </button>
+
+                      {/* Expand/Collapse Button */}
                       {hasExpandableContent && (
-                        isExpanded 
-                          ? <ChevronDown className="w-4 h-4 text-gray-500" />
-                          : <ChevronRight className="w-4 h-4 text-gray-500" />
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleExpanded(sectionKey, index);
+                          }}
+                          className="p-1 hover:bg-gray-100 rounded transition-colors"
+                          aria-label={isExpanded ? 'Collapse details' : 'Expand details'}
+                        >
+                          {isExpanded 
+                            ? <ChevronDown className="w-4 h-4 text-gray-500" />
+                            : <ChevronRight className="w-4 h-4 text-gray-500" />
+                          }
+                        </button>
                       )}
                     </div>
                   </div>
@@ -606,7 +677,7 @@ function ResultsPage({ retroData, onBack, onNavigate }) {
                   {item.details && (
                     <div>
                       <h4 className="text-sm font-medium text-gray-700 mb-1">Details</h4>
-                      <p className="text-sm text-gray-600">{item.details}</p>
+                      <p className="text-sm text-gray-600 select-text">{item.details}</p>
                     </div>
                   )}
                   
@@ -617,7 +688,7 @@ function ResultsPage({ retroData, onBack, onNavigate }) {
                         <Brain className="w-3 h-3" />
                         AI Reasoning
                       </h4>
-                      <p className="text-sm text-gray-600 italic">{item.reasoning}</p>
+                      <p className="text-sm text-gray-600 italic select-text">{item.reasoning}</p>
                     </div>
                   )}
                   
@@ -732,7 +803,17 @@ function ResultsPage({ retroData, onBack, onNavigate }) {
 
   return (
     <AppLayout onNavigate={onNavigate}>
-      <div className="max-w-4xl mx-auto">
+      <style>{`
+        .select-text::selection {
+          background-color: #3b82f6;
+          color: white;
+        }
+        .select-text::-moz-selection {
+          background-color: #3b82f6;
+          color: white;
+        }
+      `}</style>
+      <div className="max-w-4xl mx-auto" style={{ userSelect: 'text' }}>
       <div className="flex items-center justify-between mb-8">
         <button
           onClick={onBack}

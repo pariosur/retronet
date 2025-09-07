@@ -168,51 +168,80 @@ export class OpenAIProvider extends BaseLLMProvider {
         let response;
         
         if (isGPT5Model) {
-          // GPT-5 uses the new Responses API
+          // GPT-5 uses the new Responses API with comprehensive schema
           const requestConfig = {
             model: model,
             input: `${prompt.system}\n\n${prompt.user}`,
-            instructions: 'Return ONLY valid JSON with keys wentWell, didntGoWell. Each array must contain exactly 3 objects with ONLY the key "title" (string). No other keys. No actionItems. No reasoning, no details, no code fences, no markdown.',
-            reasoning: { effort: this.config.reasoningEffort || 'low' },
+            instructions: 'Generate comprehensive retrospective insights in JSON format. Include the most high-quality insights supported by the data, prioritizing relevance and actionability.',
+            reasoning: { effort: this.config.reasoningEffort || 'medium' },
             text: {
-              verbosity: this.config.verbosity || 'medium',
+              verbosity: this.config.verbosity || 'high',
               format: {
                 type: 'json_schema',
-                name: 'RetroTitles',
+                name: 'ComprehensiveRetroInsights',
                 strict: true,
                 schema: {
                   type: 'object',
                   additionalProperties: false,
-                  required: ['wentWell', 'didntGoWell'],
+                  required: ['wentWell', 'didntGoWell', 'actionItems'],
                   properties: {
                     wentWell: {
                       type: 'array',
-                      minItems: 3,
-                      maxItems: 3,
+                      minItems: 1,
                       items: {
                         type: 'object',
                         additionalProperties: false,
-                        required: ['title'],
-                        properties: { title: { type: 'string' } }
+                        required: ['title', 'details', 'source', 'confidence', 'category', 'reasoning'],
+                        properties: {
+                          title: { type: 'string' },
+                          details: { type: 'string' },
+                          source: { type: 'string', enum: ['ai'] },
+                          confidence: { type: 'number', minimum: 0, maximum: 1 },
+                          category: { type: 'string', enum: ['technical', 'process', 'team-dynamics', 'communication'] },
+                          reasoning: { type: 'string' }
+                        }
                       }
                     },
                     didntGoWell: {
                       type: 'array',
-                      minItems: 3,
-                      maxItems: 3,
+                      minItems: 1,
                       items: {
                         type: 'object',
                         additionalProperties: false,
-                        required: ['title'],
-                        properties: { title: { type: 'string' } }
+                        required: ['title', 'details', 'source', 'confidence', 'category', 'reasoning'],
+                        properties: {
+                          title: { type: 'string' },
+                          details: { type: 'string' },
+                          source: { type: 'string', enum: ['ai'] },
+                          confidence: { type: 'number', minimum: 0, maximum: 1 },
+                          category: { type: 'string', enum: ['technical', 'process', 'team-dynamics', 'communication'] },
+                          reasoning: { type: 'string' }
+                        }
+                      }
+                    },
+                    actionItems: {
+                      type: 'array',
+                      minItems: 1,
+                      items: {
+                        type: 'object',
+                        additionalProperties: false,
+                        required: ['title', 'details', 'source', 'priority', 'category', 'reasoning'],
+                        properties: {
+                          title: { type: 'string' },
+                          details: { type: 'string' },
+                          source: { type: 'string', enum: ['ai'] },
+                          priority: { type: 'string', enum: ['high', 'medium', 'low'] },
+                          category: { type: 'string', enum: ['technical', 'process', 'team-dynamics', 'communication'] },
+                          reasoning: { type: 'string' }
+                        }
                       }
                     }
                   }
                 }
               }
             },
-            // Allow ample room for structured JSON without truncation
-            max_output_tokens: Math.min(3000, this.config.maxTokens || 3000)
+            // Increase output tokens significantly for comprehensive insights
+            max_output_tokens: Math.min(16000, this.config.maxTokens || 16000)
           };
           
           response = await this.client.responses.create(requestConfig);
@@ -223,7 +252,7 @@ export class OpenAIProvider extends BaseLLMProvider {
             const fallbackConfig = {
               model: model,
               input: `${prompt.system}\n\n${prompt.user}`,
-              instructions: 'Return ONLY valid JSON with keys wentWell, didntGoWell. Each array must contain exactly 3 objects with ONLY the key "title" (string). No other keys. No actionItems. No reasoning, no details, no code fences, no markdown.',
+              instructions: 'Generate comprehensive retrospective insights in JSON format. Include detailed insights with full context, evidence, and reasoning. No artificial limits on number of insights.',
               reasoning: { effort: this.config.reasoningEffort || 'low' },
               text: {
                 verbosity: 'low',
@@ -234,35 +263,64 @@ export class OpenAIProvider extends BaseLLMProvider {
                   schema: {
                     type: 'object',
                     additionalProperties: false,
-                    required: ['wentWell', 'didntGoWell'],
+                    required: ['wentWell', 'didntGoWell', 'actionItems'],
                     properties: {
                       wentWell: {
                         type: 'array',
-                        minItems: 3,
-                        maxItems: 3,
+                        minItems: 1,
                         items: {
                           type: 'object',
                           additionalProperties: false,
-                          required: ['title'],
-                          properties: { title: { type: 'string' } }
+                          required: ['title', 'details', 'source', 'confidence', 'category', 'reasoning'],
+                          properties: {
+                            title: { type: 'string' },
+                            details: { type: 'string' },
+                            source: { type: 'string' },
+                            confidence: { type: 'number' },
+                            category: { type: 'string' },
+                            reasoning: { type: 'string' }
+                          }
                         }
                       },
                       didntGoWell: {
                         type: 'array',
-                        minItems: 3,
-                        maxItems: 3,
+                        minItems: 1,
                         items: {
                           type: 'object',
                           additionalProperties: false,
-                          required: ['title'],
-                          properties: { title: { type: 'string' } }
+                          required: ['title', 'details', 'source', 'confidence', 'category', 'reasoning'],
+                          properties: {
+                            title: { type: 'string' },
+                            details: { type: 'string' },
+                            source: { type: 'string' },
+                            confidence: { type: 'number' },
+                            category: { type: 'string' },
+                            reasoning: { type: 'string' }
+                          }
+                        }
+                      },
+                      actionItems: {
+                        type: 'array',
+                        minItems: 1,
+                        items: {
+                          type: 'object',
+                          additionalProperties: false,
+                          required: ['title', 'details', 'source', 'priority', 'category', 'reasoning'],
+                          properties: {
+                            title: { type: 'string' },
+                            details: { type: 'string' },
+                            source: { type: 'string' },
+                            priority: { type: 'string' },
+                            category: { type: 'string' },
+                            reasoning: { type: 'string' }
+                          }
                         }
                       }
                     }
                   }
                 }
               },
-              max_output_tokens: Math.min(3000, this.config.maxTokens || 3000)
+              max_output_tokens: Math.min(16000, this.config.maxTokens || 16000)
             };
             response = await this.client.responses.create(fallbackConfig);
             // One more fallback: if still no text, route to Chat Completions on gpt-4o for final aggregation
@@ -272,47 +330,75 @@ export class OpenAIProvider extends BaseLLMProvider {
               const chatFallback = await this.client.chat.completions.create({
                 model: 'gpt-4o',
                 messages: [
-                  { role: 'system', content: 'You are a helpful assistant that returns ONLY valid JSON with keys: wentWell, didntGoWell. Each array must contain exactly 3 objects with ONLY the key "title" (string). No actionItems. No other keys. No extra text.' },
+                  { role: 'system', content: 'You are a helpful assistant that returns comprehensive retrospective insights in JSON format with keys: wentWell, didntGoWell, actionItems. Generate detailed insights with full context and evidence.' },
                   { role: 'user', content: `${prompt.system}\n\n${prompt.user}` }
                 ],
                 temperature: 0.2,
                 response_format: {
                   type: 'json_schema',
                   json_schema: {
-                    name: 'RetroTitles',
+                    name: 'ComprehensiveRetroInsights',
                     strict: true,
                     schema: {
                       type: 'object',
                       additionalProperties: false,
-                      required: ['wentWell', 'didntGoWell'],
+                      required: ['wentWell', 'didntGoWell', 'actionItems'],
                       properties: {
                         wentWell: {
                           type: 'array',
-                          minItems: 3,
-                          maxItems: 3,
+                          minItems: 1,
                           items: {
                             type: 'object',
                             additionalProperties: false,
-                            required: ['title'],
-                            properties: { title: { type: 'string' } }
+                            required: ['title', 'details', 'source', 'confidence', 'category', 'reasoning'],
+                            properties: {
+                              title: { type: 'string' },
+                              details: { type: 'string' },
+                              source: { type: 'string' },
+                              confidence: { type: 'number' },
+                              category: { type: 'string' },
+                              reasoning: { type: 'string' }
+                            }
                           }
                         },
                         didntGoWell: {
                           type: 'array',
-                          minItems: 3,
-                          maxItems: 3,
+                          minItems: 1,
                           items: {
                             type: 'object',
                             additionalProperties: false,
-                            required: ['title'],
-                            properties: { title: { type: 'string' } }
+                            required: ['title', 'details', 'source', 'confidence', 'category', 'reasoning'],
+                            properties: {
+                              title: { type: 'string' },
+                              details: { type: 'string' },
+                              source: { type: 'string' },
+                              confidence: { type: 'number' },
+                              category: { type: 'string' },
+                              reasoning: { type: 'string' }
+                            }
+                          }
+                        },
+                        actionItems: {
+                          type: 'array',
+                          minItems: 1,
+                          items: {
+                            type: 'object',
+                            additionalProperties: false,
+                            required: ['title', 'details', 'source', 'priority', 'category', 'reasoning'],
+                            properties: {
+                              title: { type: 'string' },
+                              details: { type: 'string' },
+                              source: { type: 'string' },
+                              priority: { type: 'string' },
+                              category: { type: 'string' },
+                              reasoning: { type: 'string' }
+                            }
                           }
                         }
                       }
                     }
                   }
-                },
-                max_tokens: 2000
+                }
               });
               return chatFallback;
             }
@@ -446,7 +532,7 @@ export class OpenAIProvider extends BaseLLMProvider {
       return {
         wentWell: addMetadata(parsed.wentWell || []),
         didntGoWell: addMetadata(parsed.didntGoWell || []),
-        actionItems: [],
+        actionItems: addMetadata(parsed.actionItems || []),
         metadata: {
           provider: 'openai',
           model: this.config.model || 'gpt-3.5-turbo',

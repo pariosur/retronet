@@ -13,6 +13,7 @@ import PerformanceMonitor from './PerformanceMonitor.js';
 import PerformanceOptimizer from './PerformanceOptimizer.js';
 import { LLMErrorHandler, LLMError } from './ErrorHandler.js';
 import { ProgressTracker, DEFAULT_LLM_STEPS } from './ProgressTracker.js';
+import { TemporalDataProcessor } from './TemporalDataProcessor.js';
 
 export class LLMAnalyzer {
   constructor(config = {}) {
@@ -33,6 +34,14 @@ export class LLMAnalyzer {
     // Initialize performance monitoring
     this.performanceMonitor = new PerformanceMonitor();
     this.performanceOptimizer = new PerformanceOptimizer(this.performanceMonitor);
+    
+    // Initialize temporal data processor
+    this.temporalProcessor = new TemporalDataProcessor({
+      chunkSizeHours: config.chunkSizeHours || 24,
+      minChunkSizeHours: config.minChunkSizeHours || 4,
+      maxChunkSizeHours: config.maxChunkSizeHours || 72,
+      overlapHours: config.overlapHours || 2
+    });
     
     // Initialize components if LLM is enabled
     if (this.config.enabled && this.config.provider) {
@@ -266,66 +275,302 @@ export class LLMAnalyzer {
     }
   }
 
-  // Progressive analysis: chunk per source, summarize, then aggregate
+  // Temporal progressive analysis: organize by time, chunk chronologically, then aggregate
   async _analyzeTeamDataProgressive(teamData, analysisContext, progressTracker = null) {
-    // Chunk sizes per source to keep prompts small
-    const commitChunkSize = 50;
-    const prChunkSize = 25;
-    const issueChunkSize = 200;
-    const slackChunkSize = 200;
-    const summaries = { github: [], linear: [], slack: [] };
-
-    // GitHub chunks
-    const commits = teamData.github?.commits || [];
-    const prs = teamData.github?.pullRequests || [];
-    const commitChunks = this._chunkArray(commits, commitChunkSize);
-    const prChunks = this._chunkArray(prs, prChunkSize);
-    for (let i = 0; i < commitChunks.length; i++) {
-      const subset = this._trimChunkDataFields({ github: { commits: commitChunks[i], pullRequests: [] } });
-      const s = await this.provider.generateChunkSummary(subset, { ...analysisContext, source: 'github', part: `commits:${i+1}/${commitChunks.length}` });
-      summaries.github.push(s);
-      if (progressTracker) progressTracker.updateStepProgress(1, 0.75 * ((i+1)/ (commitChunks.length + prChunks.length)), `Summarized GitHub commits ${i+1}/${commitChunks.length}`);
+    console.log('Starting temporal progressive analysis...');
+    
+    if (progressTracker) {
+      progressTracker.updateStepProgress(1, 0.1, 'Processing temporal data organization...');
     }
-    for (let i = 0; i < prChunks.length; i++) {
-      const subset = this._trimChunkDataFields({ github: { commits: [], pullRequests: prChunks[i] } });
-      const s = await this.provider.generateChunkSummary(subset, { ...analysisContext, source: 'github', part: `prs:${i+1}/${prChunks.length}` });
-      summaries.github.push(s);
-      if (progressTracker) progressTracker.updateStepProgress(1, 0.75 * ((commitChunks.length + i + 1)/ (commitChunks.length + prChunks.length)), `Summarized GitHub PRs ${i+1}/${prChunks.length}`);
+    
+    // Step 1: Process data temporally
+    const temporalData = this.temporalProcessor.processTeamData(teamData, analysisContext.dateRange);
+    console.log(`Created ${temporalData.chunks.length} temporal chunks from ${temporalData.totalEvents} events`);
+    
+    if (progressTracker) {
+      progressTracker.updateStepProgress(1, 0.3, `Organized ${temporalData.totalEvents} events into ${temporalData.chunks.length} temporal chunks`);
     }
-
-    // Linear chunks
-    const issues = teamData.linear?.issues || [];
-    const issueChunks = this._chunkArray(issues, issueChunkSize);
-    for (let i = 0; i < issueChunks.length; i++) {
-      const subset = this._trimChunkDataFields({ linear: { issues: issueChunks[i] } });
-      const s = await this.provider.generateChunkSummary(subset, { ...analysisContext, source: 'linear', part: `${i+1}/${issueChunks.length}` });
-      summaries.linear.push(s);
+    
+    // Step 2: Analyze each temporal chunk
+    const chunkInsights = [];
+    const totalChunks = temporalData.chunks.length;
+    
+    for (let i = 0; i < totalChunks; i++) {
+      const chunk = temporalData.chunks[i];
+      
+      if (progressTracker) {
+        const progress = 0.3 + (0.6 * (i / totalChunks));
+        progressTracker.updateStepProgress(1, progress, `Analyzing temporal chunk ${i + 1}/${totalChunks} (${chunk.summary.timeRange})`);
+      }
+      
+      try {
+        // Create focused context for this time period
+        const chunkContext = {
+          ...analysisContext,
+          temporalChunk: {
+            id: chunk.id,
+            timeRange: chunk.summary.timeRange,
+            eventCount: chunk.eventCount,
+            patterns: chunk.patterns,
+            activityMetrics: chunk.activityMetrics
+          }
+        };
+        
+        // Convert chunk events back to structured data for LLM
+        const chunkData = this._convertChunkToStructuredData(chunk);
+        
+        // Generate insights for this temporal chunk
+        const chunkInsight = await this.provider.generateChunkSummary(chunkData, chunkContext);
+        
+        chunkInsights.push({
+          chunkId: chunk.id,
+          timeRange: chunk.summary.timeRange,
+          eventCount: chunk.eventCount,
+          insight: chunkInsight,
+          patterns: chunk.patterns,
+          activityMetrics: chunk.activityMetrics
+        });
+        
+        console.log(`Completed analysis for chunk ${i + 1}/${totalChunks}: ${chunk.eventCount} events`);
+        
+      } catch (error) {
+        console.warn(`Failed to analyze chunk ${i + 1}:`, error.message);
+        // Continue with other chunks even if one fails
+        chunkInsights.push({
+          chunkId: chunk.id,
+          timeRange: chunk.summary.timeRange,
+          eventCount: chunk.eventCount,
+          insight: { summary: `Analysis failed: ${error.message}` },
+          error: error.message
+        });
+      }
     }
-
-    // Slack chunks
-    const messages = teamData.slack?.messages || [];
-    const msgChunks = this._chunkArray(messages, slackChunkSize);
-    for (let i = 0; i < msgChunks.length; i++) {
-      const subset = this._trimChunkDataFields({ slack: { messages: msgChunks[i] } });
-      const s = await this.provider.generateChunkSummary(subset, { ...analysisContext, source: 'slack', part: `${i+1}/${msgChunks.length}` });
-      summaries.slack.push(s);
+    
+    if (progressTracker) {
+      progressTracker.updateStepProgress(1, 0.9, 'Aggregating temporal insights...');
+      progressTracker.startStep(2, { phase: 'temporal-aggregation', chunks: chunkInsights.length });
     }
-
-    // Aggregate summaries into a compact synthetic dataset
-    let synthetic = this._buildSyntheticDataFromSummaries(summaries);
-    // Extra clamp: trim synthetic dataset if still large
-    let syntheticStr = JSON.stringify(synthetic);
-    const maxSyntheticChars = 400_000; // ~100k-130k tokens
-    if (syntheticStr.length > maxSyntheticChars) {
-      console.warn(`Synthetic summaries too large (${syntheticStr.length} chars), trimming...`);
-      syntheticStr = syntheticStr.slice(0, maxSyntheticChars);
-      try { synthetic = JSON.parse(syntheticStr); } catch { /* ignore parse errors; use trimmed string later */ }
-    }
-    if (progressTracker) progressTracker.startStep(2, { phase: 'final-aggregation' });
-    const final = await this._callLLMWithRetry(synthetic, analysisContext, progressTracker);
-    return final;
+    
+    // Step 3: Aggregate temporal insights into final analysis
+    const aggregatedData = this._buildTemporalAggregation(chunkInsights, temporalData);
+    
+    // Step 4: Generate final comprehensive insights
+    const finalInsights = await this._callLLMWithRetry(aggregatedData, {
+      ...analysisContext,
+      analysisType: 'temporal_aggregation',
+      totalChunks: chunkInsights.length,
+      temporalMetadata: temporalData.processingMetadata
+    }, progressTracker);
+    
+    return finalInsights;
   }
 
+  /**
+   * Convert temporal chunk back to structured data format for LLM analysis
+   * @private
+   */
+  _convertChunkToStructuredData(chunk) {
+    const structuredData = {
+      timeRange: {
+        start: chunk.startTime.toISOString(),
+        end: chunk.endTime.toISOString(),
+        duration: chunk.duration
+      },
+      events: chunk.events,
+      summary: chunk.summary,
+      patterns: chunk.patterns,
+      activityMetrics: chunk.activityMetrics
+    };
+
+    // Group events by source for easier LLM processing
+    const eventsBySource = chunk.eventsBySource;
+    
+    if (eventsBySource.github) {
+      structuredData.github = {
+        commits: eventsBySource.github.filter(e => e.type === 'github_commit').map(e => e.data),
+        pullRequests: eventsBySource.github.filter(e => e.type.startsWith('github_pr')).map(e => e.data)
+      };
+    }
+    
+    if (eventsBySource.linear) {
+      structuredData.linear = {
+        issues: eventsBySource.linear.map(e => e.data)
+      };
+    }
+    
+    if (eventsBySource.slack) {
+      structuredData.slack = {
+        messages: eventsBySource.slack.map(e => e.data)
+      };
+    }
+
+    return structuredData;
+  }
+
+  /**
+   * Build aggregated data from temporal chunk insights
+   * @private
+   */
+  _buildTemporalAggregation(chunkInsights, temporalData) {
+    // Create a comprehensive summary of all temporal insights
+    const aggregation = {
+      analysisType: 'temporal_progressive',
+      totalTimeRange: {
+        start: temporalData.chunks[0]?.startTime?.toISOString(),
+        end: temporalData.chunks[temporalData.chunks.length - 1]?.endTime?.toISOString()
+      },
+      totalEvents: temporalData.totalEvents,
+      totalChunks: chunkInsights.length,
+      
+      // Aggregate insights from all chunks
+      chunkSummaries: chunkInsights.map(chunk => ({
+        timeRange: chunk.timeRange,
+        eventCount: chunk.eventCount,
+        insight: typeof chunk.insight === 'object' ? chunk.insight.summary : chunk.insight,
+        patterns: chunk.patterns,
+        activityMetrics: chunk.activityMetrics,
+        error: chunk.error
+      })),
+      
+      // Overall patterns across all chunks
+      overallPatterns: this._aggregatePatterns(chunkInsights),
+      
+      // Activity trends over time
+      activityTrends: this._calculateActivityTrends(chunkInsights),
+      
+      // Key correlations and insights
+      crossChunkCorrelations: this._findCrossChunkCorrelations(chunkInsights)
+    };
+
+    // Trim if too large
+    let aggregationStr = JSON.stringify(aggregation);
+    const maxAggregationChars = 300_000; // ~75k-100k tokens
+    if (aggregationStr.length > maxAggregationChars) {
+      console.warn(`Temporal aggregation too large (${aggregationStr.length} chars), trimming...`);
+      
+      // Prioritize recent chunks and key insights (keep more for comprehensive analysis)
+      aggregation.chunkSummaries = aggregation.chunkSummaries.slice(-20); // Keep last 20 chunks
+      aggregationStr = JSON.stringify(aggregation);
+      
+      if (aggregationStr.length > maxAggregationChars) {
+        aggregationStr = aggregationStr.slice(0, maxAggregationChars - 3) + '...';
+        try { 
+          return JSON.parse(aggregationStr); 
+        } catch { 
+          return aggregation; // Return original if parsing fails
+        }
+      }
+    }
+
+    return aggregation;
+  }
+
+  /**
+   * Aggregate patterns across all chunks
+   * @private
+   */
+  _aggregatePatterns(chunkInsights) {
+    const aggregated = {
+      totalCodeReviews: 0,
+      totalIssueResolutions: 0,
+      totalTeamDiscussions: 0,
+      totalDeployments: 0,
+      workingHoursDistribution: { morning: 0, afternoon: 0, evening: 0, night: 0 },
+      commonCorrelations: []
+    };
+
+    chunkInsights.forEach(chunk => {
+      if (chunk.patterns) {
+        if (chunk.patterns.hasCodeReview) aggregated.totalCodeReviews++;
+        if (chunk.patterns.hasIssueResolution) aggregated.totalIssueResolutions++;
+        if (chunk.patterns.hasTeamDiscussion) aggregated.totalTeamDiscussions++;
+        if (chunk.patterns.hasDeploymentActivity) aggregated.totalDeployments++;
+        
+        // Aggregate working hours
+        Object.keys(aggregated.workingHoursDistribution).forEach(period => {
+          aggregated.workingHoursDistribution[period] += chunk.patterns.workingHours?.[period] || 0;
+        });
+      }
+    });
+
+    return aggregated;
+  }
+
+  /**
+   * Calculate activity trends over time
+   * @private
+   */
+  _calculateActivityTrends(chunkInsights) {
+    const trends = {
+      eventCountTrend: [],
+      userEngagementTrend: [],
+      activityTypeTrends: {
+        code: [],
+        project: [],
+        communication: []
+      }
+    };
+
+    chunkInsights.forEach((chunk, index) => {
+      trends.eventCountTrend.push({
+        chunkIndex: index,
+        timeRange: chunk.timeRange,
+        eventCount: chunk.eventCount
+      });
+
+      if (chunk.activityMetrics) {
+        trends.userEngagementTrend.push({
+          chunkIndex: index,
+          timeRange: chunk.timeRange,
+          uniqueUsers: chunk.activityMetrics.uniqueUsers
+        });
+
+        trends.activityTypeTrends.code.push(chunk.activityMetrics.codeActivity || 0);
+        trends.activityTypeTrends.project.push(chunk.activityMetrics.projectActivity || 0);
+        trends.activityTypeTrends.communication.push(chunk.activityMetrics.communicationActivity || 0);
+      }
+    });
+
+    return trends;
+  }
+
+  /**
+   * Find correlations across chunks
+   * @private
+   */
+  _findCrossChunkCorrelations(chunkInsights) {
+    const correlations = [];
+    
+    // Look for patterns that span multiple chunks
+    for (let i = 0; i < chunkInsights.length - 1; i++) {
+      const currentChunk = chunkInsights[i];
+      const nextChunk = chunkInsights[i + 1];
+      
+      // Check for activity spikes or drops
+      if (currentChunk.eventCount && nextChunk.eventCount) {
+        const changeRatio = nextChunk.eventCount / currentChunk.eventCount;
+        if (changeRatio > 2) {
+          correlations.push({
+            type: 'activity_spike',
+            fromChunk: currentChunk.timeRange,
+            toChunk: nextChunk.timeRange,
+            description: `Activity increased ${Math.round(changeRatio * 100)}% from ${currentChunk.eventCount} to ${nextChunk.eventCount} events`
+          });
+        } else if (changeRatio < 0.5) {
+          correlations.push({
+            type: 'activity_drop',
+            fromChunk: currentChunk.timeRange,
+            toChunk: nextChunk.timeRange,
+            description: `Activity decreased ${Math.round((1 - changeRatio) * 100)}% from ${currentChunk.eventCount} to ${nextChunk.eventCount} events`
+          });
+        }
+      }
+    }
+
+    return correlations.slice(0, 5); // Limit to top 5 correlations
+  }
+
+  // Legacy methods for backward compatibility
   _chunkArray(arr, size) {
     if (!Array.isArray(arr) || size <= 0) return [];
     const out = [];

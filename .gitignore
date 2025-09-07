@@ -1,0 +1,11 @@
+.DS_Store
+.vscode
+.env
+node_modules
+dist
+build
+.next
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

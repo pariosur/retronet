@@ -6,7 +6,7 @@ function Sidebar({ onNavigate }) {
     { key: 'whiteboard', label: 'Whiteboard', icon: LayoutGrid },
     { key: 'setup', label: 'Integrations', icon: Settings },
     { key: 'retros', label: 'Retros', icon: BarChart },
-    { key: 'release-notes', label: 'Release Notes', icon: FileText },
+
   ];
   return (
     <div className="w-56">
