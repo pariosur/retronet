@@ -575,7 +575,12 @@ Analysis Guidelines:
 
 7. **Actionable Depth**: Recommendations should be specific enough that the team can implement them immediately. Include who, what, when, and how.
 
-8. **Team-Level Focus**: Analyze team patterns and collective behaviors rather than individual performance. Look for systemic strengths and improvement opportunities.`;
+8. **Team-Level Focus**: Analyze team patterns and collective behaviors rather than individual performance. Look for systemic strengths and improvement opportunities.
+
+Writing Style:
+- Use a Paul Graham–like essay style: clear, direct, conversational.
+- Prefer short sentences, simple words, and concrete examples.
+- Avoid jargon, hedging, and compressed phrasing; favor clarity over density.`;
 
     const outputFormat = `
 Output Format:
@@ -583,32 +588,32 @@ Provide your analysis as a JSON object with the following structure:
 {
   "wentWell": [
     {
-      "title": "Clear, descriptive summary of what went well (8-12 words)",
-      "details": "Comprehensive analysis with specific examples, data points, and context. Include: (1) What exactly happened, (2) Why it was positive, (3) Specific evidence from the data, (4) Impact on the team. Aim for 3-5 sentences with concrete details.",
+      "title": "Clear, plain-language summary (4-8 words, active voice)",
+      "details": "1-2 short sentences with specific examples, data points, and context. Include what happened and why it was positive, with concrete evidence.",
       "source": "ai",
       "confidence": 0.85,
       "category": "technical|process|team-dynamics|communication",
-      "reasoning": "Detailed explanation of the analysis process, data sources used, and why this pattern indicates success. Include specific metrics or examples that led to this conclusion."
+      "reasoning": "Brief explanation of the analysis process and evidence used."
     }
   ],
   "didntGoWell": [
     {
-      "title": "Clear, descriptive summary of the issue or challenge (8-12 words)",
-      "details": "Thorough analysis of the problem with specific examples and context. Include: (1) What went wrong, (2) Potential root causes, (3) Specific evidence from the data, (4) Impact on team productivity or quality. Aim for 3-5 sentences with concrete details.",
+      "title": "Clear, plain-language issue summary (4-8 words, active voice)",
+      "details": "1-2 short sentences with specific examples and context. Include what went wrong and likely root cause with concrete evidence.",
       "source": "ai",
       "confidence": 0.75,
       "category": "technical|process|team-dynamics|communication",
-      "reasoning": "Detailed explanation of how this issue was identified, what data patterns revealed the problem, and why it's significant for the team."
+      "reasoning": "Brief explanation of how this issue was identified and why it matters."
     }
   ],
   "actionItems": [
     {
-      "title": "Clear, actionable recommendation (8-12 words)",
-      "details": "Specific, implementable action with clear steps and expected outcomes. Include: (1) Exactly what should be done, (2) Who should be involved, (3) Expected timeline, (4) Success metrics. Aim for 3-4 sentences with concrete next steps.",
+      "title": "Clear, actionable recommendation (4-8 words)",
+      "details": "1-2 short sentences with exactly what to do, owners, and expected outcome.",
       "source": "ai",
       "priority": "high|medium|low",
       "category": "technical|process|team-dynamics|communication",
-      "reasoning": "Explanation of why this action is recommended, how it addresses identified issues, and what positive impact it should have on the team."
+      "reasoning": "Brief explanation of why this action helps."
     }
   ]
 }
@@ -621,6 +626,7 @@ Quality Requirements for Insights:
 - Focus on actionable patterns that the team can learn from or improve upon
 - Avoid generic advice - make insights specific to this team's actual behavior and data
 - Generate the most impactful and actionable insights based on significant patterns in the data
+- When supported by the data, include at least 10 items in "wentWell", 10 in "didntGoWell", and 3 in "actionItems". If the data does not support that many high-quality items, include as many as are well-supported without fabrication.
 - Prioritize insights that will drive meaningful team discussions and concrete improvements
 - Each insight should be substantial enough to warrant discussion in a retrospective meeting
 - No artificial limits on number of insights, but emphasize relevance, specificity, and actionability over volume`;
@@ -633,37 +639,37 @@ Provide your analysis as a JSON object with the following structure:
 {
   "wentWell": [
     {
-      "title": "Clear, descriptive summary (8-15 words)",
-      "details": "Comprehensive analysis with specific examples, data points, and context. Include: (1) What exactly happened, (2) Why it was positive, (3) Specific evidence from the data, (4) Impact on the team. Aim for 4-6 sentences with concrete details and quantitative metrics.",
+      "title": "Clear, plain-language summary (4-8 words, active voice)",
+      "details": "1-2 short sentences with specific examples and metrics. Include what happened and why it was positive.",
       "source": "ai",
       "confidence": 0.85,
       "category": "technical|process|team-dynamics|communication",
-      "reasoning": "Detailed explanation of the analysis process, data sources used, and why this pattern indicates success. Include specific metrics or examples that led to this conclusion."
+      "reasoning": "Brief explanation of analysis approach and evidence."
     }
   ],
   "didntGoWell": [
     {
-      "title": "Clear, descriptive summary of the issue (8-15 words)",
-      "details": "Thorough analysis of the problem with specific examples and context. Include: (1) What went wrong, (2) Potential root causes, (3) Specific evidence from the data, (4) Impact on team productivity. Aim for 4-6 sentences with concrete details and quantitative analysis.",
+      "title": "Clear, plain-language issue summary (4-8 words, active voice)",
+      "details": "1-2 short sentences with examples and context. Include what went wrong and likely root cause.",
       "source": "ai", 
       "confidence": 0.75,
       "category": "technical|process|team-dynamics|communication",
-      "reasoning": "Detailed explanation of how this issue was identified, what data patterns revealed the problem, and why it's significant for the team."
+      "reasoning": "Brief explanation of identification and significance."
     }
   ],
   "actionItems": [
     {
-      "title": "Clear, actionable recommendation (8-15 words)",
-      "details": "Specific, implementable action with clear steps and expected outcomes. Include: (1) Exactly what should be done, (2) Who should be involved, (3) Expected timeline, (4) Success metrics. Aim for 4-5 sentences with concrete next steps.",
+      "title": "Clear, actionable recommendation (4-8 words)",
+      "details": "1-2 short sentences with what to do, owners, and expected outcome.",
       "source": "ai",
       "priority": "high|medium|low", 
       "category": "technical|process|team-dynamics|communication",
-      "reasoning": "Explanation of why this action is recommended, how it addresses identified issues, and what positive impact it should have."
+      "reasoning": "Brief explanation of why this helps."
     }
   ]
 }`;
 
-      const comprehensiveRules = `\n\nOutput Requirements:\n- Return ONLY valid JSON. No markdown, no prose, no code fences.\n- Focus on the most impactful insights that will drive meaningful team discussions and improvements\n- Prioritize insights with strong evidence and clear actionability over volume\n- Each insight must be backed by specific data points from the provided team data\n- Include concrete examples (commit messages, issue titles, Slack discussions, etc.)\n- Provide quantitative context where possible (numbers, timeframes, frequencies)\n- Focus on actionable patterns that reveal team dynamics and productivity insights\n- Make insights specific to this team's actual behavior and data patterns\n- Prioritize quality and depth over quantity, but don't artificially limit the number of insights`;
+      const comprehensiveRules = `\n\nOutput Requirements:\n- Return ONLY valid JSON. No markdown, no prose, no code fences.\n- Focus on the most impactful insights that will drive meaningful team discussions and improvements\n- Prioritize insights with strong evidence and clear actionability over volume\n- Each insight must be backed by specific data points from the provided team data\n- Include concrete examples (commit messages, issue titles, Slack discussions, etc.)\n- Provide quantitative context where possible (numbers, timeframes, frequencies)\n- Focus on actionable patterns that reveal team dynamics and productivity insights\n- Make insights specific to this team's actual behavior and data patterns\n- Use a Paul Graham–like essay style: clear, direct, conversational; short sentences; simple words; concrete examples; minimal jargon.\n- When supported by the data, include at least 10 items in \"wentWell\" and 10 in \"didntGoWell\".\n- Provide exactly 4 high-quality \"actionItems\".\n- Prioritize quality and depth over quantity, but don't artificially limit the number of insights`;
 
       return `${basePrompt}
 

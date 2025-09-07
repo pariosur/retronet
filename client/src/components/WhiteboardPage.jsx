@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { LayoutGrid, Sparkles, Settings, BarChart, Edit2, Trash2, Save } from 'lucide-react';
 import AppLayout from './AppLayout';
 import DateRangePicker from './DateRangePicker';
-import ShinyText from './ShinyText';
+ 
 import axios from 'axios';
 
 function DraggableCard({ item, onEdit, onDelete }) {
@@ -15,14 +15,11 @@ function DraggableCard({ item, onEdit, onDelete }) {
     setIsEditing(false);
   };
 
-  const isAI = item.source === 'ai';
-
-  const aiStyle = undefined; // remove silver overlay for clarity
+  
 
   return (
     <div
       className={`relative overflow-hidden bg-gray-50 border ${item.isSample ? 'border-dashed' : 'border-solid'} border-gray-200 rounded-lg p-3 text-sm text-gray-800 group`}
-      style={aiStyle}
     >
       {isEditing ? (
         <input
@@ -41,11 +38,7 @@ function DraggableCard({ item, onEdit, onDelete }) {
         />
       ) : (
         <div className="relative flex items-center justify-between">
-          {isAI ? (
-            <ShinyText text={item.text} className={`${item.isSample ? 'text-gray-600' : ''}`} speed={4} once lifetimeMs={1800} />
-          ) : (
-            <span className={`${item.isSample ? 'text-gray-600' : ''}`}>{item.text}</span>
-          )}
+          <span className={`${item.isSample ? 'text-gray-600' : ''}`}>{item.text}</span>
           <div className="flex items-center gap-2">
             {item.isSample && (
               <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-gray-200 text-gray-700">Sample</span>
@@ -179,39 +172,31 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
 
   // Removed autosave of retros list; replaced with explicit Save action
 
-  const saveRetro = () => {
+  const persistRetroToLocalStorage = (boardToPersist, options = { showStatus: true }) => {
     try {
-      setSaveStatus('saving');
-      // Ensure we have an id for this retro
+      if (options.showStatus) setSaveStatus('saving');
       let id = currentId;
       if (!id) {
         id = `r-${Date.now()}`;
         setCurrentId(id);
         localStorage.setItem('retromate_current_id', id);
       }
-
       const start = dateRange?.start; const end = dateRange?.end;
       const retrosRaw = JSON.parse(localStorage.getItem('retromate_retros') || '[]');
       const retros = Array.isArray(retrosRaw) ? retrosRaw.map(r => (r.id ? r : { id: r.key || `legacy-${Date.now()}`, ...r })) : [];
-      const updated = {
-        id,
-        dateRange: { start, end },
-        title: title || 'Retro',
-        board,
-        savedAt: new Date().toISOString()
-      };
+      const updated = { id, dateRange: { start, end }, title: title || 'Retro', board: boardToPersist, savedAt: new Date().toISOString() };
       const next = retros.filter(r => (r.id || r.key) !== id);
       next.unshift(updated);
       localStorage.setItem('retromate_retros', JSON.stringify(next));
-      // Persist ephemeral hydration of the current working board/title for convenience
-      localStorage.setItem('retromate_board', JSON.stringify(board));
+      localStorage.setItem('retromate_board', JSON.stringify(boardToPersist));
       localStorage.setItem('retromate_title', title || '');
-      setSaveStatus('saved');
-      setTimeout(() => setSaveStatus(''), 1200);
+      if (options.showStatus) { setSaveStatus('saved'); setTimeout(() => setSaveStatus(''), 1200); }
     } catch {
-      setSaveStatus('');
+      if (options.showStatus) setSaveStatus('');
     }
   };
+
+  const saveRetro = () => { persistRetroToLocalStorage(board, { showStatus: true }); };
 
   
 
@@ -255,15 +240,20 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
       const aiWW = (data.wentWell || []).map(i => i.title);
       const aiDW = (data.didntGoWell || []).map(i => i.title);
       const aiAI = (data.actionItems || []).map(i => i.title);
-      setBoard(prev => ({
-        wentWell: [...prev.wentWell.filter(i => i.source === 'user' || !i.source && !i.isSample), ...toItems(aiWW).map(x => ({ ...x, source: 'ai' }))],
-        didntGoWell: [...prev.didntGoWell.filter(i => i.source === 'user' || !i.source && !i.isSample), ...toItems(aiDW).map(x => ({ ...x, source: 'ai' }))],
-        actionItems: [...prev.actionItems.filter(i => i.source === 'user' || !i.source && !i.isSample), ...toItems(aiAI).map(x => ({ ...x, source: 'ai' }))]
-      }));
+      let nextBoardLocal = null;
+      setBoard(prev => {
+        const computed = {
+          wentWell: [...prev.wentWell.filter(i => i.source === 'user' || !i.source && !i.isSample), ...toItems(aiWW).map(x => ({ ...x, source: 'ai' }))],
+          didntGoWell: [...prev.didntGoWell.filter(i => i.source === 'user' || !i.source && !i.isSample), ...toItems(aiDW).map(x => ({ ...x, source: 'ai' }))],
+          actionItems: [...prev.actionItems.filter(i => i.source === 'user' || !i.source && !i.isSample), ...toItems(aiAI).map(x => ({ ...x, source: 'ai' }))]
+        };
+        nextBoardLocal = computed;
+        return computed;
+      });
       const ts = new Date().toISOString();
       setLastGeneratedAt(ts);
       localStorage.setItem('retromate_last_generated', ts);
-      // Note: no auto-save here. Use the Save Retro button to persist.
+      if (nextBoardLocal) { persistRetroToLocalStorage(nextBoardLocal, { showStatus: false }); }
     } catch (e) {
       alert(e.response?.data?.error || 'Failed to generate retro');
     } finally {

@@ -187,7 +187,7 @@ export class OpenAIProvider extends BaseLLMProvider {
                   properties: {
                     wentWell: {
                       type: 'array',
-                      minItems: 1,
+                      minItems: 10,
                       items: {
                         type: 'object',
                         additionalProperties: false,
@@ -204,7 +204,7 @@ export class OpenAIProvider extends BaseLLMProvider {
                     },
                     didntGoWell: {
                       type: 'array',
-                      minItems: 1,
+                      minItems: 10,
                       items: {
                         type: 'object',
                         additionalProperties: false,
@@ -222,6 +222,7 @@ export class OpenAIProvider extends BaseLLMProvider {
                     actionItems: {
                       type: 'array',
                       minItems: 1,
+                      maxItems: 4,
                       items: {
                         type: 'object',
                         additionalProperties: false,
@@ -267,7 +268,7 @@ export class OpenAIProvider extends BaseLLMProvider {
                     properties: {
                       wentWell: {
                         type: 'array',
-                        minItems: 1,
+                        minItems: 10,
                         items: {
                           type: 'object',
                           additionalProperties: false,
@@ -284,7 +285,7 @@ export class OpenAIProvider extends BaseLLMProvider {
                       },
                       didntGoWell: {
                         type: 'array',
-                        minItems: 1,
+                        minItems: 10,
                         items: {
                           type: 'object',
                           additionalProperties: false,
@@ -302,6 +303,7 @@ export class OpenAIProvider extends BaseLLMProvider {
                       actionItems: {
                         type: 'array',
                         minItems: 1,
+                        maxItems: 4,
                         items: {
                           type: 'object',
                           additionalProperties: false,
@@ -346,7 +348,7 @@ export class OpenAIProvider extends BaseLLMProvider {
                       properties: {
                         wentWell: {
                           type: 'array',
-                          minItems: 1,
+                          minItems: 10,
                           items: {
                             type: 'object',
                             additionalProperties: false,
@@ -363,7 +365,7 @@ export class OpenAIProvider extends BaseLLMProvider {
                         },
                         didntGoWell: {
                           type: 'array',
-                          minItems: 1,
+                          minItems: 10,
                           items: {
                             type: 'object',
                             additionalProperties: false,
@@ -381,6 +383,7 @@ export class OpenAIProvider extends BaseLLMProvider {
                         actionItems: {
                           type: 'array',
                           minItems: 1,
+                          maxItems: 4,
                           items: {
                             type: 'object',
                             additionalProperties: false,
