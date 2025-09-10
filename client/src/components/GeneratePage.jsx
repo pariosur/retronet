@@ -1,11 +1,15 @@
-import { useEffect, useState } from 'react';
-import { Loader2, ArrowLeft, Sparkles } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Loader2, ArrowLeft, Sparkles, Clock } from 'lucide-react';
 import axios from 'axios';
 import AppLayout from './AppLayout';
 
 function GeneratePage({ config, onRetroGenerated, onBack, autoStart = false, onNavigate }) {
   const [isGenerating, setIsGenerating] = useState(false);
-  const [progress, setProgress] = useState('');
+  const [progressText, setProgressText] = useState('');
+  const [progressPct, setProgressPct] = useState(0);
+  const [etaMs, setEtaMs] = useState(null);
+  
+  const pollRef = useRef(null);
 
   useEffect(() => {
     if (autoStart && !isGenerating) {
@@ -14,35 +18,94 @@ function GeneratePage({ config, onRetroGenerated, onBack, autoStart = false, onN
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoStart]);
 
+  const formatEta = (ms) => {
+    if (!ms || ms <= 0) return null;
+    const totalSeconds = Math.ceil(ms / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  };
+
+  const friendlyStepLabel = (stepIndex) => {
+    switch (stepIndex) {
+      case 0: return 'Getting things ready…';
+      case 1: return 'Preparing AI Analysis…';
+      case 2: return 'AI is thinking…';
+      case 3: return 'Polishing the insights…';
+      case 4: return 'Wrapping up…';
+      default: return 'Working…';
+    }
+  };
+
+  const startProgressPolling = (sid) => {
+    clearInterval(pollRef.current);
+    pollRef.current = setInterval(async () => {
+      try {
+        const res = await fetch(`http://localhost:3001/api/progress/${sid}`);
+        if (!res.ok) {
+          // If tracker not found, keep a gentle indeterminate state
+          return;
+        }
+        const data = await res.json();
+        const pct = data?.progress?.percentage ?? 0;
+        setProgressPct(pct);
+        const currentIndex = data?.currentStep?.index ?? 0;
+        setProgressText(`${friendlyStepLabel(currentIndex)} (${data?.progress?.completedSteps || 0}/${data?.progress?.totalSteps || 0})`);
+        setEtaMs(data?.progress?.estimatedTimeRemaining ?? null);
+        if (data?.completed) {
+          clearInterval(pollRef.current);
+        }
+      } catch {
+        // Swallow polling errors; UI stays in current state
+      }
+    }, 750);
+  };
+
+  const stopProgressPolling = () => {
+    clearInterval(pollRef.current);
+    pollRef.current = null;
+  };
+
   const handleGenerate = async () => {
     setIsGenerating(true);
-    
+    setProgressText('Starting…');
+    setProgressPct(0);
+    setEtaMs(null);
+
+    const sid = (window.crypto?.randomUUID && window.crypto.randomUUID()) || `sess_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+    startProgressPolling(sid);
+
     try {
-      // Simulate progress updates
-      setProgress('Analyzing Linear tickets...');
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      setProgress('Processing Slack messages...');
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      setProgress('Reviewing GitHub activity...');
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      setProgress('Generating insights...');
-      
+      // Read demo toggle and variant from localStorage
+      let useDemo = true;
+      let demoVariant = 'large';
+      try {
+        const raw = localStorage.getItem('retromate.useDemo');
+        useDemo = raw === null ? true : (raw === 'true');
+        const rawVar = localStorage.getItem('retromate.demoVariant');
+        if (rawVar === 'small' || rawVar === 'large') demoVariant = rawVar;
+      } catch {
+        // Ignore localStorage access issues (e.g., privacy mode)
+      }
+
       const response = await axios.post('http://localhost:3001/api/generate-retro', {
         dateRange: config.dateRange,
-        teamMembers: config.teamMembers
+        teamMembers: config.teamMembers,
+        sessionId: sid,
+        useDemo,
+        demoVariant,
       });
-      
       onRetroGenerated(response.data);
     } catch (error) {
       console.error('Error generating retro:', error);
       const errorMessage = error.response?.data?.error || 'Failed to generate retro. Please try again.';
       alert(errorMessage);
     } finally {
+      stopProgressPolling();
       setIsGenerating(false);
-      setProgress('');
+      setProgressText('');
+      setProgressPct(0);
+      setEtaMs(null);
     }
   };
 
@@ -85,9 +148,19 @@ function GeneratePage({ config, onRetroGenerated, onBack, autoStart = false, onN
               <Loader2 className="w-4 h-4 animate-spin" />
               <span className="text-sm font-medium">Generating your retro…</span>
             </div>
-            <p className="text-sm text-gray-600 mb-4">{progress}</p>
-            <div className="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
-              <div className="bg-gray-900 h-1.5 w-1/2 animate-pulse"></div>
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-sm text-gray-600">{progressText}</p>
+              {etaMs != null && (
+                <span className="flex items-center gap-1 text-xs text-gray-500">
+                  <Clock className="w-3 h-3" /> ETA {formatEta(etaMs)}
+                </span>
+              )}
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+              <div
+                className="bg-gray-900 h-2 transition-all"
+                style={{ width: `${Math.min(100, Math.max(0, progressPct))}%` }}
+              />
             </div>
           </div>
         ) : (

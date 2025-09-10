@@ -1,0 +1,2932 @@
+{
+  "commits": [
+    {
+      "sha": "f2a2e0a",
+      "commit": {
+        "author": {
+          "name": "Eric Wu",
+          "email": "eric@example.com",
+          "date": "2025-08-27T01:48:55.691Z"
+        },
+        "committer": {
+          "name": "Eric Wu",
+          "email": "eric@example.com",
+          "date": "2025-08-27T01:48:55.691Z"
+        },
+        "message": "chore: deploy v1.2.x to production"
+      },
+      "author": {
+        "login": "eric",
+        "id": 1005,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1005?v=4",
+        "html_url": "https://github.com/eric"
+      },
+      "html_url": "https://github.com/acme/mobile/commit/f2a2e0a",
+      "url": "https://api.github.com/repos/acme/mobile/commits/f2a2e0a",
+      "repo": "acme/mobile",
+      "stats": {
+        "additions": 12,
+        "deletions": 1,
+        "total": 13
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp16.jsx",
+          "additions": 4,
+          "deletions": 1,
+          "changes": 13
+        }
+      ]
+    },
+    {
+      "sha": "30df65d",
+      "commit": {
+        "author": {
+          "name": "Bob Smith",
+          "email": "bob@example.com",
+          "date": "2025-09-03T08:29:43.542Z"
+        },
+        "committer": {
+          "name": "Bob Smith",
+          "email": "bob@example.com",
+          "date": "2025-09-03T08:29:43.542Z"
+        },
+        "message": "perf: cache computed results"
+      },
+      "author": {
+        "login": "bob",
+        "id": 1002,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1002?v=4",
+        "html_url": "https://github.com/bob"
+      },
+      "html_url": "https://github.com/acme/api/commit/30df65d",
+      "url": "https://api.github.com/repos/acme/api/commits/30df65d",
+      "repo": "acme/api",
+      "stats": {
+        "additions": 555,
+        "deletions": 59,
+        "total": 614
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp16.jsx",
+          "additions": 153,
+          "deletions": 25,
+          "changes": 614
+        }
+      ]
+    },
+    {
+      "sha": "3acae5a",
+      "commit": {
+        "author": {
+          "name": "Bob Smith",
+          "email": "bob@example.com",
+          "date": "2025-08-30T22:03:31.842Z"
+        },
+        "committer": {
+          "name": "Bob Smith",
+          "email": "bob@example.com",
+          "date": "2025-08-30T22:03:31.842Z"
+        },
+        "message": "chore: deploy v1.2.x to production"
+      },
+      "author": {
+        "login": "bob",
+        "id": 1002,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1002?v=4",
+        "html_url": "https://github.com/bob"
+      },
+      "html_url": "https://github.com/acme/app/commit/3acae5a",
+      "url": "https://api.github.com/repos/acme/app/commits/3acae5a",
+      "repo": "acme/app",
+      "stats": {
+        "additions": 511,
+        "deletions": 198,
+        "total": 709
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp19.jsx",
+          "additions": 374,
+          "deletions": 29,
+          "changes": 709
+        }
+      ]
+    },
+    {
+      "sha": "879a895",
+      "commit": {
+        "author": {
+          "name": "Dana Lee",
+          "email": "dana@example.com",
+          "date": "2025-08-27T06:22:41.965Z"
+        },
+        "committer": {
+          "name": "Dana Lee",
+          "email": "dana@example.com",
+          "date": "2025-08-27T06:22:41.965Z"
+        },
+        "message": "refactor: extract auth middleware"
+      },
+      "author": {
+        "login": "dana",
+        "id": 1004,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1004?v=4",
+        "html_url": "https://github.com/dana"
+      },
+      "html_url": "https://github.com/acme/app/commit/879a895",
+      "url": "https://api.github.com/repos/acme/app/commits/879a895",
+      "repo": "acme/app",
+      "stats": {
+        "additions": 192,
+        "deletions": 82,
+        "total": 274
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp8.jsx",
+          "additions": 180,
+          "deletions": 26,
+          "changes": 274
+        }
+      ]
+    },
+    {
+      "sha": "34261eb",
+      "commit": {
+        "author": {
+          "name": "Eric Wu",
+          "email": "eric@example.com",
+          "date": "2025-09-03T12:01:38.779Z"
+        },
+        "committer": {
+          "name": "Eric Wu",
+          "email": "eric@example.com",
+          "date": "2025-09-03T12:01:38.779Z"
+        },
+        "message": "docs: improve README"
+      },
+      "author": {
+        "login": "eric",
+        "id": 1005,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1005?v=4",
+        "html_url": "https://github.com/eric"
+      },
+      "html_url": "https://github.com/acme/app/commit/34261eb",
+      "url": "https://api.github.com/repos/acme/app/commits/34261eb",
+      "repo": "acme/app",
+      "stats": {
+        "additions": 433,
+        "deletions": 169,
+        "total": 602
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp1.jsx",
+          "additions": 132,
+          "deletions": 63,
+          "changes": 602
+        }
+      ]
+    },
+    {
+      "sha": "1afeba5",
+      "commit": {
+        "author": {
+          "name": "Charlie Kim",
+          "email": "charlie@example.com",
+          "date": "2025-09-03T19:57:53.330Z"
+        },
+        "committer": {
+          "name": "Charlie Kim",
+          "email": "charlie@example.com",
+          "date": "2025-09-03T19:57:53.330Z"
+        },
+        "message": "ci: speed up build by caching node_modules"
+      },
+      "author": {
+        "login": "charlie",
+        "id": 1003,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1003?v=4",
+        "html_url": "https://github.com/charlie"
+      },
+      "html_url": "https://github.com/acme/api/commit/1afeba5",
+      "url": "https://api.github.com/repos/acme/api/commits/1afeba5",
+      "repo": "acme/api",
+      "stats": {
+        "additions": 778,
+        "deletions": 28,
+        "total": 806
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp6.jsx",
+          "additions": 454,
+          "deletions": 1,
+          "changes": 806
+        }
+      ]
+    },
+    {
+      "sha": "c40f3ca",
+      "commit": {
+        "author": {
+          "name": "Bob Smith",
+          "email": "bob@example.com",
+          "date": "2025-08-27T09:44:36.400Z"
+        },
+        "committer": {
+          "name": "Bob Smith",
+          "email": "bob@example.com",
+          "date": "2025-08-27T09:44:36.400Z"
+        },
+        "message": "ci: speed up build by caching node_modules"
+      },
+      "author": {
+        "login": "bob",
+        "id": 1002,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1002?v=4",
+        "html_url": "https://github.com/bob"
+      },
+      "html_url": "https://github.com/acme/mobile/commit/c40f3ca",
+      "url": "https://api.github.com/repos/acme/mobile/commits/c40f3ca",
+      "repo": "acme/mobile",
+      "stats": {
+        "additions": 803,
+        "deletions": 195,
+        "total": 998
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp4.jsx",
+          "additions": 129,
+          "deletions": 81,
+          "changes": 998
+        }
+      ]
+    },
+    {
+      "sha": "08da04e",
+      "commit": {
+        "author": {
+          "name": "Charlie Kim",
+          "email": "charlie@example.com",
+          "date": "2025-08-27T00:08:26.916Z"
+        },
+        "committer": {
+          "name": "Charlie Kim",
+          "email": "charlie@example.com",
+          "date": "2025-08-27T00:08:26.916Z"
+        },
+        "message": "docs: improve README"
+      },
+      "author": {
+        "login": "charlie",
+        "id": 1003,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1003?v=4",
+        "html_url": "https://github.com/charlie"
+      },
+      "html_url": "https://github.com/acme/mobile/commit/08da04e",
+      "url": "https://api.github.com/repos/acme/mobile/commits/08da04e",
+      "repo": "acme/mobile",
+      "stats": {
+        "additions": 585,
+        "deletions": 208,
+        "total": 793
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp8.jsx",
+          "additions": 99,
+          "deletions": 187,
+          "changes": 793
+        }
+      ]
+    },
+    {
+      "sha": "ab7646a",
+      "commit": {
+        "author": {
+          "name": "Eric Wu",
+          "email": "eric@example.com",
+          "date": "2025-09-03T09:50:07.465Z"
+        },
+        "committer": {
+          "name": "Eric Wu",
+          "email": "eric@example.com",
+          "date": "2025-09-03T09:50:07.465Z"
+        },
+        "message": "refactor: extract auth middleware"
+      },
+      "author": {
+        "login": "eric",
+        "id": 1005,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1005?v=4",
+        "html_url": "https://github.com/eric"
+      },
+      "html_url": "https://github.com/acme/mobile/commit/ab7646a",
+      "url": "https://api.github.com/repos/acme/mobile/commits/ab7646a",
+      "repo": "acme/mobile",
+      "stats": {
+        "additions": 406,
+        "deletions": 265,
+        "total": 671
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp9.jsx",
+          "additions": 24,
+          "deletions": 101,
+          "changes": 671
+        }
+      ]
+    },
+    {
+      "sha": "3952b43",
+      "commit": {
+        "author": {
+          "name": "Charlie Kim",
+          "email": "charlie@example.com",
+          "date": "2025-09-04T13:03:40.798Z"
+        },
+        "committer": {
+          "name": "Charlie Kim",
+          "email": "charlie@example.com",
+          "date": "2025-09-04T13:03:40.798Z"
+        },
+        "message": "feat: add login form validation"
+      },
+      "author": {
+        "login": "charlie",
+        "id": 1003,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1003?v=4",
+        "html_url": "https://github.com/charlie"
+      },
+      "html_url": "https://github.com/acme/app/commit/3952b43",
+      "url": "https://api.github.com/repos/acme/app/commits/3952b43",
+      "repo": "acme/app",
+      "stats": {
+        "additions": 434,
+        "deletions": 80,
+        "total": 514
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp16.jsx",
+          "additions": 138,
+          "deletions": 22,
+          "changes": 514
+        }
+      ]
+    },
+    {
+      "sha": "4158aad",
+      "commit": {
+        "author": {
+          "name": "Alice Johnson",
+          "email": "alice@example.com",
+          "date": "2025-09-03T23:27:27.391Z"
+        },
+        "committer": {
+          "name": "Alice Johnson",
+          "email": "alice@example.com",
+          "date": "2025-09-03T23:27:27.391Z"
+        },
+        "message": "chore: update dependencies"
+      },
+      "author": {
+        "login": "alice",
+        "id": 1001,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1001?v=4",
+        "html_url": "https://github.com/alice"
+      },
+      "html_url": "https://github.com/acme/api/commit/4158aad",
+      "url": "https://api.github.com/repos/acme/api/commits/4158aad",
+      "repo": "acme/api",
+      "stats": {
+        "additions": 179,
+        "deletions": 36,
+        "total": 215
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp5.jsx",
+          "additions": 80,
+          "deletions": 19,
+          "changes": 215
+        }
+      ]
+    },
+    {
+      "sha": "a9203da",
+      "commit": {
+        "author": {
+          "name": "Alice Johnson",
+          "email": "alice@example.com",
+          "date": "2025-08-27T14:54:48.566Z"
+        },
+        "committer": {
+          "name": "Alice Johnson",
+          "email": "alice@example.com",
+          "date": "2025-08-27T14:54:48.566Z"
+        },
+        "message": "perf: cache computed results"
+      },
+      "author": {
+        "login": "alice",
+        "id": 1001,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1001?v=4",
+        "html_url": "https://github.com/alice"
+      },
+      "html_url": "https://github.com/acme/mobile/commit/a9203da",
+      "url": "https://api.github.com/repos/acme/mobile/commits/a9203da",
+      "repo": "acme/mobile",
+      "stats": {
+        "additions": 3,
+        "deletions": 1,
+        "total": 4
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp11.jsx",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 4
+        }
+      ]
+    },
+    {
+      "sha": "bfb654c",
+      "commit": {
+        "author": {
+          "name": "Dana Lee",
+          "email": "dana@example.com",
+          "date": "2025-09-06T00:49:56.318Z"
+        },
+        "committer": {
+          "name": "Dana Lee",
+          "email": "dana@example.com",
+          "date": "2025-09-06T00:49:56.318Z"
+        },
+        "message": "ci: speed up build by caching node_modules"
+      },
+      "author": {
+        "login": "dana",
+        "id": 1004,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1004?v=4",
+        "html_url": "https://github.com/dana"
+      },
+      "html_url": "https://github.com/acme/app/commit/bfb654c",
+      "url": "https://api.github.com/repos/acme/app/commits/bfb654c",
+      "repo": "acme/app",
+      "stats": {
+        "additions": 141,
+        "deletions": 58,
+        "total": 199
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp19.jsx",
+          "additions": 35,
+          "deletions": 37,
+          "changes": 199
+        }
+      ]
+    },
+    {
+      "sha": "3992fc4",
+      "commit": {
+        "author": {
+          "name": "Eric Wu",
+          "email": "eric@example.com",
+          "date": "2025-09-03T05:48:02.585Z"
+        },
+        "committer": {
+          "name": "Eric Wu",
+          "email": "eric@example.com",
+          "date": "2025-09-03T05:48:02.585Z"
+        },
+        "message": "ci: speed up build by caching node_modules"
+      },
+      "author": {
+        "login": "eric",
+        "id": 1005,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1005?v=4",
+        "html_url": "https://github.com/eric"
+      },
+      "html_url": "https://github.com/acme/api/commit/3992fc4",
+      "url": "https://api.github.com/repos/acme/api/commits/3992fc4",
+      "repo": "acme/api",
+      "stats": {
+        "additions": 750,
+        "deletions": 9,
+        "total": 759
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp8.jsx",
+          "additions": 521,
+          "deletions": 2,
+          "changes": 759
+        }
+      ]
+    },
+    {
+      "sha": "4487897",
+      "commit": {
+        "author": {
+          "name": "Charlie Kim",
+          "email": "charlie@example.com",
+          "date": "2025-09-01T16:16:05.113Z"
+        },
+        "committer": {
+          "name": "Charlie Kim",
+          "email": "charlie@example.com",
+          "date": "2025-09-01T16:16:05.113Z"
+        },
+        "message": "chore: deploy v1.2.x to production"
+      },
+      "author": {
+        "login": "charlie",
+        "id": 1003,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1003?v=4",
+        "html_url": "https://github.com/charlie"
+      },
+      "html_url": "https://github.com/acme/mobile/commit/4487897",
+      "url": "https://api.github.com/repos/acme/mobile/commits/4487897",
+      "repo": "acme/mobile",
+      "stats": {
+        "additions": 82,
+        "deletions": 43,
+        "total": 125
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp2.jsx",
+          "additions": 50,
+          "deletions": 41,
+          "changes": 125
+        }
+      ]
+    },
+    {
+      "sha": "8c23b9a",
+      "commit": {
+        "author": {
+          "name": "Bob Smith",
+          "email": "bob@example.com",
+          "date": "2025-09-06T12:08:57.973Z"
+        },
+        "committer": {
+          "name": "Bob Smith",
+          "email": "bob@example.com",
+          "date": "2025-09-06T12:08:57.973Z"
+        },
+        "message": "docs: improve README"
+      },
+      "author": {
+        "login": "bob",
+        "id": 1002,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1002?v=4",
+        "html_url": "https://github.com/bob"
+      },
+      "html_url": "https://github.com/acme/app/commit/8c23b9a",
+      "url": "https://api.github.com/repos/acme/app/commits/8c23b9a",
+      "repo": "acme/app",
+      "stats": {
+        "additions": 364,
+        "deletions": 168,
+        "total": 532
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp16.jsx",
+          "additions": 176,
+          "deletions": 56,
+          "changes": 532
+        }
+      ]
+    },
+    {
+      "sha": "cbf85d4",
+      "commit": {
+        "author": {
+          "name": "Alice Johnson",
+          "email": "alice@example.com",
+          "date": "2025-08-26T11:15:22.668Z"
+        },
+        "committer": {
+          "name": "Alice Johnson",
+          "email": "alice@example.com",
+          "date": "2025-08-26T11:15:22.668Z"
+        },
+        "message": "chore: deploy v1.2.x to production"
+      },
+      "author": {
+        "login": "alice",
+        "id": 1001,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1001?v=4",
+        "html_url": "https://github.com/alice"
+      },
+      "html_url": "https://github.com/acme/api/commit/cbf85d4",
+      "url": "https://api.github.com/repos/acme/api/commits/cbf85d4",
+      "repo": "acme/api",
+      "stats": {
+        "additions": 293,
+        "deletions": 174,
+        "total": 467
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp18.jsx",
+          "additions": 49,
+          "deletions": 118,
+          "changes": 467
+        }
+      ]
+    },
+    {
+      "sha": "961e217",
+      "commit": {
+        "author": {
+          "name": "Alice Johnson",
+          "email": "alice@example.com",
+          "date": "2025-09-05T10:55:54.674Z"
+        },
+        "committer": {
+          "name": "Alice Johnson",
+          "email": "alice@example.com",
+          "date": "2025-09-05T10:55:54.674Z"
+        },
+        "message": "perf: cache computed results"
+      },
+      "author": {
+        "login": "alice",
+        "id": 1001,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1001?v=4",
+        "html_url": "https://github.com/alice"
+      },
+      "html_url": "https://github.com/acme/mobile/commit/961e217",
+      "url": "https://api.github.com/repos/acme/mobile/commits/961e217",
+      "repo": "acme/mobile",
+      "stats": {
+        "additions": 182,
+        "deletions": 115,
+        "total": 297
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp10.jsx",
+          "additions": 7,
+          "deletions": 90,
+          "changes": 297
+        }
+      ]
+    },
+    {
+      "sha": "e158b1e",
+      "commit": {
+        "author": {
+          "name": "Eric Wu",
+          "email": "eric@example.com",
+          "date": "2025-08-28T13:08:45.102Z"
+        },
+        "committer": {
+          "name": "Eric Wu",
+          "email": "eric@example.com",
+          "date": "2025-08-28T13:08:45.102Z"
+        },
+        "message": "chore: update dependencies"
+      },
+      "author": {
+        "login": "eric",
+        "id": 1005,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1005?v=4",
+        "html_url": "https://github.com/eric"
+      },
+      "html_url": "https://github.com/acme/api/commit/e158b1e",
+      "url": "https://api.github.com/repos/acme/api/commits/e158b1e",
+      "repo": "acme/api",
+      "stats": {
+        "additions": 887,
+        "deletions": 206,
+        "total": 1093
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp10.jsx",
+          "additions": 127,
+          "deletions": 187,
+          "changes": 1093
+        }
+      ]
+    },
+    {
+      "sha": "ba2b076",
+      "commit": {
+        "author": {
+          "name": "Charlie Kim",
+          "email": "charlie@example.com",
+          "date": "2025-09-06T05:44:54.622Z"
+        },
+        "committer": {
+          "name": "Charlie Kim",
+          "email": "charlie@example.com",
+          "date": "2025-09-06T05:44:54.622Z"
+        },
+        "message": "chore: deploy v1.2.x to production"
+      },
+      "author": {
+        "login": "charlie",
+        "id": 1003,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1003?v=4",
+        "html_url": "https://github.com/charlie"
+      },
+      "html_url": "https://github.com/acme/app/commit/ba2b076",
+      "url": "https://api.github.com/repos/acme/app/commits/ba2b076",
+      "repo": "acme/app",
+      "stats": {
+        "additions": 795,
+        "deletions": 293,
+        "total": 1088
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp18.jsx",
+          "additions": 98,
+          "deletions": 20,
+          "changes": 1088
+        }
+      ]
+    },
+    {
+      "sha": "0f51b1f",
+      "commit": {
+        "author": {
+          "name": "Dana Lee",
+          "email": "dana@example.com",
+          "date": "2025-09-03T17:34:27.326Z"
+        },
+        "committer": {
+          "name": "Dana Lee",
+          "email": "dana@example.com",
+          "date": "2025-09-03T17:34:27.326Z"
+        },
+        "message": "perf: cache computed results"
+      },
+      "author": {
+        "login": "dana",
+        "id": 1004,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1004?v=4",
+        "html_url": "https://github.com/dana"
+      },
+      "html_url": "https://github.com/acme/mobile/commit/0f51b1f",
+      "url": "https://api.github.com/repos/acme/mobile/commits/0f51b1f",
+      "repo": "acme/mobile",
+      "stats": {
+        "additions": 223,
+        "deletions": 208,
+        "total": 431
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp15.jsx",
+          "additions": 187,
+          "deletions": 143,
+          "changes": 431
+        }
+      ]
+    },
+    {
+      "sha": "368926f",
+      "commit": {
+        "author": {
+          "name": "Bob Smith",
+          "email": "bob@example.com",
+          "date": "2025-08-30T22:32:45.558Z"
+        },
+        "committer": {
+          "name": "Bob Smith",
+          "email": "bob@example.com",
+          "date": "2025-08-30T22:32:45.558Z"
+        },
+        "message": "refactor: extract auth middleware"
+      },
+      "author": {
+        "login": "bob",
+        "id": 1002,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1002?v=4",
+        "html_url": "https://github.com/bob"
+      },
+      "html_url": "https://github.com/acme/app/commit/368926f",
+      "url": "https://api.github.com/repos/acme/app/commits/368926f",
+      "repo": "acme/app",
+      "stats": {
+        "additions": 629,
+        "deletions": 177,
+        "total": 806
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp6.jsx",
+          "additions": 600,
+          "deletions": 99,
+          "changes": 806
+        }
+      ]
+    },
+    {
+      "sha": "15e87d5",
+      "commit": {
+        "author": {
+          "name": "Dana Lee",
+          "email": "dana@example.com",
+          "date": "2025-09-03T03:20:41.965Z"
+        },
+        "committer": {
+          "name": "Dana Lee",
+          "email": "dana@example.com",
+          "date": "2025-09-03T03:20:41.965Z"
+        },
+        "message": "chore: deploy v1.2.x to production"
+      },
+      "author": {
+        "login": "dana",
+        "id": 1004,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1004?v=4",
+        "html_url": "https://github.com/dana"
+      },
+      "html_url": "https://github.com/acme/api/commit/15e87d5",
+      "url": "https://api.github.com/repos/acme/api/commits/15e87d5",
+      "repo": "acme/api",
+      "stats": {
+        "additions": 586,
+        "deletions": 265,
+        "total": 851
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp10.jsx",
+          "additions": 298,
+          "deletions": 76,
+          "changes": 851
+        }
+      ]
+    },
+    {
+      "sha": "e2d01ae",
+      "commit": {
+        "author": {
+          "name": "Eric Wu",
+          "email": "eric@example.com",
+          "date": "2025-08-31T22:28:39.283Z"
+        },
+        "committer": {
+          "name": "Eric Wu",
+          "email": "eric@example.com",
+          "date": "2025-08-31T22:28:39.283Z"
+        },
+        "message": "ci: speed up build by caching node_modules"
+      },
+      "author": {
+        "login": "eric",
+        "id": 1005,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1005?v=4",
+        "html_url": "https://github.com/eric"
+      },
+      "html_url": "https://github.com/acme/mobile/commit/e2d01ae",
+      "url": "https://api.github.com/repos/acme/mobile/commits/e2d01ae",
+      "repo": "acme/mobile",
+      "stats": {
+        "additions": 309,
+        "deletions": 225,
+        "total": 534
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp1.jsx",
+          "additions": 141,
+          "deletions": 47,
+          "changes": 534
+        }
+      ]
+    },
+    {
+      "sha": "3d0ed0e",
+      "commit": {
+        "author": {
+          "name": "Bob Smith",
+          "email": "bob@example.com",
+          "date": "2025-09-07T13:40:42.502Z"
+        },
+        "committer": {
+          "name": "Bob Smith",
+          "email": "bob@example.com",
+          "date": "2025-09-07T13:40:42.502Z"
+        },
+        "message": "refactor: extract auth middleware"
+      },
+      "author": {
+        "login": "bob",
+        "id": 1002,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1002?v=4",
+        "html_url": "https://github.com/bob"
+      },
+      "html_url": "https://github.com/acme/mobile/commit/3d0ed0e",
+      "url": "https://api.github.com/repos/acme/mobile/commits/3d0ed0e",
+      "repo": "acme/mobile",
+      "stats": {
+        "additions": 58,
+        "deletions": 2,
+        "total": 60
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp2.jsx",
+          "additions": 18,
+          "deletions": 0,
+          "changes": 60
+        }
+      ]
+    },
+    {
+      "sha": "6f130ac",
+      "commit": {
+        "author": {
+          "name": "Eric Wu",
+          "email": "eric@example.com",
+          "date": "2025-08-30T07:49:40.214Z"
+        },
+        "committer": {
+          "name": "Eric Wu",
+          "email": "eric@example.com",
+          "date": "2025-08-30T07:49:40.214Z"
+        },
+        "message": "feat: add login form validation"
+      },
+      "author": {
+        "login": "eric",
+        "id": 1005,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1005?v=4",
+        "html_url": "https://github.com/eric"
+      },
+      "html_url": "https://github.com/acme/mobile/commit/6f130ac",
+      "url": "https://api.github.com/repos/acme/mobile/commits/6f130ac",
+      "repo": "acme/mobile",
+      "stats": {
+        "additions": 274,
+        "deletions": 30,
+        "total": 304
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp1.jsx",
+          "additions": 248,
+          "deletions": 3,
+          "changes": 304
+        }
+      ]
+    },
+    {
+      "sha": "84f6606",
+      "commit": {
+        "author": {
+          "name": "Dana Lee",
+          "email": "dana@example.com",
+          "date": "2025-08-28T13:07:49.110Z"
+        },
+        "committer": {
+          "name": "Dana Lee",
+          "email": "dana@example.com",
+          "date": "2025-08-28T13:07:49.110Z"
+        },
+        "message": "feat: add login form validation"
+      },
+      "author": {
+        "login": "dana",
+        "id": 1004,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1004?v=4",
+        "html_url": "https://github.com/dana"
+      },
+      "html_url": "https://github.com/acme/app/commit/84f6606",
+      "url": "https://api.github.com/repos/acme/app/commits/84f6606",
+      "repo": "acme/app",
+      "stats": {
+        "additions": 889,
+        "deletions": 213,
+        "total": 1102
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp6.jsx",
+          "additions": 432,
+          "deletions": 120,
+          "changes": 1102
+        }
+      ]
+    },
+    {
+      "sha": "13a0c3f",
+      "commit": {
+        "author": {
+          "name": "Charlie Kim",
+          "email": "charlie@example.com",
+          "date": "2025-08-25T19:48:21.568Z"
+        },
+        "committer": {
+          "name": "Charlie Kim",
+          "email": "charlie@example.com",
+          "date": "2025-08-25T19:48:21.568Z"
+        },
+        "message": "feat: add login form validation"
+      },
+      "author": {
+        "login": "charlie",
+        "id": 1003,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1003?v=4",
+        "html_url": "https://github.com/charlie"
+      },
+      "html_url": "https://github.com/acme/app/commit/13a0c3f",
+      "url": "https://api.github.com/repos/acme/app/commits/13a0c3f",
+      "repo": "acme/app",
+      "stats": {
+        "additions": 638,
+        "deletions": 31,
+        "total": 669
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp10.jsx",
+          "additions": 175,
+          "deletions": 8,
+          "changes": 669
+        }
+      ]
+    },
+    {
+      "sha": "17adf24",
+      "commit": {
+        "author": {
+          "name": "Charlie Kim",
+          "email": "charlie@example.com",
+          "date": "2025-08-25T03:21:16.819Z"
+        },
+        "committer": {
+          "name": "Charlie Kim",
+          "email": "charlie@example.com",
+          "date": "2025-08-25T03:21:16.819Z"
+        },
+        "message": "fix: resolve race condition in broker"
+      },
+      "author": {
+        "login": "charlie",
+        "id": 1003,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1003?v=4",
+        "html_url": "https://github.com/charlie"
+      },
+      "html_url": "https://github.com/acme/app/commit/17adf24",
+      "url": "https://api.github.com/repos/acme/app/commits/17adf24",
+      "repo": "acme/app",
+      "stats": {
+        "additions": 194,
+        "deletions": 27,
+        "total": 221
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp18.jsx",
+          "additions": 80,
+          "deletions": 7,
+          "changes": 221
+        }
+      ]
+    },
+    {
+      "sha": "fce201e",
+      "commit": {
+        "author": {
+          "name": "Eric Wu",
+          "email": "eric@example.com",
+          "date": "2025-09-01T08:41:17.411Z"
+        },
+        "committer": {
+          "name": "Eric Wu",
+          "email": "eric@example.com",
+          "date": "2025-09-01T08:41:17.411Z"
+        },
+        "message": "feat: add login form validation"
+      },
+      "author": {
+        "login": "eric",
+        "id": 1005,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1005?v=4",
+        "html_url": "https://github.com/eric"
+      },
+      "html_url": "https://github.com/acme/api/commit/fce201e",
+      "url": "https://api.github.com/repos/acme/api/commits/fce201e",
+      "repo": "acme/api",
+      "stats": {
+        "additions": 611,
+        "deletions": 265,
+        "total": 876
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp7.jsx",
+          "additions": 577,
+          "deletions": 123,
+          "changes": 876
+        }
+      ]
+    },
+    {
+      "sha": "16ed810",
+      "commit": {
+        "author": {
+          "name": "Alice Johnson",
+          "email": "alice@example.com",
+          "date": "2025-09-02T21:23:10.177Z"
+        },
+        "committer": {
+          "name": "Alice Johnson",
+          "email": "alice@example.com",
+          "date": "2025-09-02T21:23:10.177Z"
+        },
+        "message": "perf: cache computed results"
+      },
+      "author": {
+        "login": "alice",
+        "id": 1001,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1001?v=4",
+        "html_url": "https://github.com/alice"
+      },
+      "html_url": "https://github.com/acme/app/commit/16ed810",
+      "url": "https://api.github.com/repos/acme/app/commits/16ed810",
+      "repo": "acme/app",
+      "stats": {
+        "additions": 681,
+        "deletions": 98,
+        "total": 779
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp16.jsx",
+          "additions": 277,
+          "deletions": 89,
+          "changes": 779
+        }
+      ]
+    },
+    {
+      "sha": "d958f1b",
+      "commit": {
+        "author": {
+          "name": "Alice Johnson",
+          "email": "alice@example.com",
+          "date": "2025-09-02T02:16:02.131Z"
+        },
+        "committer": {
+          "name": "Alice Johnson",
+          "email": "alice@example.com",
+          "date": "2025-09-02T02:16:02.131Z"
+        },
+        "message": "docs: improve README"
+      },
+      "author": {
+        "login": "alice",
+        "id": 1001,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1001?v=4",
+        "html_url": "https://github.com/alice"
+      },
+      "html_url": "https://github.com/acme/mobile/commit/d958f1b",
+      "url": "https://api.github.com/repos/acme/mobile/commits/d958f1b",
+      "repo": "acme/mobile",
+      "stats": {
+        "additions": 348,
+        "deletions": 138,
+        "total": 486
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp17.jsx",
+          "additions": 281,
+          "deletions": 111,
+          "changes": 486
+        }
+      ]
+    },
+    {
+      "sha": "dd3454b",
+      "commit": {
+        "author": {
+          "name": "Charlie Kim",
+          "email": "charlie@example.com",
+          "date": "2025-08-29T07:12:34.808Z"
+        },
+        "committer": {
+          "name": "Charlie Kim",
+          "email": "charlie@example.com",
+          "date": "2025-08-29T07:12:34.808Z"
+        },
+        "message": "ci: speed up build by caching node_modules"
+      },
+      "author": {
+        "login": "charlie",
+        "id": 1003,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1003?v=4",
+        "html_url": "https://github.com/charlie"
+      },
+      "html_url": "https://github.com/acme/app/commit/dd3454b",
+      "url": "https://api.github.com/repos/acme/app/commits/dd3454b",
+      "repo": "acme/app",
+      "stats": {
+        "additions": 389,
+        "deletions": 245,
+        "total": 634
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp7.jsx",
+          "additions": 57,
+          "deletions": 231,
+          "changes": 634
+        }
+      ]
+    },
+    {
+      "sha": "81be4ab",
+      "commit": {
+        "author": {
+          "name": "Charlie Kim",
+          "email": "charlie@example.com",
+          "date": "2025-09-03T01:55:58.847Z"
+        },
+        "committer": {
+          "name": "Charlie Kim",
+          "email": "charlie@example.com",
+          "date": "2025-09-03T01:55:58.847Z"
+        },
+        "message": "chore: update dependencies"
+      },
+      "author": {
+        "login": "charlie",
+        "id": 1003,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1003?v=4",
+        "html_url": "https://github.com/charlie"
+      },
+      "html_url": "https://github.com/acme/api/commit/81be4ab",
+      "url": "https://api.github.com/repos/acme/api/commits/81be4ab",
+      "repo": "acme/api",
+      "stats": {
+        "additions": 226,
+        "deletions": 84,
+        "total": 310
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp10.jsx",
+          "additions": 13,
+          "deletions": 6,
+          "changes": 310
+        }
+      ]
+    },
+    {
+      "sha": "cc74c37",
+      "commit": {
+        "author": {
+          "name": "Bob Smith",
+          "email": "bob@example.com",
+          "date": "2025-08-29T18:32:00.905Z"
+        },
+        "committer": {
+          "name": "Bob Smith",
+          "email": "bob@example.com",
+          "date": "2025-08-29T18:32:00.905Z"
+        },
+        "message": "perf: cache computed results"
+      },
+      "author": {
+        "login": "bob",
+        "id": 1002,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1002?v=4",
+        "html_url": "https://github.com/bob"
+      },
+      "html_url": "https://github.com/acme/mobile/commit/cc74c37",
+      "url": "https://api.github.com/repos/acme/mobile/commits/cc74c37",
+      "repo": "acme/mobile",
+      "stats": {
+        "additions": 265,
+        "deletions": 41,
+        "total": 306
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp19.jsx",
+          "additions": 69,
+          "deletions": 14,
+          "changes": 306
+        }
+      ]
+    },
+    {
+      "sha": "9c86f10",
+      "commit": {
+        "author": {
+          "name": "Bob Smith",
+          "email": "bob@example.com",
+          "date": "2025-08-26T21:11:01.131Z"
+        },
+        "committer": {
+          "name": "Bob Smith",
+          "email": "bob@example.com",
+          "date": "2025-08-26T21:11:01.131Z"
+        },
+        "message": "ci: speed up build by caching node_modules"
+      },
+      "author": {
+        "login": "bob",
+        "id": 1002,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1002?v=4",
+        "html_url": "https://github.com/bob"
+      },
+      "html_url": "https://github.com/acme/mobile/commit/9c86f10",
+      "url": "https://api.github.com/repos/acme/mobile/commits/9c86f10",
+      "repo": "acme/mobile",
+      "stats": {
+        "additions": 480,
+        "deletions": 152,
+        "total": 632
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp12.jsx",
+          "additions": 387,
+          "deletions": 151,
+          "changes": 632
+        }
+      ]
+    },
+    {
+      "sha": "7f7bb00",
+      "commit": {
+        "author": {
+          "name": "Dana Lee",
+          "email": "dana@example.com",
+          "date": "2025-08-28T06:40:31.604Z"
+        },
+        "committer": {
+          "name": "Dana Lee",
+          "email": "dana@example.com",
+          "date": "2025-08-28T06:40:31.604Z"
+        },
+        "message": "chore: deploy v1.2.x to production"
+      },
+      "author": {
+        "login": "dana",
+        "id": 1004,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1004?v=4",
+        "html_url": "https://github.com/dana"
+      },
+      "html_url": "https://github.com/acme/api/commit/7f7bb00",
+      "url": "https://api.github.com/repos/acme/api/commits/7f7bb00",
+      "repo": "acme/api",
+      "stats": {
+        "additions": 430,
+        "deletions": 297,
+        "total": 727
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp2.jsx",
+          "additions": 266,
+          "deletions": 247,
+          "changes": 727
+        }
+      ]
+    },
+    {
+      "sha": "d51baba",
+      "commit": {
+        "author": {
+          "name": "Bob Smith",
+          "email": "bob@example.com",
+          "date": "2025-08-31T03:33:57.467Z"
+        },
+        "committer": {
+          "name": "Bob Smith",
+          "email": "bob@example.com",
+          "date": "2025-08-31T03:33:57.467Z"
+        },
+        "message": "ci: speed up build by caching node_modules"
+      },
+      "author": {
+        "login": "bob",
+        "id": 1002,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1002?v=4",
+        "html_url": "https://github.com/bob"
+      },
+      "html_url": "https://github.com/acme/app/commit/d51baba",
+      "url": "https://api.github.com/repos/acme/app/commits/d51baba",
+      "repo": "acme/app",
+      "stats": {
+        "additions": 747,
+        "deletions": 51,
+        "total": 798
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp12.jsx",
+          "additions": 53,
+          "deletions": 30,
+          "changes": 798
+        }
+      ]
+    },
+    {
+      "sha": "259646a",
+      "commit": {
+        "author": {
+          "name": "Alice Johnson",
+          "email": "alice@example.com",
+          "date": "2025-09-05T16:52:48.683Z"
+        },
+        "committer": {
+          "name": "Alice Johnson",
+          "email": "alice@example.com",
+          "date": "2025-09-05T16:52:48.683Z"
+        },
+        "message": "ci: speed up build by caching node_modules"
+      },
+      "author": {
+        "login": "alice",
+        "id": 1001,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1001?v=4",
+        "html_url": "https://github.com/alice"
+      },
+      "html_url": "https://github.com/acme/app/commit/259646a",
+      "url": "https://api.github.com/repos/acme/app/commits/259646a",
+      "repo": "acme/app",
+      "stats": {
+        "additions": 500,
+        "deletions": 154,
+        "total": 654
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp8.jsx",
+          "additions": 229,
+          "deletions": 81,
+          "changes": 654
+        }
+      ]
+    },
+    {
+      "sha": "c7e4b12",
+      "commit": {
+        "author": {
+          "name": "Charlie Kim",
+          "email": "charlie@example.com",
+          "date": "2025-08-30T01:17:36.242Z"
+        },
+        "committer": {
+          "name": "Charlie Kim",
+          "email": "charlie@example.com",
+          "date": "2025-08-30T01:17:36.242Z"
+        },
+        "message": "refactor: extract auth middleware"
+      },
+      "author": {
+        "login": "charlie",
+        "id": 1003,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1003?v=4",
+        "html_url": "https://github.com/charlie"
+      },
+      "html_url": "https://github.com/acme/app/commit/c7e4b12",
+      "url": "https://api.github.com/repos/acme/app/commits/c7e4b12",
+      "repo": "acme/app",
+      "stats": {
+        "additions": 672,
+        "deletions": 226,
+        "total": 898
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp1.jsx",
+          "additions": 175,
+          "deletions": 74,
+          "changes": 898
+        }
+      ]
+    },
+    {
+      "sha": "1b930ec",
+      "commit": {
+        "author": {
+          "name": "Alice Johnson",
+          "email": "alice@example.com",
+          "date": "2025-08-28T06:15:04.974Z"
+        },
+        "committer": {
+          "name": "Alice Johnson",
+          "email": "alice@example.com",
+          "date": "2025-08-28T06:15:04.974Z"
+        },
+        "message": "feat: add login form validation"
+      },
+      "author": {
+        "login": "alice",
+        "id": 1001,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1001?v=4",
+        "html_url": "https://github.com/alice"
+      },
+      "html_url": "https://github.com/acme/mobile/commit/1b930ec",
+      "url": "https://api.github.com/repos/acme/mobile/commits/1b930ec",
+      "repo": "acme/mobile",
+      "stats": {
+        "additions": 54,
+        "deletions": 28,
+        "total": 82
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp2.jsx",
+          "additions": 50,
+          "deletions": 10,
+          "changes": 82
+        }
+      ]
+    },
+    {
+      "sha": "2466e11",
+      "commit": {
+        "author": {
+          "name": "Charlie Kim",
+          "email": "charlie@example.com",
+          "date": "2025-08-29T06:31:01.894Z"
+        },
+        "committer": {
+          "name": "Charlie Kim",
+          "email": "charlie@example.com",
+          "date": "2025-08-29T06:31:01.894Z"
+        },
+        "message": "refactor: extract auth middleware"
+      },
+      "author": {
+        "login": "charlie",
+        "id": 1003,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1003?v=4",
+        "html_url": "https://github.com/charlie"
+      },
+      "html_url": "https://github.com/acme/api/commit/2466e11",
+      "url": "https://api.github.com/repos/acme/api/commits/2466e11",
+      "repo": "acme/api",
+      "stats": {
+        "additions": 644,
+        "deletions": 67,
+        "total": 711
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp17.jsx",
+          "additions": 198,
+          "deletions": 34,
+          "changes": 711
+        }
+      ]
+    },
+    {
+      "sha": "1b10ed6",
+      "commit": {
+        "author": {
+          "name": "Eric Wu",
+          "email": "eric@example.com",
+          "date": "2025-09-05T23:43:05.243Z"
+        },
+        "committer": {
+          "name": "Eric Wu",
+          "email": "eric@example.com",
+          "date": "2025-09-05T23:43:05.243Z"
+        },
+        "message": "fix: resolve race condition in broker"
+      },
+      "author": {
+        "login": "eric",
+        "id": 1005,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1005?v=4",
+        "html_url": "https://github.com/eric"
+      },
+      "html_url": "https://github.com/acme/app/commit/1b10ed6",
+      "url": "https://api.github.com/repos/acme/app/commits/1b10ed6",
+      "repo": "acme/app",
+      "stats": {
+        "additions": 641,
+        "deletions": 82,
+        "total": 723
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp5.jsx",
+          "additions": 231,
+          "deletions": 27,
+          "changes": 723
+        }
+      ]
+    },
+    {
+      "sha": "37d2616",
+      "commit": {
+        "author": {
+          "name": "Bob Smith",
+          "email": "bob@example.com",
+          "date": "2025-08-29T07:11:59.226Z"
+        },
+        "committer": {
+          "name": "Bob Smith",
+          "email": "bob@example.com",
+          "date": "2025-08-29T07:11:59.226Z"
+        },
+        "message": "chore: deploy v1.2.x to production"
+      },
+      "author": {
+        "login": "bob",
+        "id": 1002,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1002?v=4",
+        "html_url": "https://github.com/bob"
+      },
+      "html_url": "https://github.com/acme/app/commit/37d2616",
+      "url": "https://api.github.com/repos/acme/app/commits/37d2616",
+      "repo": "acme/app",
+      "stats": {
+        "additions": 760,
+        "deletions": 135,
+        "total": 895
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp8.jsx",
+          "additions": 129,
+          "deletions": 27,
+          "changes": 895
+        }
+      ]
+    },
+    {
+      "sha": "5db6264",
+      "commit": {
+        "author": {
+          "name": "Dana Lee",
+          "email": "dana@example.com",
+          "date": "2025-08-29T03:39:56.657Z"
+        },
+        "committer": {
+          "name": "Dana Lee",
+          "email": "dana@example.com",
+          "date": "2025-08-29T03:39:56.657Z"
+        },
+        "message": "perf: cache computed results"
+      },
+      "author": {
+        "login": "dana",
+        "id": 1004,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1004?v=4",
+        "html_url": "https://github.com/dana"
+      },
+      "html_url": "https://github.com/acme/app/commit/5db6264",
+      "url": "https://api.github.com/repos/acme/app/commits/5db6264",
+      "repo": "acme/app",
+      "stats": {
+        "additions": 50,
+        "deletions": 14,
+        "total": 64
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp18.jsx",
+          "additions": 31,
+          "deletions": 13,
+          "changes": 64
+        }
+      ]
+    },
+    {
+      "sha": "8d2309d",
+      "commit": {
+        "author": {
+          "name": "Charlie Kim",
+          "email": "charlie@example.com",
+          "date": "2025-08-27T03:07:35.084Z"
+        },
+        "committer": {
+          "name": "Charlie Kim",
+          "email": "charlie@example.com",
+          "date": "2025-08-27T03:07:35.084Z"
+        },
+        "message": "chore: update dependencies"
+      },
+      "author": {
+        "login": "charlie",
+        "id": 1003,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1003?v=4",
+        "html_url": "https://github.com/charlie"
+      },
+      "html_url": "https://github.com/acme/api/commit/8d2309d",
+      "url": "https://api.github.com/repos/acme/api/commits/8d2309d",
+      "repo": "acme/api",
+      "stats": {
+        "additions": 461,
+        "deletions": 53,
+        "total": 514
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp4.jsx",
+          "additions": 362,
+          "deletions": 31,
+          "changes": 514
+        }
+      ]
+    },
+    {
+      "sha": "d05f00c",
+      "commit": {
+        "author": {
+          "name": "Bob Smith",
+          "email": "bob@example.com",
+          "date": "2025-08-31T17:21:08.275Z"
+        },
+        "committer": {
+          "name": "Bob Smith",
+          "email": "bob@example.com",
+          "date": "2025-08-31T17:21:08.275Z"
+        },
+        "message": "docs: improve README"
+      },
+      "author": {
+        "login": "bob",
+        "id": 1002,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1002?v=4",
+        "html_url": "https://github.com/bob"
+      },
+      "html_url": "https://github.com/acme/api/commit/d05f00c",
+      "url": "https://api.github.com/repos/acme/api/commits/d05f00c",
+      "repo": "acme/api",
+      "stats": {
+        "additions": 50,
+        "deletions": 4,
+        "total": 54
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp19.jsx",
+          "additions": 49,
+          "deletions": 3,
+          "changes": 54
+        }
+      ]
+    },
+    {
+      "sha": "484e317",
+      "commit": {
+        "author": {
+          "name": "Eric Wu",
+          "email": "eric@example.com",
+          "date": "2025-09-07T06:38:29.439Z"
+        },
+        "committer": {
+          "name": "Eric Wu",
+          "email": "eric@example.com",
+          "date": "2025-09-07T06:38:29.439Z"
+        },
+        "message": "feat: add login form validation"
+      },
+      "author": {
+        "login": "eric",
+        "id": 1005,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1005?v=4",
+        "html_url": "https://github.com/eric"
+      },
+      "html_url": "https://github.com/acme/api/commit/484e317",
+      "url": "https://api.github.com/repos/acme/api/commits/484e317",
+      "repo": "acme/api",
+      "stats": {
+        "additions": 636,
+        "deletions": 3,
+        "total": 639
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp16.jsx",
+          "additions": 303,
+          "deletions": 0,
+          "changes": 639
+        }
+      ]
+    },
+    {
+      "sha": "6bb6db4",
+      "commit": {
+        "author": {
+          "name": "Eric Wu",
+          "email": "eric@example.com",
+          "date": "2025-08-30T20:27:22.434Z"
+        },
+        "committer": {
+          "name": "Eric Wu",
+          "email": "eric@example.com",
+          "date": "2025-08-30T20:27:22.434Z"
+        },
+        "message": "chore: update dependencies"
+      },
+      "author": {
+        "login": "eric",
+        "id": 1005,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1005?v=4",
+        "html_url": "https://github.com/eric"
+      },
+      "html_url": "https://github.com/acme/api/commit/6bb6db4",
+      "url": "https://api.github.com/repos/acme/api/commits/6bb6db4",
+      "repo": "acme/api",
+      "stats": {
+        "additions": 794,
+        "deletions": 290,
+        "total": 1084
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp14.jsx",
+          "additions": 153,
+          "deletions": 159,
+          "changes": 1084
+        }
+      ]
+    },
+    {
+      "sha": "763f7ee",
+      "commit": {
+        "author": {
+          "name": "Bob Smith",
+          "email": "bob@example.com",
+          "date": "2025-09-01T02:44:59.360Z"
+        },
+        "committer": {
+          "name": "Bob Smith",
+          "email": "bob@example.com",
+          "date": "2025-09-01T02:44:59.360Z"
+        },
+        "message": "docs: improve README"
+      },
+      "author": {
+        "login": "bob",
+        "id": 1002,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1002?v=4",
+        "html_url": "https://github.com/bob"
+      },
+      "html_url": "https://github.com/acme/api/commit/763f7ee",
+      "url": "https://api.github.com/repos/acme/api/commits/763f7ee",
+      "repo": "acme/api",
+      "stats": {
+        "additions": 547,
+        "deletions": 10,
+        "total": 557
+      },
+      "files": [
+        {
+          "filename": "client/src/components/Comp15.jsx",
+          "additions": 475,
+          "deletions": 1,
+          "changes": 557
+        }
+      ]
+    }
+  ],
+  "pullRequests": [
+    {
+      "number": 100,
+      "title": "Improve performance of search endpoint",
+      "state": "open",
+      "created_at": "2025-08-27T10:08:57.871Z",
+      "updated_at": "2025-08-27T12:08:57.871Z",
+      "closed_at": null,
+      "merged_at": null,
+      "user": {
+        "login": "eric"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/api/pull/100",
+      "repo": "acme/api",
+      "additions": 101,
+      "deletions": 117,
+      "commits": 6,
+      "comments": 5,
+      "review_comments": 14
+    },
+    {
+      "number": 101,
+      "title": "Implement feature flags for rollout",
+      "state": "closed",
+      "created_at": "2025-08-31T16:13:42.292Z",
+      "updated_at": "2025-08-31T17:13:42.292Z",
+      "closed_at": "2025-08-31T19:13:42.292Z",
+      "merged_at": null,
+      "user": {
+        "login": "charlie"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/app/pull/101",
+      "repo": "acme/app",
+      "additions": 183,
+      "deletions": 420,
+      "commits": 10,
+      "comments": 1,
+      "review_comments": 0
+    },
+    {
+      "number": 102,
+      "title": "Fix flaky tests in CI",
+      "state": "closed",
+      "created_at": "2025-08-30T23:34:59.856Z",
+      "updated_at": "2025-08-31T01:34:59.856Z",
+      "closed_at": "2025-08-31T04:34:59.856Z",
+      "merged_at": "2025-08-31T04:34:59.856Z",
+      "user": {
+        "login": "dana"
+      },
+      "merged_by": {
+        "login": "bob"
+      },
+      "html_url": "https://github.com/acme/api/pull/102",
+      "repo": "acme/api",
+      "additions": 466,
+      "deletions": 70,
+      "commits": 9,
+      "comments": 8,
+      "review_comments": 15
+    },
+    {
+      "number": 103,
+      "title": "Improve performance of search endpoint",
+      "state": "open",
+      "created_at": "2025-08-29T08:08:26.232Z",
+      "updated_at": "2025-08-29T11:08:26.232Z",
+      "closed_at": null,
+      "merged_at": null,
+      "user": {
+        "login": "dana"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/api/pull/103",
+      "repo": "acme/api",
+      "additions": 572,
+      "deletions": 425,
+      "commits": 4,
+      "comments": 4,
+      "review_comments": 17
+    },
+    {
+      "number": 104,
+      "title": "Refactor build pipeline and caching",
+      "state": "open",
+      "created_at": "2025-09-02T19:14:47.026Z",
+      "updated_at": "2025-09-02T20:14:47.026Z",
+      "closed_at": null,
+      "merged_at": null,
+      "user": {
+        "login": "eric"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/mobile/pull/104",
+      "repo": "acme/mobile",
+      "additions": 779,
+      "deletions": 551,
+      "commits": 6,
+      "comments": 11,
+      "review_comments": 15
+    },
+    {
+      "number": 105,
+      "title": "Refactor build pipeline and caching",
+      "state": "closed",
+      "created_at": "2025-08-29T04:13:16.485Z",
+      "updated_at": "2025-08-29T05:13:16.485Z",
+      "closed_at": "2025-08-29T07:13:16.485Z",
+      "merged_at": "2025-08-29T07:13:16.485Z",
+      "user": {
+        "login": "bob"
+      },
+      "merged_by": {
+        "login": "charlie"
+      },
+      "html_url": "https://github.com/acme/mobile/pull/105",
+      "repo": "acme/mobile",
+      "additions": 401,
+      "deletions": 539,
+      "commits": 1,
+      "comments": 0,
+      "review_comments": 15
+    },
+    {
+      "number": 106,
+      "title": "Improve performance of search endpoint",
+      "state": "closed",
+      "created_at": "2025-08-27T16:45:25.189Z",
+      "updated_at": "2025-08-27T18:45:25.189Z",
+      "closed_at": "2025-08-27T20:45:25.189Z",
+      "merged_at": null,
+      "user": {
+        "login": "dana"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/app/pull/106",
+      "repo": "acme/app",
+      "additions": 732,
+      "deletions": 533,
+      "commits": 5,
+      "comments": 2,
+      "review_comments": 9
+    },
+    {
+      "number": 107,
+      "title": "Fix flaky tests in CI",
+      "state": "closed",
+      "created_at": "2025-08-28T00:39:29.538Z",
+      "updated_at": "2025-08-28T01:39:29.538Z",
+      "closed_at": "2025-08-28T04:39:29.538Z",
+      "merged_at": "2025-08-28T04:39:29.538Z",
+      "user": {
+        "login": "bob"
+      },
+      "merged_by": {
+        "login": "bob"
+      },
+      "html_url": "https://github.com/acme/app/pull/107",
+      "repo": "acme/app",
+      "additions": 62,
+      "deletions": 360,
+      "commits": 4,
+      "comments": 10,
+      "review_comments": 11
+    },
+    {
+      "number": 108,
+      "title": "Fix flaky tests in CI",
+      "state": "closed",
+      "created_at": "2025-09-05T19:15:51.241Z",
+      "updated_at": "2025-09-05T21:15:51.241Z",
+      "closed_at": "2025-09-06T00:15:51.241Z",
+      "merged_at": "2025-09-06T00:15:51.241Z",
+      "user": {
+        "login": "charlie"
+      },
+      "merged_by": {
+        "login": "charlie"
+      },
+      "html_url": "https://github.com/acme/api/pull/108",
+      "repo": "acme/api",
+      "additions": 469,
+      "deletions": 184,
+      "commits": 7,
+      "comments": 6,
+      "review_comments": 9
+    },
+    {
+      "number": 109,
+      "title": "Improve performance of search endpoint",
+      "state": "open",
+      "created_at": "2025-08-28T15:36:58.818Z",
+      "updated_at": "2025-08-28T18:36:58.818Z",
+      "closed_at": null,
+      "merged_at": null,
+      "user": {
+        "login": "dana"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/app/pull/109",
+      "repo": "acme/app",
+      "additions": 552,
+      "deletions": 303,
+      "commits": 8,
+      "comments": 6,
+      "review_comments": 5
+    },
+    {
+      "number": 110,
+      "title": "Improve performance of search endpoint",
+      "state": "open",
+      "created_at": "2025-09-03T08:38:37.487Z",
+      "updated_at": "2025-09-03T09:38:37.487Z",
+      "closed_at": null,
+      "merged_at": null,
+      "user": {
+        "login": "charlie"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/mobile/pull/110",
+      "repo": "acme/mobile",
+      "additions": 948,
+      "deletions": 509,
+      "commits": 6,
+      "comments": 6,
+      "review_comments": 3
+    },
+    {
+      "number": 111,
+      "title": "Add user authentication with session management",
+      "state": "open",
+      "created_at": "2025-09-01T18:26:55.363Z",
+      "updated_at": "2025-09-01T21:26:55.363Z",
+      "closed_at": null,
+      "merged_at": null,
+      "user": {
+        "login": "bob"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/app/pull/111",
+      "repo": "acme/app",
+      "additions": 356,
+      "deletions": 309,
+      "commits": 3,
+      "comments": 5,
+      "review_comments": 4
+    },
+    {
+      "number": 112,
+      "title": "Add user authentication with session management",
+      "state": "closed",
+      "created_at": "2025-08-28T18:47:02.177Z",
+      "updated_at": "2025-08-28T19:47:02.177Z",
+      "closed_at": "2025-08-28T20:47:02.177Z",
+      "merged_at": null,
+      "user": {
+        "login": "eric"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/app/pull/112",
+      "repo": "acme/app",
+      "additions": 103,
+      "deletions": 231,
+      "commits": 9,
+      "comments": 7,
+      "review_comments": 10
+    },
+    {
+      "number": 113,
+      "title": "Implement feature flags for rollout",
+      "state": "open",
+      "created_at": "2025-09-03T22:19:32.996Z",
+      "updated_at": "2025-09-04T00:19:32.996Z",
+      "closed_at": null,
+      "merged_at": null,
+      "user": {
+        "login": "bob"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/api/pull/113",
+      "repo": "acme/api",
+      "additions": 646,
+      "deletions": 53,
+      "commits": 5,
+      "comments": 8,
+      "review_comments": 7
+    },
+    {
+      "number": 114,
+      "title": "Refactor build pipeline and caching",
+      "state": "open",
+      "created_at": "2025-08-25T08:33:10.018Z",
+      "updated_at": "2025-08-25T09:33:10.018Z",
+      "closed_at": null,
+      "merged_at": null,
+      "user": {
+        "login": "bob"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/app/pull/114",
+      "repo": "acme/app",
+      "additions": 469,
+      "deletions": 132,
+      "commits": 4,
+      "comments": 8,
+      "review_comments": 3
+    },
+    {
+      "number": 115,
+      "title": "Fix flaky tests in CI",
+      "state": "closed",
+      "created_at": "2025-09-03T00:05:53.036Z",
+      "updated_at": "2025-09-03T02:05:53.036Z",
+      "closed_at": "2025-09-03T04:05:53.036Z",
+      "merged_at": "2025-09-03T04:05:53.036Z",
+      "user": {
+        "login": "charlie"
+      },
+      "merged_by": {
+        "login": "alice"
+      },
+      "html_url": "https://github.com/acme/mobile/pull/115",
+      "repo": "acme/mobile",
+      "additions": 606,
+      "deletions": 351,
+      "commits": 7,
+      "comments": 1,
+      "review_comments": 3
+    },
+    {
+      "number": 116,
+      "title": "Refactor build pipeline and caching",
+      "state": "open",
+      "created_at": "2025-09-03T00:56:10.794Z",
+      "updated_at": "2025-09-03T02:56:10.794Z",
+      "closed_at": null,
+      "merged_at": null,
+      "user": {
+        "login": "bob"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/app/pull/116",
+      "repo": "acme/app",
+      "additions": 1131,
+      "deletions": 526,
+      "commits": 2,
+      "comments": 4,
+      "review_comments": 14
+    },
+    {
+      "number": 117,
+      "title": "Improve performance of search endpoint",
+      "state": "open",
+      "created_at": "2025-09-04T21:36:24.365Z",
+      "updated_at": "2025-09-04T23:36:24.365Z",
+      "closed_at": null,
+      "merged_at": null,
+      "user": {
+        "login": "alice"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/mobile/pull/117",
+      "repo": "acme/mobile",
+      "additions": 631,
+      "deletions": 44,
+      "commits": 3,
+      "comments": 9,
+      "review_comments": 16
+    },
+    {
+      "number": 118,
+      "title": "Refactor build pipeline and caching",
+      "state": "closed",
+      "created_at": "2025-09-05T18:30:06.395Z",
+      "updated_at": "2025-09-05T19:30:06.395Z",
+      "closed_at": "2025-09-05T20:30:06.395Z",
+      "merged_at": "2025-09-05T20:30:06.395Z",
+      "user": {
+        "login": "bob"
+      },
+      "merged_by": {
+        "login": "alice"
+      },
+      "html_url": "https://github.com/acme/api/pull/118",
+      "repo": "acme/api",
+      "additions": 1200,
+      "deletions": 185,
+      "commits": 5,
+      "comments": 6,
+      "review_comments": 16
+    },
+    {
+      "number": 119,
+      "title": "Implement feature flags for rollout",
+      "state": "closed",
+      "created_at": "2025-08-25T20:04:33.532Z",
+      "updated_at": "2025-08-25T21:04:33.532Z",
+      "closed_at": "2025-08-25T22:04:33.532Z",
+      "merged_at": null,
+      "user": {
+        "login": "dana"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/api/pull/119",
+      "repo": "acme/api",
+      "additions": 1077,
+      "deletions": 214,
+      "commits": 5,
+      "comments": 8,
+      "review_comments": 6
+    },
+    {
+      "number": 120,
+      "title": "Implement feature flags for rollout",
+      "state": "open",
+      "created_at": "2025-08-30T19:26:26.983Z",
+      "updated_at": "2025-08-30T21:26:26.983Z",
+      "closed_at": null,
+      "merged_at": null,
+      "user": {
+        "login": "alice"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/api/pull/120",
+      "repo": "acme/api",
+      "additions": 693,
+      "deletions": 182,
+      "commits": 1,
+      "comments": 10,
+      "review_comments": 13
+    },
+    {
+      "number": 121,
+      "title": "Improve performance of search endpoint",
+      "state": "open",
+      "created_at": "2025-08-28T09:51:29.941Z",
+      "updated_at": "2025-08-28T10:51:29.941Z",
+      "closed_at": null,
+      "merged_at": null,
+      "user": {
+        "login": "dana"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/app/pull/121",
+      "repo": "acme/app",
+      "additions": 268,
+      "deletions": 529,
+      "commits": 4,
+      "comments": 4,
+      "review_comments": 13
+    },
+    {
+      "number": 122,
+      "title": "Add user authentication with session management",
+      "state": "closed",
+      "created_at": "2025-08-27T15:05:30.630Z",
+      "updated_at": "2025-08-27T18:05:30.630Z",
+      "closed_at": "2025-08-27T21:05:30.630Z",
+      "merged_at": "2025-08-27T21:05:30.630Z",
+      "user": {
+        "login": "bob"
+      },
+      "merged_by": {
+        "login": "bob"
+      },
+      "html_url": "https://github.com/acme/api/pull/122",
+      "repo": "acme/api",
+      "additions": 804,
+      "deletions": 175,
+      "commits": 2,
+      "comments": 12,
+      "review_comments": 0
+    },
+    {
+      "number": 123,
+      "title": "Fix flaky tests in CI",
+      "state": "open",
+      "created_at": "2025-08-31T15:58:19.416Z",
+      "updated_at": "2025-08-31T18:58:19.416Z",
+      "closed_at": null,
+      "merged_at": null,
+      "user": {
+        "login": "alice"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/app/pull/123",
+      "repo": "acme/app",
+      "additions": 678,
+      "deletions": 33,
+      "commits": 4,
+      "comments": 3,
+      "review_comments": 0
+    },
+    {
+      "number": 124,
+      "title": "Add user authentication with session management",
+      "state": "open",
+      "created_at": "2025-09-07T01:42:20.159Z",
+      "updated_at": "2025-09-07T03:42:20.159Z",
+      "closed_at": null,
+      "merged_at": null,
+      "user": {
+        "login": "bob"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/app/pull/124",
+      "repo": "acme/app",
+      "additions": 1101,
+      "deletions": 517,
+      "commits": 10,
+      "comments": 10,
+      "review_comments": 6
+    },
+    {
+      "number": 125,
+      "title": "Implement feature flags for rollout",
+      "state": "open",
+      "created_at": "2025-08-28T04:27:50.722Z",
+      "updated_at": "2025-08-28T05:27:50.722Z",
+      "closed_at": null,
+      "merged_at": null,
+      "user": {
+        "login": "dana"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/app/pull/125",
+      "repo": "acme/app",
+      "additions": 767,
+      "deletions": 152,
+      "commits": 2,
+      "comments": 6,
+      "review_comments": 18
+    },
+    {
+      "number": 126,
+      "title": "Fix flaky tests in CI",
+      "state": "open",
+      "created_at": "2025-08-31T07:11:36.122Z",
+      "updated_at": "2025-08-31T10:11:36.122Z",
+      "closed_at": null,
+      "merged_at": null,
+      "user": {
+        "login": "alice"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/mobile/pull/126",
+      "repo": "acme/mobile",
+      "additions": 628,
+      "deletions": 80,
+      "commits": 5,
+      "comments": 1,
+      "review_comments": 16
+    },
+    {
+      "number": 127,
+      "title": "Add user authentication with session management",
+      "state": "open",
+      "created_at": "2025-08-26T19:07:01.488Z",
+      "updated_at": "2025-08-26T21:07:01.488Z",
+      "closed_at": null,
+      "merged_at": null,
+      "user": {
+        "login": "dana"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/app/pull/127",
+      "repo": "acme/app",
+      "additions": 166,
+      "deletions": 2,
+      "commits": 9,
+      "comments": 11,
+      "review_comments": 3
+    },
+    {
+      "number": 128,
+      "title": "Fix flaky tests in CI",
+      "state": "closed",
+      "created_at": "2025-09-05T19:44:48.090Z",
+      "updated_at": "2025-09-05T22:44:48.090Z",
+      "closed_at": "2025-09-06T01:44:48.090Z",
+      "merged_at": "2025-09-06T01:44:48.090Z",
+      "user": {
+        "login": "alice"
+      },
+      "merged_by": {
+        "login": "dana"
+      },
+      "html_url": "https://github.com/acme/api/pull/128",
+      "repo": "acme/api",
+      "additions": 555,
+      "deletions": 195,
+      "commits": 3,
+      "comments": 0,
+      "review_comments": 0
+    },
+    {
+      "number": 129,
+      "title": "Implement feature flags for rollout",
+      "state": "open",
+      "created_at": "2025-08-26T06:23:28.359Z",
+      "updated_at": "2025-08-26T09:23:28.359Z",
+      "closed_at": null,
+      "merged_at": null,
+      "user": {
+        "login": "bob"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/app/pull/129",
+      "repo": "acme/app",
+      "additions": 698,
+      "deletions": 406,
+      "commits": 4,
+      "comments": 5,
+      "review_comments": 8
+    },
+    {
+      "number": 130,
+      "title": "Improve performance of search endpoint",
+      "state": "closed",
+      "created_at": "2025-09-03T17:39:10.081Z",
+      "updated_at": "2025-09-03T18:39:10.081Z",
+      "closed_at": "2025-09-03T20:39:10.081Z",
+      "merged_at": null,
+      "user": {
+        "login": "dana"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/mobile/pull/130",
+      "repo": "acme/mobile",
+      "additions": 569,
+      "deletions": 226,
+      "commits": 9,
+      "comments": 5,
+      "review_comments": 16
+    },
+    {
+      "number": 131,
+      "title": "Improve performance of search endpoint",
+      "state": "open",
+      "created_at": "2025-08-27T10:00:24.329Z",
+      "updated_at": "2025-08-27T12:00:24.329Z",
+      "closed_at": null,
+      "merged_at": null,
+      "user": {
+        "login": "eric"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/app/pull/131",
+      "repo": "acme/app",
+      "additions": 721,
+      "deletions": 529,
+      "commits": 8,
+      "comments": 1,
+      "review_comments": 0
+    },
+    {
+      "number": 132,
+      "title": "Implement feature flags for rollout",
+      "state": "closed",
+      "created_at": "2025-08-28T05:58:17.296Z",
+      "updated_at": "2025-08-28T07:58:17.296Z",
+      "closed_at": "2025-08-28T10:58:17.296Z",
+      "merged_at": null,
+      "user": {
+        "login": "bob"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/mobile/pull/132",
+      "repo": "acme/mobile",
+      "additions": 923,
+      "deletions": 537,
+      "commits": 3,
+      "comments": 2,
+      "review_comments": 3
+    },
+    {
+      "number": 133,
+      "title": "Add user authentication with session management",
+      "state": "open",
+      "created_at": "2025-09-05T04:26:01.756Z",
+      "updated_at": "2025-09-05T07:26:01.756Z",
+      "closed_at": null,
+      "merged_at": null,
+      "user": {
+        "login": "bob"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/app/pull/133",
+      "repo": "acme/app",
+      "additions": 794,
+      "deletions": 244,
+      "commits": 2,
+      "comments": 4,
+      "review_comments": 15
+    },
+    {
+      "number": 134,
+      "title": "Implement feature flags for rollout",
+      "state": "open",
+      "created_at": "2025-09-02T08:31:36.926Z",
+      "updated_at": "2025-09-02T09:31:36.926Z",
+      "closed_at": null,
+      "merged_at": null,
+      "user": {
+        "login": "charlie"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/app/pull/134",
+      "repo": "acme/app",
+      "additions": 383,
+      "deletions": 443,
+      "commits": 5,
+      "comments": 7,
+      "review_comments": 4
+    },
+    {
+      "number": 135,
+      "title": "Improve performance of search endpoint",
+      "state": "closed",
+      "created_at": "2025-09-04T20:53:33.758Z",
+      "updated_at": "2025-09-04T21:53:33.758Z",
+      "closed_at": "2025-09-04T23:53:33.758Z",
+      "merged_at": "2025-09-04T23:53:33.758Z",
+      "user": {
+        "login": "dana"
+      },
+      "merged_by": {
+        "login": "eric"
+      },
+      "html_url": "https://github.com/acme/app/pull/135",
+      "repo": "acme/app",
+      "additions": 1048,
+      "deletions": 32,
+      "commits": 8,
+      "comments": 12,
+      "review_comments": 2
+    },
+    {
+      "number": 136,
+      "title": "Add user authentication with session management",
+      "state": "open",
+      "created_at": "2025-09-06T16:47:30.577Z",
+      "updated_at": "2025-09-06T19:47:30.577Z",
+      "closed_at": null,
+      "merged_at": null,
+      "user": {
+        "login": "dana"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/app/pull/136",
+      "repo": "acme/app",
+      "additions": 360,
+      "deletions": 219,
+      "commits": 8,
+      "comments": 0,
+      "review_comments": 17
+    },
+    {
+      "number": 137,
+      "title": "Add user authentication with session management",
+      "state": "closed",
+      "created_at": "2025-09-02T19:16:02.389Z",
+      "updated_at": "2025-09-02T20:16:02.389Z",
+      "closed_at": "2025-09-02T21:16:02.389Z",
+      "merged_at": null,
+      "user": {
+        "login": "dana"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/mobile/pull/137",
+      "repo": "acme/mobile",
+      "additions": 48,
+      "deletions": 275,
+      "commits": 1,
+      "comments": 1,
+      "review_comments": 10
+    },
+    {
+      "number": 138,
+      "title": "Implement feature flags for rollout",
+      "state": "closed",
+      "created_at": "2025-09-03T19:27:32.191Z",
+      "updated_at": "2025-09-03T20:27:32.191Z",
+      "closed_at": "2025-09-03T23:27:32.191Z",
+      "merged_at": null,
+      "user": {
+        "login": "alice"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/api/pull/138",
+      "repo": "acme/api",
+      "additions": 484,
+      "deletions": 186,
+      "commits": 4,
+      "comments": 0,
+      "review_comments": 3
+    },
+    {
+      "number": 139,
+      "title": "Fix flaky tests in CI",
+      "state": "closed",
+      "created_at": "2025-08-28T07:46:07.543Z",
+      "updated_at": "2025-08-28T08:46:07.543Z",
+      "closed_at": "2025-08-28T10:46:07.543Z",
+      "merged_at": "2025-08-28T10:46:07.543Z",
+      "user": {
+        "login": "eric"
+      },
+      "merged_by": {
+        "login": "alice"
+      },
+      "html_url": "https://github.com/acme/mobile/pull/139",
+      "repo": "acme/mobile",
+      "additions": 746,
+      "deletions": 592,
+      "commits": 4,
+      "comments": 1,
+      "review_comments": 7
+    },
+    {
+      "number": 140,
+      "title": "Add user authentication with session management",
+      "state": "open",
+      "created_at": "2025-09-04T21:08:43.826Z",
+      "updated_at": "2025-09-05T00:08:43.826Z",
+      "closed_at": null,
+      "merged_at": null,
+      "user": {
+        "login": "charlie"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/mobile/pull/140",
+      "repo": "acme/mobile",
+      "additions": 1172,
+      "deletions": 9,
+      "commits": 10,
+      "comments": 5,
+      "review_comments": 10
+    },
+    {
+      "number": 141,
+      "title": "Fix flaky tests in CI",
+      "state": "open",
+      "created_at": "2025-09-06T07:42:06.122Z",
+      "updated_at": "2025-09-06T09:42:06.122Z",
+      "closed_at": null,
+      "merged_at": null,
+      "user": {
+        "login": "alice"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/app/pull/141",
+      "repo": "acme/app",
+      "additions": 219,
+      "deletions": 555,
+      "commits": 1,
+      "comments": 1,
+      "review_comments": 9
+    },
+    {
+      "number": 142,
+      "title": "Add user authentication with session management",
+      "state": "open",
+      "created_at": "2025-08-28T10:33:14.510Z",
+      "updated_at": "2025-08-28T13:33:14.510Z",
+      "closed_at": null,
+      "merged_at": null,
+      "user": {
+        "login": "charlie"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/api/pull/142",
+      "repo": "acme/api",
+      "additions": 447,
+      "deletions": 546,
+      "commits": 5,
+      "comments": 1,
+      "review_comments": 0
+    },
+    {
+      "number": 143,
+      "title": "Implement feature flags for rollout",
+      "state": "closed",
+      "created_at": "2025-09-01T16:56:25.641Z",
+      "updated_at": "2025-09-01T17:56:25.641Z",
+      "closed_at": "2025-09-01T19:56:25.641Z",
+      "merged_at": null,
+      "user": {
+        "login": "charlie"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/api/pull/143",
+      "repo": "acme/api",
+      "additions": 345,
+      "deletions": 376,
+      "commits": 4,
+      "comments": 9,
+      "review_comments": 16
+    },
+    {
+      "number": 144,
+      "title": "Refactor build pipeline and caching",
+      "state": "closed",
+      "created_at": "2025-08-25T07:38:53.930Z",
+      "updated_at": "2025-08-25T08:38:53.930Z",
+      "closed_at": "2025-08-25T09:38:53.930Z",
+      "merged_at": "2025-08-25T09:38:53.930Z",
+      "user": {
+        "login": "dana"
+      },
+      "merged_by": {
+        "login": "bob"
+      },
+      "html_url": "https://github.com/acme/app/pull/144",
+      "repo": "acme/app",
+      "additions": 350,
+      "deletions": 389,
+      "commits": 9,
+      "comments": 4,
+      "review_comments": 11
+    },
+    {
+      "number": 145,
+      "title": "Fix flaky tests in CI",
+      "state": "closed",
+      "created_at": "2025-08-30T03:33:31.000Z",
+      "updated_at": "2025-08-30T05:33:31.000Z",
+      "closed_at": "2025-08-30T06:33:31.000Z",
+      "merged_at": "2025-08-30T06:33:31.000Z",
+      "user": {
+        "login": "alice"
+      },
+      "merged_by": {
+        "login": "alice"
+      },
+      "html_url": "https://github.com/acme/app/pull/145",
+      "repo": "acme/app",
+      "additions": 171,
+      "deletions": 564,
+      "commits": 10,
+      "comments": 12,
+      "review_comments": 18
+    },
+    {
+      "number": 146,
+      "title": "Implement feature flags for rollout",
+      "state": "open",
+      "created_at": "2025-09-07T13:03:06.434Z",
+      "updated_at": "2025-09-07T16:03:06.434Z",
+      "closed_at": null,
+      "merged_at": null,
+      "user": {
+        "login": "bob"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/api/pull/146",
+      "repo": "acme/api",
+      "additions": 264,
+      "deletions": 546,
+      "commits": 7,
+      "comments": 0,
+      "review_comments": 0
+    },
+    {
+      "number": 147,
+      "title": "Implement feature flags for rollout",
+      "state": "open",
+      "created_at": "2025-08-28T13:25:24.333Z",
+      "updated_at": "2025-08-28T15:25:24.333Z",
+      "closed_at": null,
+      "merged_at": null,
+      "user": {
+        "login": "alice"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/api/pull/147",
+      "repo": "acme/api",
+      "additions": 1127,
+      "deletions": 22,
+      "commits": 7,
+      "comments": 10,
+      "review_comments": 0
+    },
+    {
+      "number": 148,
+      "title": "Fix flaky tests in CI",
+      "state": "closed",
+      "created_at": "2025-08-25T13:58:31.236Z",
+      "updated_at": "2025-08-25T16:58:31.236Z",
+      "closed_at": "2025-08-25T18:58:31.236Z",
+      "merged_at": "2025-08-25T18:58:31.236Z",
+      "user": {
+        "login": "dana"
+      },
+      "merged_by": {
+        "login": "dana"
+      },
+      "html_url": "https://github.com/acme/app/pull/148",
+      "repo": "acme/app",
+      "additions": 962,
+      "deletions": 333,
+      "commits": 7,
+      "comments": 0,
+      "review_comments": 4
+    },
+    {
+      "number": 149,
+      "title": "Implement feature flags for rollout",
+      "state": "closed",
+      "created_at": "2025-08-29T22:56:02.103Z",
+      "updated_at": "2025-08-30T01:56:02.103Z",
+      "closed_at": "2025-08-30T04:56:02.103Z",
+      "merged_at": null,
+      "user": {
+        "login": "bob"
+      },
+      "merged_by": null,
+      "html_url": "https://github.com/acme/mobile/pull/149",
+      "repo": "acme/mobile",
+      "additions": 365,
+      "deletions": 295,
+      "commits": 10,
+      "comments": 0,
+      "review_comments": 14
+    }
+  ]
+}

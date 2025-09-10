@@ -160,20 +160,20 @@ function SetupPage({ onComplete, onNavigate }) {
     <AppLayout onNavigate={onNavigate}>
       <div className="max-w-3xl mx-auto">
       <div className="mb-4">
-        <h1 className="text-xl font-semibold text-gray-900 mb-4">Integrations</h1>
-        <p className="text-md text-gray-600">Connect your tools to power insights</p>
+        <h1 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Integrations</h1>
+        <p className="text-md text-gray-600 dark:text-gray-400">Connect your tools to power insights</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
 
-        <div className="bg-white p-4 rounded-xl border border-gray-200">
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold">Linear Integration</h2>
             <button
               type="button"
               onClick={testLinearConnection}
               disabled={testingLinear}
-              className="px-3 py-1 text-sm bg-gray-900 text-white rounded-md hover:bg-black disabled:opacity-60"
+              className="px-3 py-1 text-sm bg-gray-900 dark:bg-gray-600 text-white rounded-md hover:bg-black dark:hover:bg-gray-500 disabled:opacity-60"
             >
               {testingLinear ? 'Testing...' : 'Test Connection'}
             </button>
@@ -181,7 +181,7 @@ function SetupPage({ onComplete, onNavigate }) {
           
           {linearStatus && (
             <div className={`flex items-center gap-2 p-3 rounded-md mb-4 ${
-              linearStatus.success ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'
+              linearStatus.success ? 'bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-300' : 'bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-300'
             }`}>
               {linearStatus.success ? (
                 <CheckCircle className="w-4 h-4" />
@@ -190,24 +190,24 @@ function SetupPage({ onComplete, onNavigate }) {
               )}
               <span className="text-sm">{linearStatus.message}</span>
               {linearStatus.user && (
-                <span className="text-xs opacity-75">({linearStatus.user.name})</span>
+                <span className="text-xs opacity-75 dark:opacity-60">({linearStatus.user.name})</span>
               )}
             </div>
           )}
           
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             Make sure your LINEAR_API_KEY is configured in server/.env
           </p>
         </div>
 
-        <div className="bg-white p-4 rounded-xl border border-gray-200">
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold">Slack Integration</h2>
             <button
               type="button"
               onClick={testSlackConnection}
               disabled={testingSlack}
-              className="px-3 py-1 text-sm bg-gray-900 text-white rounded-md hover:bg-black disabled:opacity-60"
+              className="px-3 py-1 text-sm bg-gray-900 dark:bg-gray-600 text-white rounded-md hover:bg-black dark:hover:bg-gray-500 disabled:opacity-60"
             >
               {testingSlack ? 'Testing...' : 'Test Connection'}
             </button>
@@ -215,7 +215,7 @@ function SetupPage({ onComplete, onNavigate }) {
           
           {slackStatus && (
             <div className={`flex items-center gap-2 p-3 rounded-md mb-4 ${
-              slackStatus.success ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'
+              slackStatus.success ? 'bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-300' : 'bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-300'
             }`}>
               {slackStatus.success ? (
                 <CheckCircle className="w-4 h-4" />
@@ -224,24 +224,24 @@ function SetupPage({ onComplete, onNavigate }) {
               )}
               <span className="text-sm">{slackStatus.message}</span>
               {slackStatus.team && (
-                <span className="text-xs opacity-75">({slackStatus.team})</span>
+                <span className="text-xs opacity-75 dark:opacity-60">({slackStatus.team})</span>
               )}
             </div>
           )}
           
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             Make sure your SLACK_BOT_TOKEN is configured in server/.env (optional)
           </p>
         </div>
 
-        <div className="bg-white p-4 rounded-xl border border-gray-200">
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold">GitHub Integration</h2>
             <button
               type="button"
               onClick={testGithubConnection}
               disabled={testingGithub}
-              className="px-3 py-1 text-sm bg-gray-900 text-white rounded-md hover:bg-black disabled:opacity-60"
+              className="px-3 py-1 text-sm bg-gray-900 dark:bg-gray-600 text-white rounded-md hover:bg-black dark:hover:bg-gray-500 disabled:opacity-60"
             >
               {testingGithub ? 'Testing...' : 'Test Connection'}
             </button>
@@ -249,7 +249,7 @@ function SetupPage({ onComplete, onNavigate }) {
           
           {githubStatus && (
             <div className={`flex items-center gap-2 p-3 rounded-md mb-4 ${
-              githubStatus.success ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'
+              githubStatus.success ? 'bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-300' : 'bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-300'
             }`}>
               {githubStatus.success ? (
                 <CheckCircle className="w-4 h-4" />
@@ -258,17 +258,17 @@ function SetupPage({ onComplete, onNavigate }) {
               )}
               <span className="text-sm">{githubStatus.message}</span>
               {githubStatus.user && (
-                <span className="text-xs opacity-75">(@{githubStatus.user})</span>
+                <span className="text-xs opacity-75 dark:opacity-60">(@{githubStatus.user})</span>
               )}
             </div>
           )}
           
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             Make sure your GITHUB_TOKEN is configured in server/.env (optional)
           </p>
         </div>
 
-        <div className="bg-white p-4 rounded-xl border border-gray-200">
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <Brain className="w-5 h-5 text-purple-600" />
@@ -286,7 +286,7 @@ function SetupPage({ onComplete, onNavigate }) {
           
           {llmStatus && (
             <div className={`flex items-center gap-2 p-3 rounded-md mb-4 ${
-              llmStatus.success ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'
+              llmStatus.success ? 'bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-300' : 'bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-300'
             }`}>
               {llmStatus.success ? (
                 <CheckCircle className="w-4 h-4" />
@@ -296,12 +296,12 @@ function SetupPage({ onComplete, onNavigate }) {
               <div className="flex-1">
                 <span className="text-sm">{llmStatus.message}</span>
                 {llmStatus.provider && llmStatus.model && (
-                  <span className="text-xs opacity-75 block">
+                  <span className="text-xs opacity-75 dark:opacity-60 block">
                     Provider: {llmStatus.provider}, Model: {llmStatus.model}
                   </span>
                 )}
                 {llmStatus.details && (
-                  <span className="text-xs opacity-75 block">
+                  <span className="text-xs opacity-75 dark:opacity-60 block">
                     {llmStatus.details}
                   </span>
                 )}
@@ -311,14 +311,14 @@ function SetupPage({ onComplete, onNavigate }) {
 
           <div className="space-y-4">
             <div>
-              <label htmlFor="llm-provider" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="llm-provider" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 AI Provider
               </label>
               <select
                 id="llm-provider"
                 value={llmConfig.provider}
                 onChange={(e) => handleLlmConfigChange('provider', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400"
               >
                 <option value="">Disabled (Rule-based analysis only)</option>
                 <option value="openai">OpenAI (GPT-4, GPT-3.5)</option>
@@ -329,7 +329,7 @@ function SetupPage({ onComplete, onNavigate }) {
 
             {llmConfig.provider && llmConfig.provider !== 'local' && (
               <div>
-                <label htmlFor="llm-api-key" className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="llm-api-key" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   API Key
                 </label>
                 <div className="relative">
@@ -339,13 +339,13 @@ function SetupPage({ onComplete, onNavigate }) {
                     value={llmConfig.apiKey}
                     onChange={(e) => handleLlmConfigChange('apiKey', e.target.value)}
                     placeholder={`Enter your ${llmConfig.provider.toUpperCase()} API key`}
-                    className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 pr-10 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400"
                   />
                   <button
                     type="button"
                     onClick={() => setShowApiKey(!showApiKey)}
                     aria-label={showApiKey ? 'Hide API key' : 'Show API key'}
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300"
                   >
                     {showApiKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -355,14 +355,14 @@ function SetupPage({ onComplete, onNavigate }) {
 
             {llmConfig.provider && (
               <div>
-                <label htmlFor="llm-model" className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="llm-model" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Model
                 </label>
                 <select
                   id="llm-model"
                   value={llmConfig.model}
                   onChange={(e) => handleLlmConfigChange('model', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400"
                 >
                   {getProviderModels(llmConfig.provider).map(model => (
                     <option key={model} value={model}>{model}</option>
@@ -379,16 +379,16 @@ function SetupPage({ onComplete, onNavigate }) {
                     type="checkbox"
                     checked={llmConfig.privacyMode}
                     onChange={(e) => handleLlmConfigChange('privacyMode', e.target.checked)}
-                    className="rounded border-gray-300 text-gray-900 focus:ring-gray-700"
+                    className="rounded border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:ring-gray-700 dark:focus:ring-gray-400"
                   />
-                  <span className="text-sm text-gray-700">Privacy Mode</span>
+                  <span className="text-sm text-gray-700 dark:text-gray-300">Privacy Mode</span>
                 </label>
               </div>
             )}
           </div>
 
-          <div className="mt-4 p-3 bg-gray-50 rounded-md">
-            <p className="text-sm text-gray-600">
+          <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-md">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               {llmConfig.provider ? (
                 llmConfig.provider === 'local' ? (
                   'Local models keep your data private and don\'t require API keys. Make sure Ollama is running locally.'
@@ -404,9 +404,9 @@ function SetupPage({ onComplete, onNavigate }) {
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-xl border border-gray-200">
-          <h2 className="text-lg font-semibold mb-4">Team Members</h2>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Team Members</h2>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Team Members (comma-separated)
           </label>
           <input
@@ -414,16 +414,16 @@ function SetupPage({ onComplete, onNavigate }) {
             value={teamMembers}
             onChange={(e) => setTeamMembers(e.target.value)}
             placeholder="john.doe, jane.smith, alex.wilson"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
           />
-          <p className="text-sm text-gray-500 mt-2">
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
             Leave empty to include all team members
           </p>
         </div>
 
         <button
           type="submit"
-          className="w-full bg-gray-900 text-white py-3 px-4 rounded-md hover:bg-black transition-colors flex items-center justify-center gap-2"
+          className="w-full bg-gray-900 dark:bg-gray-600 text-white py-3 px-4 rounded-md hover:bg-black dark:hover:bg-gray-500 transition-colors flex items-center justify-center gap-2"
         >
           Continue
           <ArrowRight className="w-4 h-4" />

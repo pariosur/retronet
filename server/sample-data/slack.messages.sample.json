@@ -1,0 +1,665 @@
+{
+  "messages": [
+    {
+      "type": "message",
+      "user": "U25887",
+      "text": "Blocked on flaky CI. Seeing error on node 18 builds.",
+      "ts": "1756389092.000811",
+      "thread_ts": null,
+      "reply_count": 0,
+      "reactions": [
+        {
+          "name": "rocket",
+          "count": 4,
+          "users": []
+        }
+      ],
+      "channel": "standup",
+      "channelId": "CSTAND"
+    },
+    {
+      "type": "message",
+      "user": "U59553",
+      "text": "Thanks everyone for the quick turnaround 👏",
+      "ts": "1756774673.000379",
+      "thread_ts": null,
+      "reply_count": 0,
+      "channel": "standup",
+      "channelId": "CSTAND"
+    },
+    {
+      "type": "message",
+      "user": "U14039",
+      "text": "Can someone review PR #124?",
+      "ts": "1756553453.000874",
+      "thread_ts": null,
+      "reply_count": 0,
+      "channel": "dev",
+      "channelId": "CDEV001"
+    },
+    {
+      "type": "message",
+      "user": "U22605",
+      "text": "Thanks everyone for the quick turnaround 👏",
+      "ts": "1756214865.000245",
+      "thread_ts": null,
+      "reply_count": 0,
+      "reactions": [
+        {
+          "name": "warning",
+          "count": 6,
+          "users": []
+        }
+      ],
+      "channel": "general",
+      "channelId": "CGEN001"
+    },
+    {
+      "type": "message",
+      "user": "U39477",
+      "text": "Bug appears in staging only, investigating now",
+      "ts": "1756561823.000745",
+      "thread_ts": null,
+      "reply_count": 0,
+      "channel": "dev",
+      "channelId": "CDEV001"
+    },
+    {
+      "type": "message",
+      "user": "U60447",
+      "text": "Can someone review PR #124?",
+      "ts": "1756201714.000077",
+      "thread_ts": null,
+      "reply_count": 0,
+      "channel": "dev",
+      "channelId": "CDEV001"
+    },
+    {
+      "type": "message",
+      "user": "U87878",
+      "text": "Can someone review PR #124?",
+      "ts": "1756413771.000092",
+      "thread_ts": null,
+      "reply_count": 0,
+      "channel": "engineering",
+      "channelId": "CENG001"
+    },
+    {
+      "type": "message",
+      "user": "U68754",
+      "text": "Can someone review PR #124?",
+      "ts": "1756480673.000541",
+      "thread_ts": null,
+      "reply_count": 0,
+      "channel": "standup",
+      "channelId": "CSTAND"
+    },
+    {
+      "type": "message",
+      "user": "U74190",
+      "text": "Bug appears in staging only, investigating now",
+      "ts": "1756355708.000763",
+      "thread_ts": null,
+      "reply_count": 0,
+      "channel": "standup",
+      "channelId": "CSTAND"
+    },
+    {
+      "type": "message",
+      "user": "U29610",
+      "text": "Bug appears in staging only, investigating now",
+      "ts": "1756375898.000092",
+      "thread_ts": "1756375928.000092",
+      "reply_count": 3,
+      "channel": "general",
+      "channelId": "CGEN001"
+    },
+    {
+      "type": "message",
+      "user": "U29332",
+      "text": "Blocked on flaky CI. Seeing error on node 18 builds.",
+      "ts": "1756600589.000262",
+      "thread_ts": null,
+      "reply_count": 0,
+      "channel": "engineering",
+      "channelId": "CENG001"
+    },
+    {
+      "type": "message",
+      "user": "U81727",
+      "text": "The deploy went smoothly ✅",
+      "ts": "1756154745.000603",
+      "thread_ts": "1756154775.000603",
+      "reply_count": 3,
+      "reactions": [
+        {
+          "name": "tada",
+          "count": 6,
+          "users": []
+        }
+      ],
+      "channel": "general",
+      "channelId": "CGEN001"
+    },
+    {
+      "type": "message",
+      "user": "U23060",
+      "text": "Blocked on flaky CI. Seeing error on node 18 builds.",
+      "ts": "1756593479.000326",
+      "thread_ts": null,
+      "reply_count": 0,
+      "channel": "standup",
+      "channelId": "CSTAND"
+    },
+    {
+      "type": "message",
+      "user": "U77541",
+      "text": "Blocked on flaky CI. Seeing error on node 18 builds.",
+      "ts": "1756174751.000719",
+      "thread_ts": "1756174781.000719",
+      "reply_count": 6,
+      "channel": "engineering",
+      "channelId": "CENG001"
+    },
+    {
+      "type": "message",
+      "user": "U71356",
+      "text": "Blocked on flaky CI. Seeing error on node 18 builds.",
+      "ts": "1757247946.000471",
+      "thread_ts": "1757247976.000471",
+      "reply_count": 5,
+      "reactions": [
+        {
+          "name": "fire",
+          "count": 2,
+          "users": []
+        }
+      ],
+      "channel": "dev",
+      "channelId": "CDEV001"
+    },
+    {
+      "type": "message",
+      "user": "U95841",
+      "text": "Can someone review PR #124?",
+      "ts": "1756805787.000249",
+      "thread_ts": null,
+      "reply_count": 0,
+      "channel": "general",
+      "channelId": "CGEN001"
+    },
+    {
+      "type": "message",
+      "user": "U94054",
+      "text": "Thanks everyone for the quick turnaround 👏",
+      "ts": "1756875196.000938",
+      "thread_ts": null,
+      "reply_count": 0,
+      "reactions": [
+        {
+          "name": "thumbsup",
+          "count": 6,
+          "users": []
+        }
+      ],
+      "channel": "engineering",
+      "channelId": "CENG001"
+    },
+    {
+      "type": "message",
+      "user": "U24232",
+      "text": "Can someone review PR #124?",
+      "ts": "1756666962.000097",
+      "thread_ts": null,
+      "reply_count": 0,
+      "reactions": [
+        {
+          "name": "rocket",
+          "count": 4,
+          "users": []
+        }
+      ],
+      "channel": "standup",
+      "channelId": "CSTAND"
+    },
+    {
+      "type": "message",
+      "user": "U89971",
+      "text": "Can someone review PR #124?",
+      "ts": "1756093861.000374",
+      "thread_ts": "1756093891.000374",
+      "reply_count": 3,
+      "reactions": [
+        {
+          "name": "warning",
+          "count": 1,
+          "users": []
+        }
+      ],
+      "channel": "standup",
+      "channelId": "CSTAND"
+    },
+    {
+      "type": "message",
+      "user": "U38593",
+      "text": "Planning: let’s review priorities in the afternoon",
+      "ts": "1756780076.000601",
+      "thread_ts": null,
+      "reply_count": 0,
+      "channel": "engineering",
+      "channelId": "CENG001"
+    },
+    {
+      "type": "message",
+      "user": "U90214",
+      "text": "We shipped v1.2.x to prod today 🎉 great job team!",
+      "ts": "1756232726.000800",
+      "thread_ts": "1756232756.000800",
+      "reply_count": 2,
+      "reactions": [
+        {
+          "name": "thumbsup",
+          "count": 3,
+          "users": []
+        }
+      ],
+      "channel": "engineering",
+      "channelId": "CENG001"
+    },
+    {
+      "type": "message",
+      "user": "U33913",
+      "text": "Standup: finished auth flow, starting cache improvements 🚀",
+      "ts": "1757156493.000800",
+      "thread_ts": "1757156523.000800",
+      "reply_count": 6,
+      "channel": "general",
+      "channelId": "CGEN001"
+    },
+    {
+      "type": "message",
+      "user": "U28502",
+      "text": "Thanks everyone for the quick turnaround 👏",
+      "ts": "1756633807.000386",
+      "thread_ts": null,
+      "reply_count": 0,
+      "reactions": [
+        {
+          "name": "rocket",
+          "count": 1,
+          "users": []
+        }
+      ],
+      "channel": "general",
+      "channelId": "CGEN001"
+    },
+    {
+      "type": "message",
+      "user": "U48090",
+      "text": "The deploy went smoothly ✅",
+      "ts": "1756422629.000786",
+      "thread_ts": null,
+      "reply_count": 0,
+      "reactions": [
+        {
+          "name": "warning",
+          "count": 1,
+          "users": []
+        }
+      ],
+      "channel": "general",
+      "channelId": "CGEN001"
+    },
+    {
+      "type": "message",
+      "user": "U23923",
+      "text": "Can someone review PR #124?",
+      "ts": "1756897027.000892",
+      "thread_ts": "1756897057.000892",
+      "reply_count": 5,
+      "reactions": [
+        {
+          "name": "thumbsup",
+          "count": 4,
+          "users": []
+        }
+      ],
+      "channel": "dev",
+      "channelId": "CDEV001"
+    },
+    {
+      "type": "message",
+      "user": "U16175",
+      "text": "We shipped v1.2.x to prod today 🎉 great job team!",
+      "ts": "1756883955.000054",
+      "thread_ts": "1756883985.000054",
+      "reply_count": 3,
+      "channel": "standup",
+      "channelId": "CSTAND"
+    },
+    {
+      "type": "message",
+      "user": "U57900",
+      "text": "Bug appears in staging only, investigating now",
+      "ts": "1756277346.000059",
+      "thread_ts": "1756277376.000059",
+      "reply_count": 3,
+      "channel": "standup",
+      "channelId": "CSTAND"
+    },
+    {
+      "type": "message",
+      "user": "U16979",
+      "text": "Planning: let’s review priorities in the afternoon",
+      "ts": "1756122901.000356",
+      "thread_ts": null,
+      "reply_count": 0,
+      "reactions": [
+        {
+          "name": "fire",
+          "count": 2,
+          "users": []
+        }
+      ],
+      "channel": "general",
+      "channelId": "CGEN001"
+    },
+    {
+      "type": "message",
+      "user": "U64430",
+      "text": "Can someone review PR #124?",
+      "ts": "1756918888.000085",
+      "thread_ts": null,
+      "reply_count": 0,
+      "channel": "standup",
+      "channelId": "CSTAND"
+    },
+    {
+      "type": "message",
+      "user": "U39736",
+      "text": "Blocked on flaky CI. Seeing error on node 18 builds.",
+      "ts": "1756092340.000775",
+      "thread_ts": null,
+      "reply_count": 0,
+      "channel": "engineering",
+      "channelId": "CENG001"
+    },
+    {
+      "type": "message",
+      "user": "U51696",
+      "text": "Standup: finished auth flow, starting cache improvements 🚀",
+      "ts": "1756194013.000561",
+      "thread_ts": null,
+      "reply_count": 0,
+      "reactions": [
+        {
+          "name": "warning",
+          "count": 3,
+          "users": []
+        }
+      ],
+      "channel": "engineering",
+      "channelId": "CENG001"
+    },
+    {
+      "type": "message",
+      "user": "U19292",
+      "text": "We shipped v1.2.x to prod today 🎉 great job team!",
+      "ts": "1757031254.000924",
+      "thread_ts": "1757031284.000924",
+      "reply_count": 2,
+      "reactions": [
+        {
+          "name": "thumbsup",
+          "count": 2,
+          "users": []
+        }
+      ],
+      "channel": "dev",
+      "channelId": "CDEV001"
+    },
+    {
+      "type": "message",
+      "user": "U49522",
+      "text": "Blocked on flaky CI. Seeing error on node 18 builds.",
+      "ts": "1757193380.000525",
+      "thread_ts": null,
+      "reply_count": 0,
+      "channel": "dev",
+      "channelId": "CDEV001"
+    },
+    {
+      "type": "message",
+      "user": "U83711",
+      "text": "The deploy went smoothly ✅",
+      "ts": "1756403004.000215",
+      "thread_ts": null,
+      "reply_count": 0,
+      "channel": "engineering",
+      "channelId": "CENG001"
+    },
+    {
+      "type": "message",
+      "user": "U85306",
+      "text": "Blocked on flaky CI. Seeing error on node 18 builds.",
+      "ts": "1756089988.000296",
+      "thread_ts": "1756090018.000296",
+      "reply_count": 4,
+      "channel": "dev",
+      "channelId": "CDEV001"
+    },
+    {
+      "type": "message",
+      "user": "U50311",
+      "text": "We shipped v1.2.x to prod today 🎉 great job team!",
+      "ts": "1756562160.000708",
+      "thread_ts": null,
+      "reply_count": 0,
+      "channel": "dev",
+      "channelId": "CDEV001"
+    },
+    {
+      "type": "message",
+      "user": "U40206",
+      "text": "Bug appears in staging only, investigating now",
+      "ts": "1757031950.000318",
+      "thread_ts": null,
+      "reply_count": 0,
+      "channel": "standup",
+      "channelId": "CSTAND"
+    },
+    {
+      "type": "message",
+      "user": "U75753",
+      "text": "Thanks everyone for the quick turnaround 👏",
+      "ts": "1756732096.000408",
+      "thread_ts": null,
+      "reply_count": 0,
+      "reactions": [
+        {
+          "name": "thumbsup",
+          "count": 2,
+          "users": []
+        }
+      ],
+      "channel": "general",
+      "channelId": "CGEN001"
+    },
+    {
+      "type": "message",
+      "user": "U26962",
+      "text": "We shipped v1.2.x to prod today 🎉 great job team!",
+      "ts": "1756529306.000883",
+      "thread_ts": "1756529336.000883",
+      "reply_count": 2,
+      "reactions": [
+        {
+          "name": "tada",
+          "count": 5,
+          "users": []
+        }
+      ],
+      "channel": "engineering",
+      "channelId": "CENG001"
+    },
+    {
+      "type": "message",
+      "user": "U54157",
+      "text": "We shipped v1.2.x to prod today 🎉 great job team!",
+      "ts": "1756328008.000282",
+      "thread_ts": null,
+      "reply_count": 0,
+      "reactions": [
+        {
+          "name": "rocket",
+          "count": 2,
+          "users": []
+        }
+      ],
+      "channel": "engineering",
+      "channelId": "CENG001"
+    },
+    {
+      "type": "message",
+      "user": "U23183",
+      "text": "The deploy went smoothly ✅",
+      "ts": "1757017564.000103",
+      "thread_ts": "1757017594.000103",
+      "reply_count": 2,
+      "reactions": [
+        {
+          "name": "rocket",
+          "count": 1,
+          "users": []
+        }
+      ],
+      "channel": "dev",
+      "channelId": "CDEV001"
+    },
+    {
+      "type": "message",
+      "user": "U82972",
+      "text": "Standup: finished auth flow, starting cache improvements 🚀",
+      "ts": "1756784946.000651",
+      "thread_ts": null,
+      "reply_count": 0,
+      "channel": "engineering",
+      "channelId": "CENG001"
+    },
+    {
+      "type": "message",
+      "user": "U20534",
+      "text": "Bug appears in staging only, investigating now",
+      "ts": "1756263019.000577",
+      "thread_ts": null,
+      "reply_count": 0,
+      "reactions": [
+        {
+          "name": "warning",
+          "count": 4,
+          "users": []
+        }
+      ],
+      "channel": "dev",
+      "channelId": "CDEV001"
+    },
+    {
+      "type": "message",
+      "user": "U77652",
+      "text": "We shipped v1.2.x to prod today 🎉 great job team!",
+      "ts": "1756978076.000175",
+      "thread_ts": "1756978106.000175",
+      "reply_count": 4,
+      "channel": "engineering",
+      "channelId": "CENG001"
+    },
+    {
+      "type": "message",
+      "user": "U31369",
+      "text": "Thanks everyone for the quick turnaround 👏",
+      "ts": "1757097966.000993",
+      "thread_ts": null,
+      "reply_count": 0,
+      "reactions": [
+        {
+          "name": "thumbsup",
+          "count": 4,
+          "users": []
+        }
+      ],
+      "channel": "dev",
+      "channelId": "CDEV001"
+    },
+    {
+      "type": "message",
+      "user": "U93393",
+      "text": "Can someone review PR #124?",
+      "ts": "1757156869.000423",
+      "thread_ts": null,
+      "reply_count": 0,
+      "reactions": [
+        {
+          "name": "fire",
+          "count": 4,
+          "users": []
+        }
+      ],
+      "channel": "general",
+      "channelId": "CGEN001"
+    },
+    {
+      "type": "message",
+      "user": "U19182",
+      "text": "Planning: let’s review priorities in the afternoon",
+      "ts": "1756687484.000588",
+      "thread_ts": null,
+      "reply_count": 0,
+      "channel": "engineering",
+      "channelId": "CENG001"
+    },
+    {
+      "type": "message",
+      "user": "U42247",
+      "text": "We shipped v1.2.x to prod today 🎉 great job team!",
+      "ts": "1757232558.000086",
+      "thread_ts": "1757232588.000086",
+      "reply_count": 2,
+      "reactions": [
+        {
+          "name": "fire",
+          "count": 4,
+          "users": []
+        }
+      ],
+      "channel": "standup",
+      "channelId": "CSTAND"
+    },
+    {
+      "type": "message",
+      "user": "U27053",
+      "text": "Can someone review PR #124?",
+      "ts": "1757101154.000795",
+      "thread_ts": "1757101184.000795",
+      "reply_count": 4,
+      "reactions": [
+        {
+          "name": "thumbsup",
+          "count": 3,
+          "users": []
+        }
+      ],
+      "channel": "engineering",
+      "channelId": "CENG001"
+    },
+    {
+      "type": "message",
+      "user": "U95665",
+      "text": "Thanks everyone for the quick turnaround 👏",
+      "ts": "1756523446.000859",
+      "thread_ts": "1756523476.000859",
+      "reply_count": 3,
+      "channel": "engineering",
+      "channelId": "CENG001"
+    }
+  ]
+}

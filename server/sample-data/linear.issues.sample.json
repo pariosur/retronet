@@ -1,0 +1,3047 @@
+{
+  "issues": [
+    {
+      "id": "lin_cf559392",
+      "title": "Add export functionality",
+      "description": "Allow users to export retros to CSV.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": {
+        "name": "Alice Johnson",
+        "email": "alice@example.com"
+      },
+      "createdAt": "2025-08-25T03:53:55.277Z",
+      "updatedAt": "2025-08-25T08:53:55.277Z",
+      "completedAt": "2025-08-26T06:53:55.277Z",
+      "estimate": 5,
+      "priority": 0,
+      "priorityLabel": "None",
+      "labels": {
+        "nodes": [
+          {
+            "name": "bug",
+            "color": "#da1e28"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_814d",
+        "name": "User Platform",
+        "targetDate": null
+      },
+      "projectMilestone": {
+        "id": "mile_1601",
+        "name": "MVP",
+        "targetDate": "2025-08-24"
+      },
+      "team": {
+        "id": "team_396a",
+        "name": "Platform"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Please add tests",
+            "createdAt": "2025-08-30T19:07:51.784Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          },
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-09-05T17:04:24.300Z",
+            "user": {
+              "name": "Charlie Kim"
+            }
+          },
+          {
+            "body": "Reviewed and approved",
+            "createdAt": "2025-09-05T20:36:52.393Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_1964c074",
+      "title": "Add export functionality",
+      "description": "As a user I can log in with OAuth.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": {
+        "name": "Charlie Kim",
+        "email": "charlie@example.com"
+      },
+      "createdAt": "2025-08-27T18:28:30.227Z",
+      "updatedAt": "2025-08-27T23:28:30.227Z",
+      "completedAt": "2025-08-28T16:28:30.227Z",
+      "estimate": 7,
+      "priority": 1,
+      "priorityLabel": "Low",
+      "labels": {
+        "nodes": [
+          {
+            "name": "bug",
+            "color": "#da1e28"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_a2df",
+        "name": "User Platform",
+        "targetDate": "2025-08-30"
+      },
+      "projectMilestone": null,
+      "team": {
+        "id": "team_d890",
+        "name": "Platform"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Please add tests",
+            "createdAt": "2025-09-02T07:26:43.800Z",
+            "user": {
+              "name": "Eric Wu"
+            }
+          },
+          {
+            "body": "Need to rebase",
+            "createdAt": "2025-08-30T12:10:32.476Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_7ce27307",
+      "title": "Implement OAuth login flow",
+      "description": "Allow users to export retros to CSV.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": {
+        "name": "Dana Lee",
+        "email": "dana@example.com"
+      },
+      "createdAt": "2025-09-06T16:08:07.272Z",
+      "updatedAt": "2025-09-06T20:08:07.272Z",
+      "completedAt": "2025-09-07T03:08:07.272Z",
+      "estimate": 7,
+      "priority": 3,
+      "priorityLabel": "High",
+      "labels": {
+        "nodes": [
+          {
+            "name": "feature",
+            "color": "#0f62fe"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_859c",
+        "name": "Messaging",
+        "targetDate": null
+      },
+      "projectMilestone": {
+        "id": "mile_4754",
+        "name": "GA",
+        "targetDate": "2025-08-27"
+      },
+      "team": {
+        "id": "team_69fe",
+        "name": "Core"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Reviewed and approved",
+            "createdAt": "2025-09-05T02:18:10.801Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_14292b3a",
+      "title": "Improve CI cache to speed up builds",
+      "description": "Improve resilience to transient failures.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": {
+        "name": "Charlie Kim",
+        "email": "charlie@example.com"
+      },
+      "createdAt": "2025-09-03T08:21:25.484Z",
+      "updatedAt": "2025-09-03T09:21:25.484Z",
+      "completedAt": "2025-09-04T03:21:25.484Z",
+      "estimate": 3,
+      "priority": 4,
+      "priorityLabel": "Urgent",
+      "labels": {
+        "nodes": [
+          {
+            "name": "feature",
+            "color": "#0f62fe"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_ec5d",
+        "name": "Observability",
+        "targetDate": "2025-08-23"
+      },
+      "projectMilestone": {
+        "id": "mile_5e92",
+        "name": "Beta",
+        "targetDate": "2025-08-06"
+      },
+      "team": {
+        "id": "team_ffb4",
+        "name": "Product"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-09-06T10:57:50.200Z",
+            "user": {
+              "name": "Eric Wu"
+            }
+          },
+          {
+            "body": "Need to rebase",
+            "createdAt": "2025-09-05T15:02:19.674Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          },
+          {
+            "body": "Reviewed and approved",
+            "createdAt": "2025-08-29T22:03:53.457Z",
+            "user": {
+              "name": "Eric Wu"
+            }
+          },
+          {
+            "body": "Please add tests",
+            "createdAt": "2025-09-03T05:54:56.006Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_dec2de97",
+      "title": "Improve CI cache to speed up builds",
+      "description": "Improve resilience to transient failures.",
+      "state": {
+        "name": "Backlog",
+        "type": "triage"
+      },
+      "assignee": {
+        "name": "Alice Johnson",
+        "email": "alice@example.com"
+      },
+      "createdAt": "2025-08-26T21:33:01.358Z",
+      "updatedAt": "2025-08-27T00:33:01.358Z",
+      "completedAt": null,
+      "estimate": 1,
+      "priority": 4,
+      "priorityLabel": "Urgent",
+      "labels": {
+        "nodes": [
+          {
+            "name": "bug",
+            "color": "#da1e28"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_fe6c",
+        "name": "Messaging",
+        "targetDate": "2025-09-04"
+      },
+      "projectMilestone": {
+        "id": "mile_2ec1",
+        "name": "MVP",
+        "targetDate": "2025-08-04"
+      },
+      "team": {
+        "id": "team_df32",
+        "name": "Core"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Reviewed and approved",
+            "createdAt": "2025-09-02T00:01:02.386Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          },
+          {
+            "body": "Reviewed and approved",
+            "createdAt": "2025-09-07T22:43:43.704Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          },
+          {
+            "body": "Looks good",
+            "createdAt": "2025-09-05T05:13:58.568Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          },
+          {
+            "body": "Need to rebase",
+            "createdAt": "2025-08-29T15:24:33.174Z",
+            "user": {
+              "name": "Eric Wu"
+            }
+          },
+          {
+            "body": "Reviewed and approved",
+            "createdAt": "2025-09-01T19:32:14.564Z",
+            "user": {
+              "name": "Bob Smith"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_704852fd",
+      "title": "Add export functionality",
+      "description": "Allow users to export retros to CSV.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": {
+        "name": "Charlie Kim",
+        "email": "charlie@example.com"
+      },
+      "createdAt": "2025-09-07T12:33:46.014Z",
+      "updatedAt": "2025-09-07T18:33:46.014Z",
+      "completedAt": "2025-09-08T11:33:46.014Z",
+      "estimate": 6,
+      "priority": 3,
+      "priorityLabel": "High",
+      "labels": {
+        "nodes": [
+          {
+            "name": "feature",
+            "color": "#0f62fe"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_cecb",
+        "name": "Observability",
+        "targetDate": null
+      },
+      "projectMilestone": null,
+      "team": {
+        "id": "team_f321",
+        "name": "Core"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Please add tests",
+            "createdAt": "2025-09-02T19:01:00.881Z",
+            "user": {
+              "name": "Charlie Kim"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_03f2550e",
+      "title": "Add export functionality",
+      "description": "Occasional duplicate deliveries observed.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": {
+        "name": "Bob Smith",
+        "email": "bob@example.com"
+      },
+      "createdAt": "2025-08-25T02:01:14.956Z",
+      "updatedAt": "2025-08-25T03:01:14.956Z",
+      "completedAt": "2025-08-25T23:01:14.956Z",
+      "estimate": 2,
+      "priority": 2,
+      "priorityLabel": "Medium",
+      "labels": {
+        "nodes": [
+          {
+            "name": "enhancement",
+            "color": "#24a148"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_c2c6",
+        "name": "Observability",
+        "targetDate": "2025-08-24"
+      },
+      "projectMilestone": null,
+      "team": {
+        "id": "team_d438",
+        "name": "Platform"
+      },
+      "comments": {
+        "nodes": []
+      }
+    },
+    {
+      "id": "lin_48fe74a7",
+      "title": "Fix race condition in message broker",
+      "description": "Allow users to export retros to CSV.",
+      "state": {
+        "name": "Backlog",
+        "type": "triage"
+      },
+      "assignee": {
+        "name": "Charlie Kim",
+        "email": "charlie@example.com"
+      },
+      "createdAt": "2025-08-31T16:28:29.145Z",
+      "updatedAt": "2025-08-31T22:28:29.145Z",
+      "completedAt": null,
+      "estimate": 3,
+      "priority": 4,
+      "priorityLabel": "Urgent",
+      "labels": {
+        "nodes": [
+          {
+            "name": "feature",
+            "color": "#0f62fe"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_ad6e",
+        "name": "Messaging",
+        "targetDate": "2025-08-27"
+      },
+      "projectMilestone": null,
+      "team": {
+        "id": "team_4269",
+        "name": "Core"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Please add tests",
+            "createdAt": "2025-08-29T19:28:26.208Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          },
+          {
+            "body": "Need to rebase",
+            "createdAt": "2025-08-31T06:05:17.986Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          },
+          {
+            "body": "Need to rebase",
+            "createdAt": "2025-09-06T09:49:44.344Z",
+            "user": {
+              "name": "Charlie Kim"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_1fc2627a",
+      "title": "Enhance error handling and retries",
+      "description": "Occasional duplicate deliveries observed.",
+      "state": {
+        "name": "In Progress",
+        "type": "started"
+      },
+      "assignee": null,
+      "createdAt": "2025-08-31T02:47:56.111Z",
+      "updatedAt": "2025-08-31T03:47:56.111Z",
+      "completedAt": null,
+      "estimate": 2,
+      "priority": 4,
+      "priorityLabel": "Urgent",
+      "labels": {
+        "nodes": [
+          {
+            "name": "bug",
+            "color": "#da1e28"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_b3d1",
+        "name": "Messaging",
+        "targetDate": null
+      },
+      "projectMilestone": null,
+      "team": {
+        "id": "team_a9c0",
+        "name": "Product"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Please add tests",
+            "createdAt": "2025-09-02T02:52:06.274Z",
+            "user": {
+              "name": "Bob Smith"
+            }
+          },
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-08-31T01:08:09.945Z",
+            "user": {
+              "name": "Charlie Kim"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_bc98471d",
+      "title": "Fix race condition in message broker",
+      "description": "Improve resilience to transient failures.",
+      "state": {
+        "name": "In Progress",
+        "type": "started"
+      },
+      "assignee": {
+        "name": "Bob Smith",
+        "email": "bob@example.com"
+      },
+      "createdAt": "2025-08-30T09:25:58.484Z",
+      "updatedAt": "2025-08-30T15:25:58.484Z",
+      "completedAt": null,
+      "estimate": 3,
+      "priority": 2,
+      "priorityLabel": "Medium",
+      "labels": {
+        "nodes": [
+          {
+            "name": "enhancement",
+            "color": "#24a148"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_cdd0",
+        "name": "User Platform",
+        "targetDate": "2025-08-10"
+      },
+      "projectMilestone": {
+        "id": "mile_66c8",
+        "name": "MVP",
+        "targetDate": "2025-09-02"
+      },
+      "team": {
+        "id": "team_2e10",
+        "name": "Platform"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Need to rebase",
+            "createdAt": "2025-09-01T09:42:52.075Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          },
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-09-05T05:38:58.792Z",
+            "user": {
+              "name": "Charlie Kim"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_348c71e4",
+      "title": "Enhance error handling and retries",
+      "description": "As a user I can log in with OAuth.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": {
+        "name": "Eric Wu",
+        "email": "eric@example.com"
+      },
+      "createdAt": "2025-08-29T08:37:19.338Z",
+      "updatedAt": "2025-08-29T09:37:19.338Z",
+      "completedAt": "2025-08-30T04:37:19.338Z",
+      "estimate": 3,
+      "priority": 0,
+      "priorityLabel": "None",
+      "labels": {
+        "nodes": [
+          {
+            "name": "bug",
+            "color": "#da1e28"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_96a5",
+        "name": "DX",
+        "targetDate": "2025-08-26"
+      },
+      "projectMilestone": {
+        "id": "mile_9c4b",
+        "name": "MVP",
+        "targetDate": "2025-09-06"
+      },
+      "team": {
+        "id": "team_bac9",
+        "name": "Platform"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Reviewed and approved",
+            "createdAt": "2025-09-03T11:50:25.084Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_e42d1066",
+      "title": "Improve CI cache to speed up builds",
+      "description": "Improve resilience to transient failures.",
+      "state": {
+        "name": "Backlog",
+        "type": "triage"
+      },
+      "assignee": {
+        "name": "Charlie Kim",
+        "email": "charlie@example.com"
+      },
+      "createdAt": "2025-09-07T13:06:18.852Z",
+      "updatedAt": "2025-09-07T15:06:18.852Z",
+      "completedAt": null,
+      "estimate": 4,
+      "priority": 1,
+      "priorityLabel": "Low",
+      "labels": {
+        "nodes": [
+          {
+            "name": "feature",
+            "color": "#0f62fe"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_aad9",
+        "name": "DX",
+        "targetDate": "2025-08-09"
+      },
+      "projectMilestone": {
+        "id": "mile_72e5",
+        "name": "MVP",
+        "targetDate": "2025-08-12"
+      },
+      "team": {
+        "id": "team_8116",
+        "name": "Platform"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Reviewed and approved",
+            "createdAt": "2025-08-30T23:47:53.254Z",
+            "user": {
+              "name": "Charlie Kim"
+            }
+          },
+          {
+            "body": "Please add tests",
+            "createdAt": "2025-09-06T13:26:20.963Z",
+            "user": {
+              "name": "Charlie Kim"
+            }
+          },
+          {
+            "body": "Looks good",
+            "createdAt": "2025-09-02T05:00:34.523Z",
+            "user": {
+              "name": "Eric Wu"
+            }
+          },
+          {
+            "body": "Need to rebase",
+            "createdAt": "2025-09-03T04:29:39.813Z",
+            "user": {
+              "name": "Charlie Kim"
+            }
+          },
+          {
+            "body": "Please add tests",
+            "createdAt": "2025-09-03T15:27:05.723Z",
+            "user": {
+              "name": "Eric Wu"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_f961fe8e",
+      "title": "Fix race condition in message broker",
+      "description": "As a user I can log in with OAuth.",
+      "state": {
+        "name": "In Progress",
+        "type": "started"
+      },
+      "assignee": {
+        "name": "Bob Smith",
+        "email": "bob@example.com"
+      },
+      "createdAt": "2025-08-31T18:15:53.941Z",
+      "updatedAt": "2025-09-01T00:15:53.941Z",
+      "completedAt": null,
+      "estimate": 5,
+      "priority": 0,
+      "priorityLabel": "None",
+      "labels": {
+        "nodes": [
+          {
+            "name": "enhancement",
+            "color": "#24a148"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_ae39",
+        "name": "Observability",
+        "targetDate": "2025-08-25"
+      },
+      "projectMilestone": {
+        "id": "mile_7e93",
+        "name": "MVP",
+        "targetDate": "2025-08-03"
+      },
+      "team": {
+        "id": "team_7117",
+        "name": "Core"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Looks good",
+            "createdAt": "2025-09-05T08:21:57.613Z",
+            "user": {
+              "name": "Eric Wu"
+            }
+          },
+          {
+            "body": "Looks good",
+            "createdAt": "2025-09-05T15:48:45.620Z",
+            "user": {
+              "name": "Eric Wu"
+            }
+          },
+          {
+            "body": "Looks good",
+            "createdAt": "2025-08-31T14:06:01.006Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_12dced2a",
+      "title": "Enhance error handling and retries",
+      "description": "Cache node_modules and Docker layers.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": {
+        "name": "Eric Wu",
+        "email": "eric@example.com"
+      },
+      "createdAt": "2025-08-25T09:41:26.161Z",
+      "updatedAt": "2025-08-25T11:41:26.161Z",
+      "completedAt": "2025-08-26T10:41:26.161Z",
+      "estimate": 3,
+      "priority": 1,
+      "priorityLabel": "Low",
+      "labels": {
+        "nodes": [
+          {
+            "name": "bug",
+            "color": "#da1e28"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_1bee",
+        "name": "Messaging",
+        "targetDate": "2025-08-12"
+      },
+      "projectMilestone": {
+        "id": "mile_1403",
+        "name": "GA",
+        "targetDate": "2025-08-17"
+      },
+      "team": {
+        "id": "team_e1d2",
+        "name": "Platform"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-09-07T05:48:37.451Z",
+            "user": {
+              "name": "Eric Wu"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_874c97c0",
+      "title": "Add export functionality",
+      "description": "As a user I can log in with OAuth.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": {
+        "name": "Bob Smith",
+        "email": "bob@example.com"
+      },
+      "createdAt": "2025-08-29T01:01:43.923Z",
+      "updatedAt": "2025-08-29T02:01:43.923Z",
+      "completedAt": "2025-08-29T14:01:43.923Z",
+      "estimate": 1,
+      "priority": 2,
+      "priorityLabel": "Medium",
+      "labels": {
+        "nodes": [
+          {
+            "name": "feature",
+            "color": "#0f62fe"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_27a4",
+        "name": "DX",
+        "targetDate": "2025-08-18"
+      },
+      "projectMilestone": {
+        "id": "mile_bcf3",
+        "name": "GA",
+        "targetDate": "2025-08-08"
+      },
+      "team": {
+        "id": "team_439d",
+        "name": "Platform"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Looks good",
+            "createdAt": "2025-09-06T09:23:26.445Z",
+            "user": {
+              "name": "Eric Wu"
+            }
+          },
+          {
+            "body": "Reviewed and approved",
+            "createdAt": "2025-09-05T09:47:50.482Z",
+            "user": {
+              "name": "Bob Smith"
+            }
+          },
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-09-07T04:21:45.312Z",
+            "user": {
+              "name": "Eric Wu"
+            }
+          },
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-09-03T01:56:45.010Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          },
+          {
+            "body": "Need to rebase",
+            "createdAt": "2025-09-07T00:51:31.462Z",
+            "user": {
+              "name": "Eric Wu"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_f1c4ae8f",
+      "title": "Enhance error handling and retries",
+      "description": "Improve resilience to transient failures.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": null,
+      "createdAt": "2025-08-26T18:41:03.063Z",
+      "updatedAt": "2025-08-26T20:41:03.063Z",
+      "completedAt": "2025-08-27T01:41:03.063Z",
+      "estimate": 2,
+      "priority": 1,
+      "priorityLabel": "Low",
+      "labels": {
+        "nodes": [
+          {
+            "name": "enhancement",
+            "color": "#24a148"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_6373",
+        "name": "DX",
+        "targetDate": "2025-08-21"
+      },
+      "projectMilestone": null,
+      "team": {
+        "id": "team_7247",
+        "name": "Product"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Reviewed and approved",
+            "createdAt": "2025-08-29T16:15:41.276Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          },
+          {
+            "body": "Need to rebase",
+            "createdAt": "2025-09-05T06:56:19.862Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          },
+          {
+            "body": "Please add tests",
+            "createdAt": "2025-09-06T09:33:03.324Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          },
+          {
+            "body": "Reviewed and approved",
+            "createdAt": "2025-08-29T15:46:52.812Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_631b9657",
+      "title": "Enhance error handling and retries",
+      "description": "Allow users to export retros to CSV.",
+      "state": {
+        "name": "In Progress",
+        "type": "started"
+      },
+      "assignee": {
+        "name": "Alice Johnson",
+        "email": "alice@example.com"
+      },
+      "createdAt": "2025-08-28T11:03:22.533Z",
+      "updatedAt": "2025-08-28T12:03:22.533Z",
+      "completedAt": null,
+      "estimate": 8,
+      "priority": 3,
+      "priorityLabel": "High",
+      "labels": {
+        "nodes": [
+          {
+            "name": "feature",
+            "color": "#0f62fe"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_0b23",
+        "name": "User Platform",
+        "targetDate": "2025-08-28"
+      },
+      "projectMilestone": null,
+      "team": {
+        "id": "team_da6b",
+        "name": "Product"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-08-29T16:29:58.141Z",
+            "user": {
+              "name": "Charlie Kim"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_b6cd92f6",
+      "title": "Fix race condition in message broker",
+      "description": "Cache node_modules and Docker layers.",
+      "state": {
+        "name": "Backlog",
+        "type": "triage"
+      },
+      "assignee": {
+        "name": "Alice Johnson",
+        "email": "alice@example.com"
+      },
+      "createdAt": "2025-09-01T04:39:19.369Z",
+      "updatedAt": "2025-09-01T06:39:19.369Z",
+      "completedAt": null,
+      "estimate": 6,
+      "priority": 3,
+      "priorityLabel": "High",
+      "labels": {
+        "nodes": [
+          {
+            "name": "enhancement",
+            "color": "#24a148"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_0039",
+        "name": "Messaging",
+        "targetDate": "2025-08-24"
+      },
+      "projectMilestone": {
+        "id": "mile_6a82",
+        "name": "MVP",
+        "targetDate": "2025-08-03"
+      },
+      "team": {
+        "id": "team_1937",
+        "name": "Product"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Reviewed and approved",
+            "createdAt": "2025-09-05T09:15:25.081Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          },
+          {
+            "body": "Reviewed and approved",
+            "createdAt": "2025-08-31T09:47:01.014Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          },
+          {
+            "body": "Need to rebase",
+            "createdAt": "2025-09-01T21:19:34.030Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          },
+          {
+            "body": "Please add tests",
+            "createdAt": "2025-09-04T03:12:31.302Z",
+            "user": {
+              "name": "Charlie Kim"
+            }
+          },
+          {
+            "body": "Please add tests",
+            "createdAt": "2025-09-05T13:05:24.950Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_625820ab",
+      "title": "Enhance error handling and retries",
+      "description": "Improve resilience to transient failures.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": null,
+      "createdAt": "2025-09-02T06:35:07.603Z",
+      "updatedAt": "2025-09-02T10:35:07.603Z",
+      "completedAt": "2025-09-02T13:35:07.603Z",
+      "estimate": 4,
+      "priority": 3,
+      "priorityLabel": "High",
+      "labels": {
+        "nodes": [
+          {
+            "name": "enhancement",
+            "color": "#24a148"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_b99a",
+        "name": "User Platform",
+        "targetDate": null
+      },
+      "projectMilestone": null,
+      "team": {
+        "id": "team_7480",
+        "name": "Product"
+      },
+      "comments": {
+        "nodes": []
+      }
+    },
+    {
+      "id": "lin_7644de93",
+      "title": "Enhance error handling and retries",
+      "description": "Improve resilience to transient failures.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": {
+        "name": "Dana Lee",
+        "email": "dana@example.com"
+      },
+      "createdAt": "2025-09-07T10:20:03.243Z",
+      "updatedAt": "2025-09-07T13:20:03.243Z",
+      "completedAt": "2025-09-08T06:20:03.243Z",
+      "estimate": 8,
+      "priority": 2,
+      "priorityLabel": "Medium",
+      "labels": {
+        "nodes": [
+          {
+            "name": "enhancement",
+            "color": "#24a148"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_5ae2",
+        "name": "DX",
+        "targetDate": null
+      },
+      "projectMilestone": {
+        "id": "mile_b006",
+        "name": "Beta",
+        "targetDate": "2025-08-24"
+      },
+      "team": {
+        "id": "team_0d0b",
+        "name": "Platform"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Looks good",
+            "createdAt": "2025-09-04T13:12:41.117Z",
+            "user": {
+              "name": "Eric Wu"
+            }
+          },
+          {
+            "body": "Reviewed and approved",
+            "createdAt": "2025-09-05T13:48:04.146Z",
+            "user": {
+              "name": "Eric Wu"
+            }
+          },
+          {
+            "body": "Please add tests",
+            "createdAt": "2025-08-31T10:07:20.030Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_0f075edc",
+      "title": "Add export functionality",
+      "description": "Cache node_modules and Docker layers.",
+      "state": {
+        "name": "Backlog",
+        "type": "triage"
+      },
+      "assignee": {
+        "name": "Dana Lee",
+        "email": "dana@example.com"
+      },
+      "createdAt": "2025-08-25T17:13:38.454Z",
+      "updatedAt": "2025-08-25T22:13:38.454Z",
+      "completedAt": null,
+      "estimate": 3,
+      "priority": 1,
+      "priorityLabel": "Low",
+      "labels": {
+        "nodes": [
+          {
+            "name": "enhancement",
+            "color": "#24a148"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_ee22",
+        "name": "Observability",
+        "targetDate": "2025-08-22"
+      },
+      "projectMilestone": null,
+      "team": {
+        "id": "team_fc54",
+        "name": "Product"
+      },
+      "comments": {
+        "nodes": []
+      }
+    },
+    {
+      "id": "lin_746bf753",
+      "title": "Implement OAuth login flow",
+      "description": "Allow users to export retros to CSV.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": null,
+      "createdAt": "2025-09-05T18:33:11.452Z",
+      "updatedAt": "2025-09-05T19:33:11.452Z",
+      "completedAt": "2025-09-06T01:33:11.452Z",
+      "estimate": 5,
+      "priority": 4,
+      "priorityLabel": "Urgent",
+      "labels": {
+        "nodes": [
+          {
+            "name": "feature",
+            "color": "#0f62fe"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_64d4",
+        "name": "DX",
+        "targetDate": null
+      },
+      "projectMilestone": {
+        "id": "mile_9bac",
+        "name": "Beta",
+        "targetDate": "2025-07-30"
+      },
+      "team": {
+        "id": "team_a2f9",
+        "name": "Product"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Reviewed and approved",
+            "createdAt": "2025-09-06T14:20:55.537Z",
+            "user": {
+              "name": "Charlie Kim"
+            }
+          },
+          {
+            "body": "Need to rebase",
+            "createdAt": "2025-09-06T15:59:30.572Z",
+            "user": {
+              "name": "Eric Wu"
+            }
+          },
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-09-01T16:49:40.969Z",
+            "user": {
+              "name": "Eric Wu"
+            }
+          },
+          {
+            "body": "Reviewed and approved",
+            "createdAt": "2025-09-07T21:59:49.801Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_213e752d",
+      "title": "Implement OAuth login flow",
+      "description": "Improve resilience to transient failures.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": {
+        "name": "Charlie Kim",
+        "email": "charlie@example.com"
+      },
+      "createdAt": "2025-09-05T06:31:07.402Z",
+      "updatedAt": "2025-09-05T12:31:07.402Z",
+      "completedAt": "2025-09-06T06:31:07.402Z",
+      "estimate": 4,
+      "priority": 0,
+      "priorityLabel": "None",
+      "labels": {
+        "nodes": [
+          {
+            "name": "enhancement",
+            "color": "#24a148"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_133b",
+        "name": "DX",
+        "targetDate": null
+      },
+      "projectMilestone": null,
+      "team": {
+        "id": "team_dd58",
+        "name": "Product"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Please add tests",
+            "createdAt": "2025-09-06T17:20:06.465Z",
+            "user": {
+              "name": "Bob Smith"
+            }
+          },
+          {
+            "body": "Reviewed and approved",
+            "createdAt": "2025-09-01T17:58:27.836Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          },
+          {
+            "body": "Looks good",
+            "createdAt": "2025-09-02T21:29:00.847Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          },
+          {
+            "body": "Need to rebase",
+            "createdAt": "2025-09-06T15:39:45.349Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_da7fe837",
+      "title": "Implement OAuth login flow",
+      "description": "Occasional duplicate deliveries observed.",
+      "state": {
+        "name": "Backlog",
+        "type": "triage"
+      },
+      "assignee": {
+        "name": "Eric Wu",
+        "email": "eric@example.com"
+      },
+      "createdAt": "2025-08-25T06:20:19.114Z",
+      "updatedAt": "2025-08-25T08:20:19.114Z",
+      "completedAt": null,
+      "estimate": 2,
+      "priority": 4,
+      "priorityLabel": "Urgent",
+      "labels": {
+        "nodes": [
+          {
+            "name": "enhancement",
+            "color": "#24a148"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_2a85",
+        "name": "User Platform",
+        "targetDate": "2025-08-11"
+      },
+      "projectMilestone": {
+        "id": "mile_7fd0",
+        "name": "Beta",
+        "targetDate": "2025-08-25"
+      },
+      "team": {
+        "id": "team_3b81",
+        "name": "Product"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Please add tests",
+            "createdAt": "2025-09-04T21:43:53.819Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          },
+          {
+            "body": "Looks good",
+            "createdAt": "2025-08-31T23:15:14.722Z",
+            "user": {
+              "name": "Charlie Kim"
+            }
+          },
+          {
+            "body": "Please add tests",
+            "createdAt": "2025-09-04T11:36:02.080Z",
+            "user": {
+              "name": "Charlie Kim"
+            }
+          },
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-09-02T03:55:34.210Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          },
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-09-02T16:00:00.244Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_00ec3560",
+      "title": "Enhance error handling and retries",
+      "description": "As a user I can log in with OAuth.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": {
+        "name": "Alice Johnson",
+        "email": "alice@example.com"
+      },
+      "createdAt": "2025-09-07T01:49:24.815Z",
+      "updatedAt": "2025-09-07T02:49:24.815Z",
+      "completedAt": "2025-09-08T02:49:24.815Z",
+      "estimate": 1,
+      "priority": 0,
+      "priorityLabel": "None",
+      "labels": {
+        "nodes": [
+          {
+            "name": "feature",
+            "color": "#0f62fe"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_fe4d",
+        "name": "Messaging",
+        "targetDate": null
+      },
+      "projectMilestone": {
+        "id": "mile_1152",
+        "name": "MVP",
+        "targetDate": "2025-08-19"
+      },
+      "team": {
+        "id": "team_8130",
+        "name": "Core"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Looks good",
+            "createdAt": "2025-09-06T01:05:57.534Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          },
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-08-29T06:27:18.733Z",
+            "user": {
+              "name": "Bob Smith"
+            }
+          },
+          {
+            "body": "Need to rebase",
+            "createdAt": "2025-09-01T19:04:32.194Z",
+            "user": {
+              "name": "Bob Smith"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_0a973642",
+      "title": "Fix race condition in message broker",
+      "description": "Occasional duplicate deliveries observed.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": {
+        "name": "Eric Wu",
+        "email": "eric@example.com"
+      },
+      "createdAt": "2025-08-27T16:00:04.175Z",
+      "updatedAt": "2025-08-27T17:00:04.175Z",
+      "completedAt": "2025-08-28T09:00:04.175Z",
+      "estimate": 8,
+      "priority": 0,
+      "priorityLabel": "None",
+      "labels": {
+        "nodes": [
+          {
+            "name": "enhancement",
+            "color": "#24a148"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_2dd8",
+        "name": "User Platform",
+        "targetDate": "2025-08-17"
+      },
+      "projectMilestone": null,
+      "team": {
+        "id": "team_fb54",
+        "name": "Product"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Looks good",
+            "createdAt": "2025-09-04T02:27:49.283Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          },
+          {
+            "body": "Reviewed and approved",
+            "createdAt": "2025-08-29T16:39:31.989Z",
+            "user": {
+              "name": "Charlie Kim"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_6f7e9fe7",
+      "title": "Add export functionality",
+      "description": "Cache node_modules and Docker layers.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": {
+        "name": "Alice Johnson",
+        "email": "alice@example.com"
+      },
+      "createdAt": "2025-08-27T09:45:42.583Z",
+      "updatedAt": "2025-08-27T13:45:42.583Z",
+      "completedAt": "2025-08-27T19:45:42.583Z",
+      "estimate": 5,
+      "priority": 1,
+      "priorityLabel": "Low",
+      "labels": {
+        "nodes": [
+          {
+            "name": "feature",
+            "color": "#0f62fe"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_e21a",
+        "name": "User Platform",
+        "targetDate": "2025-08-15"
+      },
+      "projectMilestone": {
+        "id": "mile_c288",
+        "name": "GA",
+        "targetDate": "2025-07-27"
+      },
+      "team": {
+        "id": "team_4bdf",
+        "name": "Product"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Please add tests",
+            "createdAt": "2025-09-06T06:29:59.739Z",
+            "user": {
+              "name": "Bob Smith"
+            }
+          },
+          {
+            "body": "Looks good",
+            "createdAt": "2025-08-30T15:26:21.171Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          },
+          {
+            "body": "Looks good",
+            "createdAt": "2025-09-06T23:17:45.259Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          },
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-09-03T19:52:56.146Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_29b5618d",
+      "title": "Enhance error handling and retries",
+      "description": "Occasional duplicate deliveries observed.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": {
+        "name": "Charlie Kim",
+        "email": "charlie@example.com"
+      },
+      "createdAt": "2025-09-05T06:45:14.345Z",
+      "updatedAt": "2025-09-05T11:45:14.345Z",
+      "completedAt": "2025-09-06T09:45:14.345Z",
+      "estimate": 6,
+      "priority": 3,
+      "priorityLabel": "High",
+      "labels": {
+        "nodes": [
+          {
+            "name": "feature",
+            "color": "#0f62fe"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_70bb",
+        "name": "Observability",
+        "targetDate": "2025-09-03"
+      },
+      "projectMilestone": null,
+      "team": {
+        "id": "team_bced",
+        "name": "Product"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-09-04T15:39:17.701Z",
+            "user": {
+              "name": "Bob Smith"
+            }
+          },
+          {
+            "body": "Looks good",
+            "createdAt": "2025-09-01T13:42:42.447Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          },
+          {
+            "body": "Need to rebase",
+            "createdAt": "2025-08-29T02:52:27.218Z",
+            "user": {
+              "name": "Charlie Kim"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_101d734d",
+      "title": "Enhance error handling and retries",
+      "description": "Improve resilience to transient failures.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": {
+        "name": "Eric Wu",
+        "email": "eric@example.com"
+      },
+      "createdAt": "2025-09-03T10:10:10.062Z",
+      "updatedAt": "2025-09-03T14:10:10.062Z",
+      "completedAt": "2025-09-04T04:10:10.062Z",
+      "estimate": 7,
+      "priority": 0,
+      "priorityLabel": "None",
+      "labels": {
+        "nodes": [
+          {
+            "name": "enhancement",
+            "color": "#24a148"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_7e3c",
+        "name": "DX",
+        "targetDate": "2025-09-01"
+      },
+      "projectMilestone": {
+        "id": "mile_c7d3",
+        "name": "MVP",
+        "targetDate": "2025-08-10"
+      },
+      "team": {
+        "id": "team_939b",
+        "name": "Core"
+      },
+      "comments": {
+        "nodes": []
+      }
+    },
+    {
+      "id": "lin_13279355",
+      "title": "Fix race condition in message broker",
+      "description": "As a user I can log in with OAuth.",
+      "state": {
+        "name": "In Progress",
+        "type": "started"
+      },
+      "assignee": null,
+      "createdAt": "2025-09-04T20:15:17.781Z",
+      "updatedAt": "2025-09-04T21:15:17.781Z",
+      "completedAt": null,
+      "estimate": 4,
+      "priority": 4,
+      "priorityLabel": "Urgent",
+      "labels": {
+        "nodes": [
+          {
+            "name": "enhancement",
+            "color": "#24a148"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_f31c",
+        "name": "User Platform",
+        "targetDate": null
+      },
+      "projectMilestone": {
+        "id": "mile_0eb4",
+        "name": "Beta",
+        "targetDate": "2025-09-03"
+      },
+      "team": {
+        "id": "team_144f",
+        "name": "Product"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Need to rebase",
+            "createdAt": "2025-08-29T22:31:51.799Z",
+            "user": {
+              "name": "Bob Smith"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_eb58799c",
+      "title": "Implement OAuth login flow",
+      "description": "Allow users to export retros to CSV.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": {
+        "name": "Bob Smith",
+        "email": "bob@example.com"
+      },
+      "createdAt": "2025-08-30T08:37:24.340Z",
+      "updatedAt": "2025-08-30T13:37:24.340Z",
+      "completedAt": "2025-08-31T08:37:24.340Z",
+      "estimate": 7,
+      "priority": 3,
+      "priorityLabel": "High",
+      "labels": {
+        "nodes": [
+          {
+            "name": "enhancement",
+            "color": "#24a148"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_d82c",
+        "name": "Messaging",
+        "targetDate": "2025-08-31"
+      },
+      "projectMilestone": null,
+      "team": {
+        "id": "team_5fd2",
+        "name": "Platform"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Reviewed and approved",
+            "createdAt": "2025-09-05T08:57:56.751Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          },
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-09-07T14:01:17.506Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          },
+          {
+            "body": "Reviewed and approved",
+            "createdAt": "2025-09-04T01:06:36.939Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          },
+          {
+            "body": "Reviewed and approved",
+            "createdAt": "2025-09-03T23:43:34.641Z",
+            "user": {
+              "name": "Bob Smith"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_a4d2dcdc",
+      "title": "Add export functionality",
+      "description": "Occasional duplicate deliveries observed.",
+      "state": {
+        "name": "Backlog",
+        "type": "triage"
+      },
+      "assignee": {
+        "name": "Alice Johnson",
+        "email": "alice@example.com"
+      },
+      "createdAt": "2025-08-27T01:32:56.765Z",
+      "updatedAt": "2025-08-27T05:32:56.765Z",
+      "completedAt": null,
+      "estimate": 8,
+      "priority": 4,
+      "priorityLabel": "Urgent",
+      "labels": {
+        "nodes": [
+          {
+            "name": "enhancement",
+            "color": "#24a148"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_fd34",
+        "name": "Messaging",
+        "targetDate": "2025-08-24"
+      },
+      "projectMilestone": null,
+      "team": {
+        "id": "team_0f94",
+        "name": "Core"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Looks good",
+            "createdAt": "2025-09-05T03:16:14.257Z",
+            "user": {
+              "name": "Charlie Kim"
+            }
+          },
+          {
+            "body": "Reviewed and approved",
+            "createdAt": "2025-09-03T21:30:25.665Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          },
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-08-29T03:58:51.403Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          },
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-08-30T08:33:20.754Z",
+            "user": {
+              "name": "Bob Smith"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_be314898",
+      "title": "Improve CI cache to speed up builds",
+      "description": "Cache node_modules and Docker layers.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": {
+        "name": "Alice Johnson",
+        "email": "alice@example.com"
+      },
+      "createdAt": "2025-09-01T19:52:13.323Z",
+      "updatedAt": "2025-09-02T00:52:13.323Z",
+      "completedAt": "2025-09-02T04:52:13.323Z",
+      "estimate": 6,
+      "priority": 4,
+      "priorityLabel": "Urgent",
+      "labels": {
+        "nodes": [
+          {
+            "name": "bug",
+            "color": "#da1e28"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_fdf7",
+        "name": "DX",
+        "targetDate": null
+      },
+      "projectMilestone": null,
+      "team": {
+        "id": "team_58d5",
+        "name": "Platform"
+      },
+      "comments": {
+        "nodes": []
+      }
+    },
+    {
+      "id": "lin_a9a63acb",
+      "title": "Fix race condition in message broker",
+      "description": "As a user I can log in with OAuth.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": {
+        "name": "Dana Lee",
+        "email": "dana@example.com"
+      },
+      "createdAt": "2025-08-27T19:26:07.239Z",
+      "updatedAt": "2025-08-27T20:26:07.239Z",
+      "completedAt": "2025-08-28T07:26:07.239Z",
+      "estimate": 6,
+      "priority": 1,
+      "priorityLabel": "Low",
+      "labels": {
+        "nodes": [
+          {
+            "name": "enhancement",
+            "color": "#24a148"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_2b46",
+        "name": "Observability",
+        "targetDate": "2025-09-02"
+      },
+      "projectMilestone": null,
+      "team": {
+        "id": "team_0b2b",
+        "name": "Core"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Looks good",
+            "createdAt": "2025-09-06T10:09:28.091Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          },
+          {
+            "body": "Looks good",
+            "createdAt": "2025-09-02T09:20:30.535Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          },
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-08-29T04:39:33.555Z",
+            "user": {
+              "name": "Charlie Kim"
+            }
+          },
+          {
+            "body": "Need to rebase",
+            "createdAt": "2025-08-31T01:13:46.642Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          },
+          {
+            "body": "Need to rebase",
+            "createdAt": "2025-08-29T03:22:55.770Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_6e559681",
+      "title": "Improve CI cache to speed up builds",
+      "description": "Allow users to export retros to CSV.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": {
+        "name": "Charlie Kim",
+        "email": "charlie@example.com"
+      },
+      "createdAt": "2025-08-25T15:00:08.493Z",
+      "updatedAt": "2025-08-25T17:00:08.493Z",
+      "completedAt": "2025-08-26T04:00:08.493Z",
+      "estimate": 5,
+      "priority": 4,
+      "priorityLabel": "Urgent",
+      "labels": {
+        "nodes": [
+          {
+            "name": "bug",
+            "color": "#da1e28"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_94a5",
+        "name": "Messaging",
+        "targetDate": "2025-08-25"
+      },
+      "projectMilestone": {
+        "id": "mile_830b",
+        "name": "Beta",
+        "targetDate": "2025-08-12"
+      },
+      "team": {
+        "id": "team_ec8d",
+        "name": "Product"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Please add tests",
+            "createdAt": "2025-08-31T15:20:50.845Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          },
+          {
+            "body": "Need to rebase",
+            "createdAt": "2025-09-03T21:40:00.464Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          },
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-08-29T19:30:37.041Z",
+            "user": {
+              "name": "Charlie Kim"
+            }
+          },
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-09-07T13:15:46.064Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_a484130d",
+      "title": "Improve CI cache to speed up builds",
+      "description": "Occasional duplicate deliveries observed.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": {
+        "name": "Dana Lee",
+        "email": "dana@example.com"
+      },
+      "createdAt": "2025-08-26T09:28:52.773Z",
+      "updatedAt": "2025-08-26T15:28:52.773Z",
+      "completedAt": "2025-08-26T20:28:52.773Z",
+      "estimate": 3,
+      "priority": 0,
+      "priorityLabel": "None",
+      "labels": {
+        "nodes": [
+          {
+            "name": "feature",
+            "color": "#0f62fe"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_8899",
+        "name": "Messaging",
+        "targetDate": "2025-08-14"
+      },
+      "projectMilestone": null,
+      "team": {
+        "id": "team_d375",
+        "name": "Platform"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Please add tests",
+            "createdAt": "2025-09-04T07:32:56.159Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_c6cb553e",
+      "title": "Add export functionality",
+      "description": "Occasional duplicate deliveries observed.",
+      "state": {
+        "name": "In Progress",
+        "type": "started"
+      },
+      "assignee": null,
+      "createdAt": "2025-08-27T21:02:27.262Z",
+      "updatedAt": "2025-08-27T22:02:27.262Z",
+      "completedAt": null,
+      "estimate": 2,
+      "priority": 0,
+      "priorityLabel": "None",
+      "labels": {
+        "nodes": [
+          {
+            "name": "feature",
+            "color": "#0f62fe"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_1f3d",
+        "name": "User Platform",
+        "targetDate": "2025-09-07"
+      },
+      "projectMilestone": null,
+      "team": {
+        "id": "team_6241",
+        "name": "Product"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Reviewed and approved",
+            "createdAt": "2025-09-04T06:09:01.448Z",
+            "user": {
+              "name": "Charlie Kim"
+            }
+          },
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-09-01T22:02:50.866Z",
+            "user": {
+              "name": "Bob Smith"
+            }
+          },
+          {
+            "body": "Looks good",
+            "createdAt": "2025-09-03T13:28:42.095Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          },
+          {
+            "body": "Reviewed and approved",
+            "createdAt": "2025-09-02T06:27:17.574Z",
+            "user": {
+              "name": "Eric Wu"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_fca0696e",
+      "title": "Fix race condition in message broker",
+      "description": "Occasional duplicate deliveries observed.",
+      "state": {
+        "name": "Backlog",
+        "type": "triage"
+      },
+      "assignee": {
+        "name": "Bob Smith",
+        "email": "bob@example.com"
+      },
+      "createdAt": "2025-08-25T14:08:27.432Z",
+      "updatedAt": "2025-08-25T20:08:27.432Z",
+      "completedAt": null,
+      "estimate": 6,
+      "priority": 1,
+      "priorityLabel": "Low",
+      "labels": {
+        "nodes": [
+          {
+            "name": "feature",
+            "color": "#0f62fe"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_56ac",
+        "name": "Messaging",
+        "targetDate": "2025-09-02"
+      },
+      "projectMilestone": null,
+      "team": {
+        "id": "team_85d9",
+        "name": "Core"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Please add tests",
+            "createdAt": "2025-08-29T18:30:29.893Z",
+            "user": {
+              "name": "Eric Wu"
+            }
+          },
+          {
+            "body": "Need to rebase",
+            "createdAt": "2025-09-07T01:21:12.606Z",
+            "user": {
+              "name": "Charlie Kim"
+            }
+          },
+          {
+            "body": "Looks good",
+            "createdAt": "2025-08-29T02:26:42.317Z",
+            "user": {
+              "name": "Eric Wu"
+            }
+          },
+          {
+            "body": "Need to rebase",
+            "createdAt": "2025-09-04T19:16:25.107Z",
+            "user": {
+              "name": "Bob Smith"
+            }
+          },
+          {
+            "body": "Reviewed and approved",
+            "createdAt": "2025-08-30T06:41:07.404Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_3fb2bc52",
+      "title": "Fix race condition in message broker",
+      "description": "Improve resilience to transient failures.",
+      "state": {
+        "name": "In Progress",
+        "type": "started"
+      },
+      "assignee": null,
+      "createdAt": "2025-08-27T13:00:15.422Z",
+      "updatedAt": "2025-08-27T19:00:15.422Z",
+      "completedAt": null,
+      "estimate": 6,
+      "priority": 0,
+      "priorityLabel": "None",
+      "labels": {
+        "nodes": [
+          {
+            "name": "bug",
+            "color": "#da1e28"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_e271",
+        "name": "Observability",
+        "targetDate": "2025-08-23"
+      },
+      "projectMilestone": null,
+      "team": {
+        "id": "team_3fc7",
+        "name": "Platform"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-09-01T02:36:42.079Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          },
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-09-02T01:09:29.487Z",
+            "user": {
+              "name": "Eric Wu"
+            }
+          },
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-09-07T03:46:06.829Z",
+            "user": {
+              "name": "Charlie Kim"
+            }
+          },
+          {
+            "body": "Need to rebase",
+            "createdAt": "2025-09-01T12:52:37.861Z",
+            "user": {
+              "name": "Eric Wu"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_681cb690",
+      "title": "Enhance error handling and retries",
+      "description": "Improve resilience to transient failures.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": {
+        "name": "Charlie Kim",
+        "email": "charlie@example.com"
+      },
+      "createdAt": "2025-09-04T08:51:15.024Z",
+      "updatedAt": "2025-09-04T13:51:15.024Z",
+      "completedAt": "2025-09-05T00:51:15.024Z",
+      "estimate": 5,
+      "priority": 2,
+      "priorityLabel": "Medium",
+      "labels": {
+        "nodes": [
+          {
+            "name": "enhancement",
+            "color": "#24a148"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_8eb1",
+        "name": "User Platform",
+        "targetDate": null
+      },
+      "projectMilestone": {
+        "id": "mile_a9a4",
+        "name": "Beta",
+        "targetDate": "2025-08-11"
+      },
+      "team": {
+        "id": "team_3edb",
+        "name": "Product"
+      },
+      "comments": {
+        "nodes": []
+      }
+    },
+    {
+      "id": "lin_f5d6195a",
+      "title": "Improve CI cache to speed up builds",
+      "description": "Allow users to export retros to CSV.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": {
+        "name": "Dana Lee",
+        "email": "dana@example.com"
+      },
+      "createdAt": "2025-08-31T18:38:05.491Z",
+      "updatedAt": "2025-08-31T20:38:05.491Z",
+      "completedAt": "2025-09-01T16:38:05.491Z",
+      "estimate": 4,
+      "priority": 3,
+      "priorityLabel": "High",
+      "labels": {
+        "nodes": [
+          {
+            "name": "feature",
+            "color": "#0f62fe"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_c318",
+        "name": "Observability",
+        "targetDate": null
+      },
+      "projectMilestone": null,
+      "team": {
+        "id": "team_9007",
+        "name": "Core"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-08-30T11:13:37.480Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          },
+          {
+            "body": "Looks good",
+            "createdAt": "2025-09-03T02:49:40.125Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          },
+          {
+            "body": "Looks good",
+            "createdAt": "2025-09-01T04:35:54.299Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_4b376b69",
+      "title": "Fix race condition in message broker",
+      "description": "Improve resilience to transient failures.",
+      "state": {
+        "name": "In Progress",
+        "type": "started"
+      },
+      "assignee": {
+        "name": "Dana Lee",
+        "email": "dana@example.com"
+      },
+      "createdAt": "2025-08-29T18:41:00.447Z",
+      "updatedAt": "2025-08-29T19:41:00.447Z",
+      "completedAt": null,
+      "estimate": 6,
+      "priority": 0,
+      "priorityLabel": "None",
+      "labels": {
+        "nodes": [
+          {
+            "name": "feature",
+            "color": "#0f62fe"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_f8c6",
+        "name": "User Platform",
+        "targetDate": null
+      },
+      "projectMilestone": null,
+      "team": {
+        "id": "team_2ba0",
+        "name": "Platform"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-09-07T05:46:06.119Z",
+            "user": {
+              "name": "Bob Smith"
+            }
+          },
+          {
+            "body": "Please add tests",
+            "createdAt": "2025-09-03T18:37:58.252Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_20fe93a0",
+      "title": "Improve CI cache to speed up builds",
+      "description": "Improve resilience to transient failures.",
+      "state": {
+        "name": "Backlog",
+        "type": "triage"
+      },
+      "assignee": null,
+      "createdAt": "2025-09-07T10:51:12.801Z",
+      "updatedAt": "2025-09-07T14:51:12.801Z",
+      "completedAt": null,
+      "estimate": 7,
+      "priority": 1,
+      "priorityLabel": "Low",
+      "labels": {
+        "nodes": [
+          {
+            "name": "enhancement",
+            "color": "#24a148"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_55de",
+        "name": "User Platform",
+        "targetDate": "2025-08-14"
+      },
+      "projectMilestone": null,
+      "team": {
+        "id": "team_8309",
+        "name": "Product"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Need to rebase",
+            "createdAt": "2025-09-03T04:34:33.630Z",
+            "user": {
+              "name": "Charlie Kim"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_9873033d",
+      "title": "Implement OAuth login flow",
+      "description": "As a user I can log in with OAuth.",
+      "state": {
+        "name": "Backlog",
+        "type": "triage"
+      },
+      "assignee": {
+        "name": "Alice Johnson",
+        "email": "alice@example.com"
+      },
+      "createdAt": "2025-08-31T20:57:50.367Z",
+      "updatedAt": "2025-08-31T23:57:50.367Z",
+      "completedAt": null,
+      "estimate": 6,
+      "priority": 1,
+      "priorityLabel": "Low",
+      "labels": {
+        "nodes": [
+          {
+            "name": "feature",
+            "color": "#0f62fe"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_e114",
+        "name": "DX",
+        "targetDate": "2025-08-14"
+      },
+      "projectMilestone": null,
+      "team": {
+        "id": "team_9b6b",
+        "name": "Platform"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Need to rebase",
+            "createdAt": "2025-09-06T18:53:09.363Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          },
+          {
+            "body": "Looks good",
+            "createdAt": "2025-08-29T04:36:14.947Z",
+            "user": {
+              "name": "Bob Smith"
+            }
+          },
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-09-02T03:57:10.867Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          },
+          {
+            "body": "Looks good",
+            "createdAt": "2025-08-30T04:42:13.500Z",
+            "user": {
+              "name": "Charlie Kim"
+            }
+          },
+          {
+            "body": "Looks good",
+            "createdAt": "2025-08-30T03:19:01.773Z",
+            "user": {
+              "name": "Charlie Kim"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_ed367b45",
+      "title": "Enhance error handling and retries",
+      "description": "As a user I can log in with OAuth.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": null,
+      "createdAt": "2025-09-01T11:59:03.949Z",
+      "updatedAt": "2025-09-01T17:59:03.949Z",
+      "completedAt": "2025-09-02T13:59:03.949Z",
+      "estimate": 8,
+      "priority": 0,
+      "priorityLabel": "None",
+      "labels": {
+        "nodes": [
+          {
+            "name": "feature",
+            "color": "#0f62fe"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_2194",
+        "name": "Messaging",
+        "targetDate": "2025-08-30"
+      },
+      "projectMilestone": {
+        "id": "mile_7da3",
+        "name": "GA",
+        "targetDate": "2025-08-06"
+      },
+      "team": {
+        "id": "team_c230",
+        "name": "Core"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Looks good",
+            "createdAt": "2025-08-30T11:51:34.231Z",
+            "user": {
+              "name": "Charlie Kim"
+            }
+          },
+          {
+            "body": "Need to rebase",
+            "createdAt": "2025-09-02T05:52:42.067Z",
+            "user": {
+              "name": "Eric Wu"
+            }
+          },
+          {
+            "body": "Reviewed and approved",
+            "createdAt": "2025-09-01T21:16:21.835Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          },
+          {
+            "body": "Need to rebase",
+            "createdAt": "2025-08-30T01:24:13.731Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_24ba9323",
+      "title": "Improve CI cache to speed up builds",
+      "description": "Allow users to export retros to CSV.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": {
+        "name": "Eric Wu",
+        "email": "eric@example.com"
+      },
+      "createdAt": "2025-08-28T00:25:53.474Z",
+      "updatedAt": "2025-08-28T05:25:53.474Z",
+      "completedAt": "2025-08-29T00:25:53.474Z",
+      "estimate": 4,
+      "priority": 3,
+      "priorityLabel": "High",
+      "labels": {
+        "nodes": [
+          {
+            "name": "feature",
+            "color": "#0f62fe"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_4039",
+        "name": "Messaging",
+        "targetDate": null
+      },
+      "projectMilestone": {
+        "id": "mile_fddd",
+        "name": "Beta",
+        "targetDate": "2025-07-28"
+      },
+      "team": {
+        "id": "team_44da",
+        "name": "Core"
+      },
+      "comments": {
+        "nodes": []
+      }
+    },
+    {
+      "id": "lin_5306312a",
+      "title": "Fix race condition in message broker",
+      "description": "As a user I can log in with OAuth.",
+      "state": {
+        "name": "In Progress",
+        "type": "started"
+      },
+      "assignee": {
+        "name": "Bob Smith",
+        "email": "bob@example.com"
+      },
+      "createdAt": "2025-09-01T10:57:24.553Z",
+      "updatedAt": "2025-09-01T16:57:24.553Z",
+      "completedAt": null,
+      "estimate": 5,
+      "priority": 2,
+      "priorityLabel": "Medium",
+      "labels": {
+        "nodes": [
+          {
+            "name": "enhancement",
+            "color": "#24a148"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_89d5",
+        "name": "DX",
+        "targetDate": "2025-08-12"
+      },
+      "projectMilestone": {
+        "id": "mile_7696",
+        "name": "MVP",
+        "targetDate": "2025-08-04"
+      },
+      "team": {
+        "id": "team_9dc3",
+        "name": "Product"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Please add tests",
+            "createdAt": "2025-09-06T23:27:50.819Z",
+            "user": {
+              "name": "Bob Smith"
+            }
+          },
+          {
+            "body": "Looks good",
+            "createdAt": "2025-08-29T20:36:16.702Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          },
+          {
+            "body": "Please add tests",
+            "createdAt": "2025-08-30T09:24:10.835Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_58adc979",
+      "title": "Add export functionality",
+      "description": "Occasional duplicate deliveries observed.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": {
+        "name": "Dana Lee",
+        "email": "dana@example.com"
+      },
+      "createdAt": "2025-09-05T02:04:16.046Z",
+      "updatedAt": "2025-09-05T08:04:16.046Z",
+      "completedAt": "2025-09-05T17:04:16.046Z",
+      "estimate": 1,
+      "priority": 0,
+      "priorityLabel": "None",
+      "labels": {
+        "nodes": [
+          {
+            "name": "feature",
+            "color": "#0f62fe"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_209b",
+        "name": "Observability",
+        "targetDate": null
+      },
+      "projectMilestone": null,
+      "team": {
+        "id": "team_47ae",
+        "name": "Platform"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-09-03T07:17:19.263Z",
+            "user": {
+              "name": "Eric Wu"
+            }
+          },
+          {
+            "body": "Looks good",
+            "createdAt": "2025-09-07T14:26:07.083Z",
+            "user": {
+              "name": "Bob Smith"
+            }
+          },
+          {
+            "body": "Please add tests",
+            "createdAt": "2025-08-31T11:47:38.540Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "lin_f714243c",
+      "title": "Add export functionality",
+      "description": "Improve resilience to transient failures.",
+      "state": {
+        "name": "Done",
+        "type": "completed"
+      },
+      "assignee": null,
+      "createdAt": "2025-09-07T05:03:46.361Z",
+      "updatedAt": "2025-09-07T06:03:46.361Z",
+      "completedAt": "2025-09-07T07:03:46.361Z",
+      "estimate": 4,
+      "priority": 4,
+      "priorityLabel": "Urgent",
+      "labels": {
+        "nodes": [
+          {
+            "name": "feature",
+            "color": "#0f62fe"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_59de",
+        "name": "User Platform",
+        "targetDate": "2025-08-23"
+      },
+      "projectMilestone": {
+        "id": "mile_5b03",
+        "name": "MVP",
+        "targetDate": "2025-08-12"
+      },
+      "team": {
+        "id": "team_ea9b",
+        "name": "Platform"
+      },
+      "comments": {
+        "nodes": []
+      }
+    },
+    {
+      "id": "lin_a53027e0",
+      "title": "Enhance error handling and retries",
+      "description": "As a user I can log in with OAuth.",
+      "state": {
+        "name": "Backlog",
+        "type": "triage"
+      },
+      "assignee": {
+        "name": "Eric Wu",
+        "email": "eric@example.com"
+      },
+      "createdAt": "2025-09-02T07:30:17.672Z",
+      "updatedAt": "2025-09-02T10:30:17.672Z",
+      "completedAt": null,
+      "estimate": 7,
+      "priority": 0,
+      "priorityLabel": "None",
+      "labels": {
+        "nodes": [
+          {
+            "name": "enhancement",
+            "color": "#24a148"
+          }
+        ]
+      },
+      "project": {
+        "id": "proj_eaf8",
+        "name": "Messaging",
+        "targetDate": null
+      },
+      "projectMilestone": {
+        "id": "mile_84c3",
+        "name": "GA",
+        "targetDate": "2025-08-16"
+      },
+      "team": {
+        "id": "team_4bac",
+        "name": "Core"
+      },
+      "comments": {
+        "nodes": [
+          {
+            "body": "Looks good",
+            "createdAt": "2025-09-04T09:13:57.672Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          },
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-09-06T14:29:18.717Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          },
+          {
+            "body": "Need to rebase",
+            "createdAt": "2025-09-01T11:04:10.355Z",
+            "user": {
+              "name": "Alice Johnson"
+            }
+          },
+          {
+            "body": "Investigating logs",
+            "createdAt": "2025-09-05T19:21:04.859Z",
+            "user": {
+              "name": "Dana Lee"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

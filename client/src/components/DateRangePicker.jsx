@@ -2,6 +2,7 @@ import { useMemo, useState, useEffect, useRef } from 'react';
 import { DayPicker, useDayPicker } from 'react-day-picker';
 import { format, parseISO, isValid } from 'date-fns';
 import 'react-day-picker/dist/style.css';
+import { useDarkMode } from '../hooks/useDarkMode';
 
 function toISO(date) {
   try {
@@ -21,6 +22,7 @@ function fromISO(value) {
 // A small, reusable date range picker with a text button and an inline popover calendar.
 // Props: value: { start: 'yyyy-MM-dd', end: 'yyyy-MM-dd' }, onChange(next)
 function DateRangePicker({ value, onChange, className = '' }) {
+  const { darkMode } = useDarkMode();
   const startDate = useMemo(() => fromISO(value?.start), [value?.start]);
   const endDate = useMemo(() => fromISO(value?.end), [value?.end]);
 
@@ -67,19 +69,19 @@ function DateRangePicker({ value, onChange, className = '' }) {
           type="button"
           onClick={() => previousMonth && goToMonth(previousMonth)}
           disabled={!previousMonth}
-          className="h-7 w-7 rounded-full border border-gray-300 hover:bg-gray-100 text-gray-900 disabled:opacity-40 flex items-center justify-center"
+          className="h-7 w-7 rounded-full border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100 disabled:opacity-40 flex items-center justify-center"
           aria-label="Previous month"
         >
           ◀
         </button>
-        <span className="text-sm font-medium text-gray-700">
+        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
           {format(props.calendarMonth?.date || new Date(), 'MMMM yyyy')}
         </span>
         <button
           type="button"
           onClick={() => nextMonth && goToMonth(nextMonth)}
           disabled={!nextMonth}
-          className="h-7 w-7 rounded-full border border-gray-300 hover:bg-gray-100 text-gray-900 disabled:opacity-40 flex items-center justify-center"
+          className="h-7 w-7 rounded-full border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100 disabled:opacity-40 flex items-center justify-center"
           aria-label="Next month"
         >
           ▶
@@ -93,12 +95,12 @@ function DateRangePicker({ value, onChange, className = '' }) {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="px-2 py-1 border border-gray-200 rounded-md text-sm bg-white hover:bg-gray-50 text-gray-700"
+        className="px-2 py-1 border border-gray-200 dark:border-gray-600 rounded-md text-sm bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300"
       >
         {label}
       </button>
       {open && (
-        <div className="absolute z-10 mt-2 bg-white border border-gray-200 rounded-lg shadow-sm p-2">
+        <div className="absolute z-10 mt-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-2">
           <DayPicker
             mode="range"
             selected={selected}
@@ -116,20 +118,20 @@ function DateRangePicker({ value, onChange, className = '' }) {
               nav: 'hidden',
               nav_button: 'hidden',
               table: 'border-collapse',
-              head_cell: 'text-xs font-medium text-gray-500 w-9',
+              head_cell: 'text-xs font-medium text-gray-500 dark:text-gray-400 w-9',
               cell: 'text-center p-0',
-              day: 'h-8 w-8 rounded text-sm hover:bg-gray-100 text-gray-700',
-              day_selected: 'bg-gray-900 text-white hover:bg-gray-900',
-              day_range_start: 'bg-gray-900 text-white',
-              day_range_end: 'bg-gray-900 text-white',
-              day_range_middle: 'bg-gray-200 text-gray-800',
-              day_today: 'border border-gray-300',
-              weekday: 'text-xs text-gray-500'
+              day: 'h-8 w-8 rounded text-sm hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300',
+              day_selected: 'bg-gray-900 dark:bg-gray-600 text-white hover:bg-gray-900 dark:hover:bg-gray-600',
+              day_range_start: 'bg-gray-900 dark:bg-gray-600 text-white',
+              day_range_end: 'bg-gray-900 dark:bg-gray-600 text-white',
+              day_range_middle: 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200',
+              day_today: 'border border-gray-300 dark:border-gray-500',
+              weekday: 'text-xs text-gray-500 dark:text-gray-400'
             }}
             // Neutralize default blue accent using CSS variables
             style={{
-              '--rdp-accent-color': '#111827',
-              '--rdp-background-color': '#e5e7eb'
+              '--rdp-accent-color': darkMode ? '#4b5563' : '#111827',
+              '--rdp-background-color': darkMode ? '#374151' : '#e5e7eb'
             }}
           />
         </div>

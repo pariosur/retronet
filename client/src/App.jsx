@@ -25,7 +25,7 @@ function App() {
   // Demo and setup helpers not used in minimalist flow; keep for future demo mode
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {currentPage === 'whiteboard' && (
         <WhiteboardPage 
           dateRange={config.dateRange}

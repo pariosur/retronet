@@ -221,7 +221,7 @@ export class OpenAIProvider extends BaseLLMProvider {
                     },
                     actionItems: {
                       type: 'array',
-                      minItems: 1,
+                      minItems: 4,
                       maxItems: 4,
                       items: {
                         type: 'object',
@@ -302,7 +302,7 @@ export class OpenAIProvider extends BaseLLMProvider {
                       },
                       actionItems: {
                         type: 'array',
-                        minItems: 1,
+                        minItems: 4,
                         maxItems: 4,
                         items: {
                           type: 'object',
@@ -382,7 +382,7 @@ export class OpenAIProvider extends BaseLLMProvider {
                         },
                         actionItems: {
                           type: 'array',
-                          minItems: 1,
+                          minItems: 4,
                           maxItems: 4,
                           items: {
                             type: 'object',

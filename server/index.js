@@ -20,6 +20,8 @@ const PORT = process.env.PORT || 3001;
 
 // Initialize progress managers
 const progressManager = new ProgressManager();
+// In-memory result store for background generations
+const generationResults = new Map();
 
 // Middleware
 app.use(cors());
@@ -66,6 +68,25 @@ app.get("/api/test-linear", async (req, res) => {
 });
 
 // Test Slack connection
+// Get configuration status without making API calls
+app.get("/api/config-status", (req, res) => {
+  const integrations = {
+    LINEAR_API_KEY: !!process.env.LINEAR_API_KEY,
+    GITHUB_TOKEN: !!process.env.GITHUB_TOKEN,
+    SLACK_BOT_TOKEN: !!process.env.SLACK_BOT_TOKEN,
+    OPENAI_API_KEY: !!process.env.OPENAI_API_KEY,
+    OPENAI_MODEL: process.env.OPENAI_MODEL || 'gpt-4',
+    LLM_PROVIDER: process.env.LLM_PROVIDER || 'openai',
+    LLM_ENABLED: process.env.LLM_ENABLED !== 'false'
+  };
+
+  res.json({
+    integrations,
+    llmEnabled: integrations.LLM_ENABLED && integrations.OPENAI_API_KEY,
+    hasAnyIntegration: integrations.LINEAR_API_KEY || integrations.GITHUB_TOKEN || integrations.SLACK_BOT_TOKEN
+  });
+});
+
 app.get("/api/test-slack", async (req, res) => {
   try {
     if (!process.env.SLACK_BOT_TOKEN) {
@@ -365,43 +386,202 @@ app.get("/api/progress/:sessionId", (req, res) => {
   }
 });
 
-// Generate retro endpoint
-app.post("/api/generate-retro", async (req, res) => {
+// Start background retro generation (non-blocking)
+app.post("/api/generate-retro/start", async (req, res) => {
   try {
-    const { dateRange, teamMembers, sessionId } = req.body;
+    const { dateRange, teamMembers = [], sessionId, useDemo, demoVariant } = req.body || {};
 
-    if (!process.env.LINEAR_API_KEY) {
+    // Don't require LINEAR_API_KEY if in demo mode
+    if (!useDemo && !process.env.LINEAR_API_KEY) {
       return res.status(400).json({
         error:
           "LINEAR_API_KEY not configured. Please add it to your .env file.",
       });
     }
 
-    console.log("Generating retro for:", { dateRange, teamMembers });
-
-    // Initialize services
-    const linearService = new LinearService(process.env.LINEAR_API_KEY);
-    let slackService = null;
-    if (process.env.SLACK_BOT_TOKEN) {
-      slackService = new SlackService(process.env.SLACK_BOT_TOKEN);
-    }
-    let githubService = null;
-    if (process.env.GITHUB_TOKEN) {
-      githubService = new GitHubService(process.env.GITHUB_TOKEN);
+    if (!dateRange || !dateRange.start || !dateRange.end) {
+      return res.status(400).json({ error: "Invalid or missing dateRange" });
     }
 
-    // Initialize LLM analyzer and check configuration
+    const sid = sessionId || `sess_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+
+    // Kick off background job without awaiting
+    setTimeout(() => {
+      runRetroGeneration(sid, dateRange, teamMembers, useDemo, demoVariant).catch((error) => {
+        console.error("Background generation failed:", error);
+        generationResults.set(sid, {
+          status: "failed",
+          error: error.message,
+          timestamp: new Date().toISOString(),
+        });
+        // Ensure tracker also reflects failure if it exists
+        const tracker = progressManager.getTracker(sid);
+        if (tracker) {
+          try { tracker.fail(error); } catch {}
+        }
+        // Cleanup after some time
+        setTimeout(() => generationResults.delete(sid), 60 * 60 * 1000);
+      });
+    }, 0);
+
+    return res.status(202).json({ sessionId: sid, status: "accepted" });
+  } catch (error) {
+    console.error("Error starting background generation:", error);
+    res.status(500).json({ error: "Failed to start generation: " + error.message });
+  }
+});
+
+// Get background generation result
+app.get("/api/generate-retro/result/:sessionId", (req, res) => {
+  try {
+    const { sessionId } = req.params;
+    const result = generationResults.get(sessionId);
+
+    if (result && result.status === "completed" && result.retroData) {
+      return res.json(result.retroData);
+    }
+
+    if (result && result.status === "failed") {
+      return res.status(500).json({ error: result.error || "Generation failed" });
+    }
+
+    const tracker = progressManager.getTracker(sessionId);
+    if (tracker && !tracker.completed) {
+      return res.status(202).json({ status: "pending" });
+    }
+
+    return res.status(404).json({ error: "Result not found for session", sessionId });
+  } catch (error) {
+    console.error("Error getting background result:", error);
+    res.status(500).json({ error: "Failed to get result: " + error.message });
+  }
+});
+
+// Generate retro endpoint
+app.post("/api/generate-retro", async (req, res) => {
+  try {
+    const { dateRange, teamMembers, sessionId, useDemo, demoVariant } = req.body;
+
+    console.log("Generating retro for:", { dateRange, teamMembers, useDemo });
+
+    // Check which integration keys are available
+    const hasLinearKey = !!process.env.LINEAR_API_KEY;
+    const hasGithubKey = !!process.env.GITHUB_TOKEN;
+    const hasSlackKey = !!process.env.SLACK_BOT_TOKEN;
+    const hasAnyIntegration = hasLinearKey || hasGithubKey || hasSlackKey;
+    
+    // Initialize LLM analyzer and check if OpenAI is configured
     const llmAnalyzer = LLMAnalyzer.fromEnvironment(process.env);
     const llmEnabled = llmAnalyzer.config.enabled;
 
-    console.log(`LLM analysis ${llmEnabled ? "enabled" : "disabled"}`);
+    console.log(`Integration status: Linear=${hasLinearKey}, GitHub=${hasGithubKey}, Slack=${hasSlackKey}, LLM=${llmEnabled}`);
 
-    // Create progress tracker if sessionId provided and LLM is enabled
+    // Determine behavior based on keys available
+    // 1. If demo mode explicitly requested, always use demo insights
+    if (useDemo === true) {
+      try {
+        const fs = await import('fs');
+        const path = await import('path');
+        const insightsPath = new URL('./sample-data/demo.insights.json', import.meta.url).pathname;
+        const demoInsights = JSON.parse(fs.readFileSync(insightsPath, 'utf-8'));
+        
+        // Add metadata
+        const retroData = {
+          ...demoInsights,
+          analysisMetadata: {
+            demoMode: true,
+            demoVariant: demoVariant === 'small' ? 'small' : 'large',
+            generatedAt: new Date().toISOString(),
+            dateRange: dateRange,
+            teamMembers: teamMembers,
+            insightCount: {
+              wentWell: demoInsights.wentWell.length,
+              didntGoWell: demoInsights.didntGoWell.length,
+              actionItems: demoInsights.actionItems.length
+            },
+            dataSources: ["github", "linear", "slack"],
+            analysisType: "demo_insights"
+          }
+        };
+
+        if (progressTracker) {
+          progressTracker.complete();
+        }
+        return res.json(retroData);
+      } catch (e) {
+        console.error('Demo mode failed:', e);
+        if (progressTracker) {
+          progressTracker.fail(e);
+        }
+        return res.status(500).json({ error: 'Failed to generate demo insights: ' + e.message });
+      }
+    }
+
+    // 2. If no integrations AND no OpenAI, use demo insights
+    if (!hasAnyIntegration && !llmEnabled) {
+      console.log("No integrations or OpenAI configured, returning demo insights");
+      try {
+        const fs = await import('fs');
+        const path = await import('path');
+        const insightsPath = new URL('./sample-data/demo.insights.json', import.meta.url).pathname;
+        const demoInsights = JSON.parse(fs.readFileSync(insightsPath, 'utf-8'));
+        
+        const retroData = {
+          ...demoInsights,
+          analysisMetadata: {
+            demoMode: true,
+            demoVariant: 'fallback',
+            generatedAt: new Date().toISOString(),
+            dateRange: dateRange,
+            teamMembers: teamMembers,
+            insightCount: {
+              wentWell: demoInsights.wentWell.length,
+              didntGoWell: demoInsights.didntGoWell.length,
+              actionItems: demoInsights.actionItems.length
+            },
+            dataSources: ["demo"],
+            analysisType: "demo_insights",
+            reason: "No integration keys or OpenAI configured"
+          }
+        };
+
+        if (progressTracker) {
+          progressTracker.complete();
+        }
+        return res.json(retroData);
+      } catch (e) {
+        console.error('Fallback demo mode failed:', e);
+        if (progressTracker) {
+          progressTracker.fail(e);
+        }
+        return res.status(500).json({ error: 'Failed to load demo insights: ' + e.message });
+      }
+    }
+
+    // Initialize services based on available keys
+    let linearService = null;
+    let slackService = null;
+    let githubService = null;
+    
+    if (hasLinearKey) {
+      linearService = new LinearService(process.env.LINEAR_API_KEY);
+    }
+    if (hasSlackKey) {
+      slackService = new SlackService(process.env.SLACK_BOT_TOKEN);
+    }
+    if (hasGithubKey) {
+      githubService = new GitHubService(process.env.GITHUB_TOKEN);
+    }
+
+    // Create progress tracker if sessionId provided
     let progressTracker = null;
-    if (sessionId && llmEnabled) {
+    if (sessionId) {
       progressTracker = progressManager.createTracker(
         sessionId,
-        DEFAULT_LLM_STEPS
+        llmEnabled ? DEFAULT_LLM_STEPS : [
+          { name: 'initialization', description: 'Initializing analysis' },
+          { name: 'complete', description: 'Analysis complete' }
+        ]
       );
       console.log(`Created progress tracker for session: ${sessionId}`);
     }
@@ -414,63 +594,200 @@ app.post("/api/generate-retro", async (req, res) => {
       ? dateRange.end
       : dateRange.end + "T23:59:59Z";
 
-    // Run LLM analysis only (skip rule-based for cleaner, more comprehensive insights)
+    // Initialize retro data
     let retroData = { wentWell: [], didntGoWell: [], actionItems: [] };
 
-    if (llmEnabled) {
+    // 3. If no integrations but OpenAI is available, generate AI insights with sample data
+    if (!hasAnyIntegration && llmEnabled) {
+      console.log("No integrations but OpenAI available, using sample data for AI analysis");
       try {
-        console.log("Running LLM-only analysis for comprehensive insights...");
-        const llmInsights = await performLLMAnalysis(
-          llmAnalyzer,
-          linearService,
-          slackService,
-          githubService,
-          startDate,
-          endDate,
+        const fs = await import('fs');
+        const path = await import('path');
+        const base = new URL('./sample-data', import.meta.url).pathname;
+        
+        // Load sample data
+        const variantSuffix = 'sample.large';
+        const linearData = JSON.parse(fs.readFileSync(path.join(base, `linear.issues.${variantSuffix}.json`), 'utf-8'));
+        const githubData = JSON.parse(fs.readFileSync(path.join(base, `github.activity.${variantSuffix}.json`), 'utf-8'));
+        const slackData = JSON.parse(fs.readFileSync(path.join(base, `slack.messages.${variantSuffix}.json`), 'utf-8'));
+        
+        // Run LLM analysis on sample data
+        const llmInsights = await llmAnalyzer.analyzeTeamData(
+          githubData,
+          linearData.issues,
+          slackData.messages,
           dateRange,
-          teamMembers
+          {
+            teamSize: teamMembers?.length || 5,
+            repositories: ["sample/app"],
+            channels: ["dev", "general"],
+          },
+          progressTracker
         );
-
+        
         if (llmInsights) {
-          retroData = llmInsights;
+          retroData = {
+            ...llmInsights,
+            analysisMetadata: {
+              ...llmInsights.analysisMetadata,
+              dataSources: ["sample_github", "sample_linear", "sample_slack"],
+              sampleDataUsed: true,
+              reason: "No integration keys configured, using sample data with AI"
+            }
+          };
         } else {
-          console.warn(
-            "LLM analysis returned null, falling back to rule-based analysis"
-          );
-          const ruleBasedInsights = await performRuleBasedAnalysis(
-            linearService,
-            slackService,
-            githubService,
-            startDate,
-            endDate,
-            teamMembers
-          );
-          retroData = ruleBasedInsights;
+          // Fallback to demo insights if LLM fails
+          const insightsPath = new URL('./sample-data/demo.insights.json', import.meta.url).pathname;
+          const demoInsights = JSON.parse(fs.readFileSync(insightsPath, 'utf-8'));
+          retroData = {
+            ...demoInsights,
+            analysisMetadata: {
+              demoMode: true,
+              reason: "LLM analysis of sample data failed"
+            }
+          };
+        }
+      } catch (error) {
+        console.error("Sample data LLM analysis failed:", error);
+        // Fallback to demo insights
+        try {
+          const fs = await import('fs');
+          const path = await import('path');
+          const insightsPath = new URL('./sample-data/demo.insights.json', import.meta.url).pathname;
+          const demoInsights = JSON.parse(fs.readFileSync(insightsPath, 'utf-8'));
+          retroData = {
+            ...demoInsights,
+            analysisMetadata: {
+              demoMode: true,
+              reason: "Error during sample data analysis"
+            }
+          };
+        } catch (e) {
+          return res.status(500).json({ error: 'Failed to generate insights: ' + error.message });
+        }
+      }
+    } 
+    // 4. If some integrations are missing but OpenAI is present, use available integrations
+    else if (llmEnabled) {
+      try {
+        console.log("Running LLM analysis with available integrations...");
+        
+        // Load sample data for missing integrations
+        const fs = await import('fs');
+        const path = await import('path');
+        const base = new URL('./sample-data', import.meta.url).pathname;
+        const variantSuffix = 'sample.large';
+        
+        // Prepare data from available sources or samples
+        let githubData = null;
+        let linearIssues = null;
+        let slackMessages = null;
+        
+        // GitHub data
+        if (githubService) {
+          try {
+            const { commits, pullRequests } = await githubService.getTeamActivity(startDate, endDate);
+            githubData = { commits, pullRequests };
+            console.log(`Using real GitHub data: ${commits.length} commits, ${pullRequests.length} PRs`);
+          } catch (e) {
+            console.warn("GitHub fetch failed, using sample data:", e.message);
+            githubData = JSON.parse(fs.readFileSync(path.join(base, `github.activity.${variantSuffix}.json`), 'utf-8'));
+          }
+        } else {
+          console.log("No GitHub key, using sample data");
+          githubData = JSON.parse(fs.readFileSync(path.join(base, `github.activity.${variantSuffix}.json`), 'utf-8'));
+        }
+        
+        // Linear data
+        if (linearService) {
+          try {
+            linearIssues = await linearService.getIssuesInDateRange(startDate, endDate, teamMembers);
+            console.log(`Using real Linear data: ${linearIssues.length} issues`);
+          } catch (e) {
+            console.warn("Linear fetch failed, using sample data:", e.message);
+            const linearData = JSON.parse(fs.readFileSync(path.join(base, `linear.issues.${variantSuffix}.json`), 'utf-8'));
+            linearIssues = linearData.issues;
+          }
+        } else {
+          console.log("No Linear key, using sample data");
+          const linearData = JSON.parse(fs.readFileSync(path.join(base, `linear.issues.${variantSuffix}.json`), 'utf-8'));
+          linearIssues = linearData.issues;
+        }
+        
+        // Slack data
+        if (slackService) {
+          try {
+            slackMessages = await slackService.getTeamChannelMessages(startDate, endDate);
+            console.log(`Using real Slack data: ${slackMessages.length} messages`);
+          } catch (e) {
+            console.warn("Slack fetch failed, using sample data:", e.message);
+            const slackData = JSON.parse(fs.readFileSync(path.join(base, `slack.messages.${variantSuffix}.json`), 'utf-8'));
+            slackMessages = slackData.messages;
+          }
+        } else {
+          console.log("No Slack key, using sample data");
+          const slackData = JSON.parse(fs.readFileSync(path.join(base, `slack.messages.${variantSuffix}.json`), 'utf-8'));
+          slackMessages = slackData.messages;
+        }
+        
+        // Run LLM analysis
+        const llmInsights = await llmAnalyzer.analyzeTeamData(
+          githubData,
+          linearIssues,
+          slackMessages,
+          dateRange,
+          {
+            teamSize: teamMembers?.length,
+            repositories: process.env.GITHUB_REPOS?.split(",") || ["sample/app"],
+            channels: process.env.SLACK_CHANNELS?.split(",") || ["dev", "general"],
+          },
+          progressTracker
+        );
+        
+        if (llmInsights) {
+          retroData = {
+            ...llmInsights,
+            analysisMetadata: {
+              ...llmInsights.analysisMetadata,
+              dataSources: {
+                github: hasGithubKey ? "real" : "sample",
+                linear: hasLinearKey ? "real" : "sample", 
+                slack: hasSlackKey ? "real" : "sample"
+              },
+              mixedDataSources: true
+            }
+          };
+        } else {
+          console.warn("LLM analysis returned null");
+          retroData = { wentWell: [], didntGoWell: [], actionItems: [] };
         }
       } catch (error) {
         console.error("LLM analysis failed:", error.message);
-        console.log("Falling back to rule-based analysis due to LLM failure");
-        const ruleBasedInsights = await performRuleBasedAnalysis(
-          linearService,
-          slackService,
-          githubService,
-          startDate,
-          endDate,
-          teamMembers
-        );
-        retroData = ruleBasedInsights;
+        retroData = { wentWell: [], didntGoWell: [], actionItems: [] };
       }
-    } else {
-      console.log("LLM analysis disabled, using rule-based analysis");
-      const ruleBasedInsights = await performRuleBasedAnalysis(
-        linearService,
-        slackService,
-        githubService,
-        startDate,
-        endDate,
-        teamMembers
-      );
-      retroData = ruleBasedInsights;
+    }
+    // 5. If only integrations but no OpenAI, return demo insights  
+    else {
+      console.log("No OpenAI configured, using demo insights");
+      try {
+        const fs = await import('fs');
+        const path = await import('path');
+        const insightsPath = new URL('./sample-data/demo.insights.json', import.meta.url).pathname;
+        const demoInsights = JSON.parse(fs.readFileSync(insightsPath, 'utf-8'));
+        
+        retroData = {
+          ...demoInsights,
+          analysisMetadata: {
+            demoMode: true,
+            reason: "OpenAI not configured",
+            dataSources: ["demo"],
+            analysisType: "demo_insights"
+          }
+        };
+      } catch (e) {
+        console.error('Loading demo insights failed:', e);
+        retroData = { wentWell: [], didntGoWell: [], actionItems: [] };
+      }
     }
 
     // Add analysis metadata
@@ -527,9 +844,18 @@ app.post("/api/generate-retro", async (req, res) => {
       analysisType: llmEnabled ? "LLM-powered" : "Rule-based",
     });
 
+    // Complete the progress tracker before sending response
+    if (progressTracker) {
+      progressTracker.complete();
+    }
+
     res.json(retroData);
   } catch (error) {
     console.error("Error generating retro:", error);
+    // Mark progress tracker as failed
+    if (progressTracker) {
+      progressTracker.fail(error);
+    }
     res.status(500).json({
       error: "Failed to generate retro: " + error.message,
     });
@@ -841,7 +1167,8 @@ async function performLLMAnalysis(
   startDate,
   endDate,
   dateRange,
-  teamMembers
+  teamMembers,
+  progressTracker = null
 ) {
   console.log("Starting LLM analysis...");
 
@@ -894,7 +1221,8 @@ async function performLLMAnalysis(
         teamSize: teamMembers?.length,
         repositories: process.env.GITHUB_REPOS?.split(",") || [],
         channels: process.env.SLACK_CHANNELS?.split(",") || [],
-      }
+      },
+      progressTracker
     );
 
     if (llmInsights) {
@@ -954,3 +1282,211 @@ function addFallbackContent(retroData, ruleBasedInsights, llmInsights) {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+/**
+ * Run retro generation as a background job and store the result by sessionId
+ */
+async function runRetroGeneration(sessionId, dateRange, teamMembers, useDemo, demoVariant) {
+  try {
+    console.log("[bg] Starting generation for:", { dateRange, teamMembers, sessionId, useDemo });
+
+    // Create progress tracker
+    let progressTracker = progressManager.createTracker(
+      sessionId,
+      DEFAULT_LLM_STEPS
+    );
+
+    // If demo mode requested, return pre-made demo insights
+    if (useDemo === true) {
+      try {
+        const fs = await import('fs');
+        const path = await import('path');
+        const insightsPath = new URL('./sample-data/demo.insights.json', import.meta.url).pathname;
+        const demoInsights = JSON.parse(fs.readFileSync(insightsPath, 'utf-8'));
+        
+        const retroData = {
+          ...demoInsights,
+          analysisMetadata: {
+            demoMode: true,
+            demoVariant: demoVariant === 'small' ? 'small' : 'large',
+            generatedAt: new Date().toISOString(),
+            dateRange: dateRange,
+            teamMembers: teamMembers,
+            insightCount: {
+              wentWell: demoInsights.wentWell.length,
+              didntGoWell: demoInsights.didntGoWell.length,
+              actionItems: demoInsights.actionItems.length
+            },
+            dataSources: ["github", "linear", "slack"],
+            analysisType: "demo_insights"
+          }
+        };
+
+        generationResults.set(sessionId, {
+          status: "completed",
+          retroData,
+          timestamp: new Date().toISOString(),
+        });
+        progressTracker.complete();
+        setTimeout(() => generationResults.delete(sessionId), 60 * 60 * 1000);
+        console.log("[bg] Demo generation completed for session:", sessionId);
+        return;
+      } catch (e) {
+        console.error('[bg] Demo mode failed:', e);
+        progressTracker.fail(e);
+        generationResults.set(sessionId, {
+          status: "failed",
+          error: 'Failed to load demo insights: ' + e.message,
+          timestamp: new Date().toISOString(),
+        });
+        setTimeout(() => generationResults.delete(sessionId), 60 * 60 * 1000);
+        return;
+      }
+    }
+
+    // Initialize services
+    const linearService = new LinearService(process.env.LINEAR_API_KEY);
+    let slackService = null;
+    if (process.env.SLACK_BOT_TOKEN) {
+      slackService = new SlackService(process.env.SLACK_BOT_TOKEN);
+    }
+    let githubService = null;
+    if (process.env.GITHUB_TOKEN) {
+      githubService = new GitHubService(process.env.GITHUB_TOKEN);
+    }
+
+    // Initialize LLM analyzer and check configuration
+    const llmAnalyzer = LLMAnalyzer.fromEnvironment(process.env);
+    const llmEnabled = llmAnalyzer.config.enabled;
+
+    // Prepare date range strings - handle both date-only and full ISO strings
+    const startDate = dateRange.start.includes("T")
+      ? dateRange.start
+      : dateRange.start + "T00:00:00Z";
+    const endDate = dateRange.end.includes("T")
+      ? dateRange.end
+      : dateRange.end + "T23:59:59Z";
+
+    let retroData = { wentWell: [], didntGoWell: [], actionItems: [] };
+
+    if (llmEnabled) {
+      try {
+        console.log("[bg] Running LLL-only analysis...");
+        const llmInsights = await performLLMAnalysis(
+          llmAnalyzer,
+          linearService,
+          slackService,
+          githubService,
+          startDate,
+          endDate,
+          dateRange,
+          teamMembers,
+          progressTracker
+        );
+        if (llmInsights) {
+          retroData = llmInsights;
+        } else {
+          console.warn("[bg] LLM returned null, falling back to rule-based");
+          retroData = await performRuleBasedAnalysis(
+            linearService,
+            slackService,
+            githubService,
+            startDate,
+            endDate,
+            teamMembers
+          );
+        }
+      } catch (error) {
+        console.error("[bg] LLM analysis failed:", error.message);
+        retroData = await performRuleBasedAnalysis(
+          linearService,
+          slackService,
+          githubService,
+          startDate,
+          endDate,
+          teamMembers
+        );
+      }
+    } else {
+      console.log("[bg] LLM disabled, using rule-based analysis");
+      retroData = await performRuleBasedAnalysis(
+        linearService,
+        slackService,
+        githubService,
+        startDate,
+        endDate,
+        teamMembers
+      );
+    }
+
+    // Add analysis metadata
+    retroData.analysisMetadata = {
+      ...retroData.analysisMetadata,
+      ruleBasedAnalysisUsed:
+        !llmEnabled || !retroData.analysisMetadata?.llmAnalysisUsed,
+      llmAnalysisUsed:
+        llmEnabled && retroData.analysisMetadata?.llmAnalysisUsed,
+      llmEnabled: llmEnabled,
+      generatedAt: new Date().toISOString(),
+      dateRange: dateRange,
+      teamMembers: teamMembers,
+    };
+
+    // Add fallback content if empty
+    if (
+      retroData.wentWell.length === 0 &&
+      retroData.didntGoWell.length === 0 &&
+      retroData.actionItems.length === 0
+    ) {
+      retroData.wentWell.push({
+        title: "Data collection completed successfully",
+        details:
+          "Successfully gathered team data from configured sources for analysis.",
+        source: "system",
+        confidence: 1.0,
+        category: "technical",
+      });
+      retroData.didntGoWell.push({
+        title: "Limited data available for analysis",
+        details:
+          "Consider expanding the date range or checking data source configurations.",
+        source: "system",
+        confidence: 0.8,
+        category: "process",
+      });
+      retroData.actionItems.push({
+        title: "Review data source configuration",
+        details:
+          "Ensure all team data sources are properly configured and accessible.",
+        source: "system",
+        priority: "medium",
+        category: "process",
+      });
+    }
+
+    generationResults.set(sessionId, {
+      status: "completed",
+      retroData,
+      timestamp: new Date().toISOString(),
+    });
+    // Complete the progress tracker
+    if (progressTracker) {
+      progressTracker.complete();
+    }
+    // Auto-cleanup stored result after 60 minutes
+    setTimeout(() => generationResults.delete(sessionId), 60 * 60 * 1000);
+    console.log("[bg] Generation completed for session:", sessionId);
+  } catch (error) {
+    console.error("[bg] Unhandled error in runRetroGeneration:", error);
+    generationResults.set(sessionId, {
+      status: "failed",
+      error: error.message,
+      timestamp: new Date().toISOString(),
+    });
+    // Fail the progress tracker
+    if (progressTracker) {
+      progressTracker.fail(error);
+    }
+    setTimeout(() => generationResults.delete(sessionId), 60 * 60 * 1000);
+  }
+}

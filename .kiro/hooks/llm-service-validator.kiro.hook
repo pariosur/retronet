@@ -4,7 +4,7 @@
   "description": "Validates LLM service files for interface compliance, security, and functionality when changes are made to server/services/llm/ directory",
   "version": "1",
   "when": {
-    "type": "fileEdited",
+    "type": "userTriggered",
     "patterns": [
       "server/services/llm/**/*"
     ]

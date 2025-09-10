@@ -589,7 +589,7 @@ Provide your analysis as a JSON object with the following structure:
   "wentWell": [
     {
       "title": "Clear, plain-language summary (4-8 words, active voice)",
-      "details": "1-2 short sentences with specific examples, data points, and context. Include what happened and why it was positive, with concrete evidence.",
+      "details": "Exactly two short sentences with specific examples, data points, and context. State what happened and why it was positive, with concrete evidence.",
       "source": "ai",
       "confidence": 0.85,
       "category": "technical|process|team-dynamics|communication",
@@ -599,7 +599,7 @@ Provide your analysis as a JSON object with the following structure:
   "didntGoWell": [
     {
       "title": "Clear, plain-language issue summary (4-8 words, active voice)",
-      "details": "1-2 short sentences with specific examples and context. Include what went wrong and likely root cause with concrete evidence.",
+      "details": "Exactly two short sentences with specific examples and context. State what went wrong and the likely root cause with concrete evidence.",
       "source": "ai",
       "confidence": 0.75,
       "category": "technical|process|team-dynamics|communication",
@@ -609,7 +609,7 @@ Provide your analysis as a JSON object with the following structure:
   "actionItems": [
     {
       "title": "Clear, actionable recommendation (4-8 words)",
-      "details": "1-2 short sentences with exactly what to do, owners, and expected outcome.",
+      "details": "Exactly two short sentences stating what to do, the owners, and the expected outcome.",
       "source": "ai",
       "priority": "high|medium|low",
       "category": "technical|process|team-dynamics|communication",

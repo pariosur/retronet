@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { LayoutGrid, Sparkles, Settings, BarChart, Edit2, Trash2, Save } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { LayoutGrid, Sparkles, Settings, BarChart, Edit2, Trash2, Save, Clock } from 'lucide-react';
 import AppLayout from './AppLayout';
 import DateRangePicker from './DateRangePicker';
  
@@ -19,7 +19,7 @@ function DraggableCard({ item, onEdit, onDelete }) {
 
   return (
     <div
-      className={`relative overflow-hidden bg-gray-50 border ${item.isSample ? 'border-dashed' : 'border-solid'} border-gray-200 rounded-lg p-3 text-sm text-gray-800 group`}
+      className={`relative overflow-hidden bg-gray-50 dark:bg-gray-800 border ${item.isSample ? 'border-dashed' : 'border-solid'} border-gray-200 dark:border-gray-700 rounded-lg p-3 text-sm text-gray-800 dark:text-gray-200 group`}
     >
       {isEditing ? (
         <input
@@ -34,25 +34,25 @@ function DraggableCard({ item, onEdit, onDelete }) {
               setIsEditing(false);
             }
           }}
-          className="w-full px-2 py-1 border border-gray-300 rounded-md text-sm bg-white"
+          className="w-full px-2 py-1 border border-gray-300 dark:border-gray-600 rounded-md text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
         />
       ) : (
         <div className="relative flex items-center justify-between">
-          <span className={`${item.isSample ? 'text-gray-600' : ''}`}>{item.text}</span>
+          <span className={`${item.isSample ? 'text-gray-600 dark:text-gray-400' : ''}`}>{item.text}</span>
           <div className="flex items-center gap-2">
             {item.isSample && (
-              <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-gray-200 text-gray-700">Sample</span>
+              <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300">Sample</span>
             )}
             <button
               onClick={() => onDelete(item.id)}
-              className="opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-red-600"
+              className="opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 dark:text-gray-500 hover:text-red-600 dark:hover:text-red-400"
               aria-label="Delete card"
             >
               <Trash2 className="w-3.5 h-3.5" />
             </button>
             <button
               onClick={() => setIsEditing(true)}
-              className="opacity-0 group-hover:opacity-100 transition-opacity text-gray-500 hover:text-gray-800"
+              className="opacity-0 group-hover:opacity-100 transition-opacity text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
               aria-label="Edit card"
             >
               <Edit2 className="w-3.5 h-3.5" />
@@ -66,17 +66,17 @@ function DraggableCard({ item, onEdit, onDelete }) {
 
 function Column({ title, items = [], placeholderItems = [], onEditItem, onAddItem, onDeleteItem }) {
   return (
-    <div className="flex-1 min-w-0 bg-white border border-gray-200 rounded-xl p-4">
-      <h2 className="text-sm font-semibold text-gray-700 mb-3">{title}</h2>
+    <div className="flex-1 min-w-0 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
+      <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">{title}</h2>
       <div
         className="space-y-2 min-h-[120px]"
       >
         {items.length === 0 && placeholderItems.length > 0
           ? placeholderItems.map((t, i) => (
-              <div key={`p-${i}`} className="bg-gray-50 border border-dashed border-gray-300 rounded-lg p-3 text-sm text-gray-600">
+              <div key={`p-${i}`} className="bg-gray-50 dark:bg-gray-800 border border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-3 text-sm text-gray-600 dark:text-gray-400">
                 <div className="flex items-center justify-between">
                   <span>{t}</span>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-gray-200 text-gray-700">Sample</span>
+                  <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300">Sample</span>
                 </div>
               </div>
             ))
@@ -105,10 +105,10 @@ function InlineAdder({ onAdd }) {
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={(e) => e.key === 'Enter' && submit()}
-        className="flex-1 px-2 py-1 border border-gray-300 rounded-md text-sm"
+        className="flex-1 px-2 py-1 border border-gray-300 dark:border-gray-600 rounded-md text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
         placeholder="Add a card..."
       />
-      <button onClick={submit} className="px-2 py-1 bg-gray-900 text-white rounded-md text-xs hover:bg-black">Add</button>
+      <button onClick={submit} className="px-2 py-1 bg-gray-900 dark:bg-gray-600 text-white rounded-md text-xs hover:bg-black dark:hover:bg-gray-500">Add</button>
     </div>
   );
 }
@@ -121,6 +121,10 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
   const [title, setTitle] = useState('');
   const [currentId, setCurrentId] = useState('');
   const [saveStatus, setSaveStatus] = useState('');
+  const [progressPct, setProgressPct] = useState(0);
+  const [progressText, setProgressText] = useState('');
+  const [etaMs, setEtaMs] = useState(null);
+  const pollRef = useRef(null);
 
   const placeholders = {
     wentWell: [
@@ -198,7 +202,92 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
 
   const saveRetro = () => { persistRetroToLocalStorage(board, { showStatus: true }); };
 
-  
+  const friendlyStepLabel = (stepIndex) => {
+    switch (stepIndex) {
+      case 0: return 'Getting things ready…';
+      case 1: return 'Preparing AI Analysis…';
+      case 2: return 'AI is thinking…';
+      case 3: return 'Polishing the insights…';
+      case 4: return 'Wrapping up…';
+      default: return 'Working…';
+    }
+  };
+
+  const startProgressPolling = (sid) => {
+    clearInterval(pollRef.current);
+    pollRef.current = setInterval(async () => {
+      try {
+        const res = await fetch(`http://localhost:3001/api/progress/${sid}`);
+        if (!res.ok) return;
+        const data = await res.json();
+        const pct = data?.progress?.percentage ?? 0;
+        setProgressPct(pct);
+        const currentIndex = data?.currentStep?.index ?? 0;
+        setProgressText(`${friendlyStepLabel(currentIndex)} (${data?.progress?.completedSteps || 0}/${data?.progress?.totalSteps || 0})`);
+        setEtaMs(data?.progress?.estimatedTimeRemaining ?? null);
+        if (data?.completed) {
+          clearInterval(pollRef.current);
+        }
+      } catch {
+        // ignore poll errors
+      }
+    }, 750);
+  };
+
+  const stopProgressPolling = () => {
+    clearInterval(pollRef.current);
+    pollRef.current = null;
+  };
+
+  const formatEta = (ms) => {
+    if (!ms || ms <= 0) return null;
+    const totalSeconds = Math.ceil(ms / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  };
+
+  const applyRetroData = (data) => {
+    const aiWW = (data.wentWell || []).map(i => i.title);
+    const aiDW = (data.didntGoWell || []).map(i => i.title);
+    const aiAI = (data.actionItems || []).map(i => i.title);
+    let nextBoardLocal = null;
+    setBoard(prev => {
+      const computed = {
+        wentWell: [...prev.wentWell.filter(i => i.source === 'user' || !i.source && !i.isSample), ...toItems(aiWW).map(x => ({ ...x, source: 'ai' }))],
+        didntGoWell: [...prev.didntGoWell.filter(i => i.source === 'user' || !i.source && !i.isSample), ...toItems(aiDW).map(x => ({ ...x, source: 'ai' }))],
+        actionItems: [...prev.actionItems.filter(i => i.source === 'user' || !i.source && !i.isSample), ...toItems(aiAI).map(x => ({ ...x, source: 'ai' }))]
+      };
+      nextBoardLocal = computed;
+      return computed;
+    });
+    const ts = new Date().toISOString();
+    setLastGeneratedAt(ts);
+    localStorage.setItem('retromate_last_generated', ts);
+    if (nextBoardLocal) { persistRetroToLocalStorage(nextBoardLocal, { showStatus: false }); }
+  };
+
+  const pollForResult = async (sid) => {
+    let done = false;
+    while (!done) {
+      await new Promise(r => setTimeout(r, 1200));
+      const res = await fetch(`http://localhost:3001/api/generate-retro/result/${sid}`);
+      if (res.status === 200) {
+        const data = await res.json();
+        localStorage.removeItem('retromate_active_session');
+        applyRetroData(data);
+        done = true;
+        break;
+      }
+      if (res.status === 500) {
+        const { error } = await res.json().catch(() => ({ error: 'Generation failed' }));
+        alert(error || 'Generation failed');
+        localStorage.removeItem('retromate_active_session');
+        break;
+      }
+      // 202 pending or 404 not yet available -> continue
+    }
+  };
 
   const handleEdit = (column) => (updated) => {
     setBoard(prev => ({
@@ -221,6 +310,26 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
     }));
   };
 
+  // Resume active background generation after refresh/navigation
+  useEffect(() => {
+    const active = localStorage.getItem('retromate_active_session');
+    if (active) {
+      setIsGenerating(true);
+      setProgressPct(0);
+      setProgressText('Resuming…');
+      setEtaMs(null);
+      startProgressPolling(active);
+      pollForResult(active).finally(() => {
+        stopProgressPolling();
+        setIsGenerating(false);
+        setProgressPct(0);
+        setProgressText('');
+        setEtaMs(null);
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const generateFromServer = async () => {
     if (isGenerating) return;
     // Ensure valid ISO dates
@@ -231,33 +340,42 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
       return;
     }
     setIsGenerating(true);
+    setProgressPct(0);
+    setProgressText('Starting…');
+    setEtaMs(null);
     try {
-      const response = await axios.post('http://localhost:3001/api/generate-retro', {
+      const sid = (window.crypto?.randomUUID && window.crypto.randomUUID()) || `sess_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+      localStorage.setItem('retromate_active_session', sid);
+      startProgressPolling(sid);
+
+      // Read demo toggle from localStorage
+      let useDemo = true;
+      let demoVariant = 'large';
+      try {
+        const raw = localStorage.getItem('retromate.useDemo');
+        useDemo = raw === null ? true : (raw === 'true');
+        const rawVar = localStorage.getItem('retromate.demoVariant');
+        if (rawVar === 'small' || rawVar === 'large') demoVariant = rawVar;
+      } catch {
+        // Ignore localStorage access issues
+      }
+      
+      await axios.post('http://localhost:3001/api/generate-retro/start', {
         dateRange: { start, end },
-        teamMembers: teamMembers || []
+        teamMembers: teamMembers || [],
+        sessionId: sid,
+        useDemo,
+        demoVariant
       });
-      const data = response.data;
-      const aiWW = (data.wentWell || []).map(i => i.title);
-      const aiDW = (data.didntGoWell || []).map(i => i.title);
-      const aiAI = (data.actionItems || []).map(i => i.title);
-      let nextBoardLocal = null;
-      setBoard(prev => {
-        const computed = {
-          wentWell: [...prev.wentWell.filter(i => i.source === 'user' || !i.source && !i.isSample), ...toItems(aiWW).map(x => ({ ...x, source: 'ai' }))],
-          didntGoWell: [...prev.didntGoWell.filter(i => i.source === 'user' || !i.source && !i.isSample), ...toItems(aiDW).map(x => ({ ...x, source: 'ai' }))],
-          actionItems: [...prev.actionItems.filter(i => i.source === 'user' || !i.source && !i.isSample), ...toItems(aiAI).map(x => ({ ...x, source: 'ai' }))]
-        };
-        nextBoardLocal = computed;
-        return computed;
-      });
-      const ts = new Date().toISOString();
-      setLastGeneratedAt(ts);
-      localStorage.setItem('retromate_last_generated', ts);
-      if (nextBoardLocal) { persistRetroToLocalStorage(nextBoardLocal, { showStatus: false }); }
+      await pollForResult(sid);
     } catch (e) {
       alert(e.response?.data?.error || 'Failed to generate retro');
     } finally {
+      stopProgressPolling();
       setIsGenerating(false);
+      setProgressPct(0);
+      setProgressText('');
+      setEtaMs(null);
     }
   };
 
@@ -317,24 +435,24 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
         localStorage.removeItem('retromate_last_generated');
       }}
     >
-      <div className="bg-white border border-gray-200 rounded-xl p-4 mb-4">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 mb-4">
         <div className="flex items-end gap-3">
         <div>
-          <label className="block text-xs text-gray-600 mb-1">Date Range</label>
+          <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">Date Range</label>
           <DateRangePicker
             value={dateRange}
             onChange={(dr) => onChangeDateRange?.(dr)}
           />
         </div>
         <div className="flex-1" />
-        <div className="text-xs text-gray-500 mr-3">
+        <div className="text-xs text-gray-500 dark:text-gray-400 mr-3">
           {lastGeneratedAt && <>Last generated {new Date(lastGeneratedAt).toLocaleString()} • </>}
           {saveStatus === 'saving' ? 'Saving…' : saveStatus === 'saved' ? 'Saved' : null}
         </div>
         <button
           onClick={saveRetro}
           disabled={saveStatus === 'saving'}
-          className="bg-white border border-gray-300 text-gray-800 px-3 py-2 rounded-md text-sm hover:bg-gray-50 inline-flex items-center gap-2 disabled:opacity-60"
+          className="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-200 px-3 py-2 rounded-md text-sm hover:bg-gray-50 dark:hover:bg-gray-600 inline-flex items-center gap-2 disabled:opacity-60"
         >
           <Save className="w-4 h-4" /> Save
         </button>
@@ -342,7 +460,7 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
         <button
           onClick={generateFromServer}
           disabled={isGenerating}
-          className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm hover:bg-black inline-flex items-center gap-2 disabled:opacity-60"
+          className="bg-gray-900 dark:bg-gray-600 text-white px-3 py-2 rounded-md text-sm hover:bg-black dark:hover:bg-gray-500 inline-flex items-center gap-2 disabled:opacity-60"
         >
           {isGenerating ? (
             <span className="inline-flex items-center gap-2"><span className="animate-spin border-b-2 border-white rounded-full w-4 h-4"></span> Generating</span>
@@ -351,9 +469,27 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
           )}
         </button>
         {saveStatus === 'saved' && (
-          <span className="ml-2 text-xs text-gray-600">Saved</span>
+          <span className="ml-2 text-xs text-gray-600 dark:text-gray-400">Saved</span>
         )}
         </div>
+        {isGenerating && (
+          <div className="mt-3">
+            <div className="flex items-center justify-between mb-1">
+              <p className="text-xs text-gray-600 dark:text-gray-400">{progressText}</p>
+              {etaMs != null && (
+                <span className="flex items-center gap-1 text-[11px] text-gray-500 dark:text-gray-400">
+                  <Clock className="w-3 h-3" /> ETA {formatEta(etaMs)}
+                </span>
+              )}
+            </div>
+            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 overflow-hidden">
+              <div
+                className="bg-gray-900 dark:bg-gray-600 h-1.5 transition-all"
+                style={{ width: `${Math.min(100, Math.max(0, progressPct))}%` }}
+              />
+            </div>
+          </div>
+        )}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Column 

@@ -1,0 +1,318 @@
+{
+  "wentWell": [
+    {
+      "title": "Strong team collaboration on authentication feature",
+      "details": "The team successfully shipped OAuth login with 6 PRs merged and comprehensive test coverage. Alice and Bob worked effectively together with quick code reviews.",
+      "source": "demo",
+      "confidence": 0.95,
+      "category": "collaboration",
+      "supporting_data": {
+        "pr_count": 6,
+        "contributors": ["alice", "bob"],
+        "key_achievement": "OAuth implementation"
+      }
+    },
+    {
+      "title": "Improved deployment velocity",
+      "details": "Team deployed to production 3 times this sprint with zero rollbacks. The new CI caching reduced build times by 40%.",
+      "source": "demo",
+      "confidence": 0.9,
+      "category": "process",
+      "supporting_data": {
+        "deployments": 3,
+        "rollbacks": 0,
+        "build_time_improvement": "40%"
+      }
+    },
+    {
+      "title": "Effective async communication",
+      "details": "Daily standups were consistently posted with 100% team participation. Quick response times on critical issues in Slack.",
+      "source": "demo",
+      "confidence": 0.85,
+      "category": "communication",
+      "supporting_data": {
+        "standup_participation": "100%",
+        "avg_response_time": "< 30 min"
+      }
+    },
+    {
+      "title": "Successful feature completion ahead of schedule",
+      "details": "Login form validation feature completed 2 days early with extensive test coverage. Both unit and integration tests added.",
+      "source": "demo",
+      "confidence": 0.92,
+      "category": "delivery",
+      "supporting_data": {
+        "feature": "Login validation",
+        "days_ahead": 2,
+        "test_coverage": "85%"
+      }
+    },
+    {
+      "title": "Proactive technical debt reduction",
+      "details": "Team refactored authentication middleware without being asked, improving code maintainability and reducing complexity by 30%.",
+      "source": "demo",
+      "confidence": 0.88,
+      "category": "technical",
+      "supporting_data": {
+        "complexity_reduction": "30%",
+        "files_refactored": 8,
+        "lead": "charlie"
+      }
+    },
+    {
+      "title": "Excellent cross-team coordination",
+      "details": "Platform and Core teams collaborated seamlessly on the messaging infrastructure, with regular sync-ups and shared documentation.",
+      "source": "demo",
+      "confidence": 0.87,
+      "category": "collaboration",
+      "supporting_data": {
+        "teams": ["Core", "Platform"],
+        "sync_meetings": 4,
+        "shared_docs": 3
+      }
+    },
+    {
+      "title": "Rapid incident response and resolution",
+      "details": "Team responded to production issue within 15 minutes, deployed fix in under an hour. Great example of operational excellence.",
+      "source": "demo",
+      "confidence": 0.94,
+      "category": "operations",
+      "supporting_data": {
+        "response_time": "15 min",
+        "resolution_time": "45 min",
+        "downtime": "minimal"
+      }
+    },
+    {
+      "title": "Knowledge sharing through documentation",
+      "details": "5 new technical docs created this sprint, including API guides and architecture decisions. Team actively maintaining knowledge base.",
+      "source": "demo",
+      "confidence": 0.83,
+      "category": "knowledge",
+      "supporting_data": {
+        "docs_created": 5,
+        "contributors": 4,
+        "views": 127
+      }
+    },
+    {
+      "title": "Consistent code quality standards",
+      "details": "All PRs passed automated quality checks on first attempt. Team adhering to coding standards and linting rules effectively.",
+      "source": "demo",
+      "confidence": 0.89,
+      "category": "quality",
+      "supporting_data": {
+        "pr_first_pass_rate": "100%",
+        "linting_errors": 0,
+        "review_iterations_avg": 1.2
+      }
+    },
+    {
+      "title": "Successful onboarding of new team member",
+      "details": "Dana joined the team and made their first production contribution within 3 days. Excellent mentoring from senior developers.",
+      "source": "demo",
+      "confidence": 0.86,
+      "category": "team",
+      "supporting_data": {
+        "new_member": "dana",
+        "time_to_first_pr": "3 days",
+        "mentors": ["alice", "bob"]
+      }
+    },
+    {
+      "title": "Sprint goals achieved with high quality",
+      "details": "100% of committed story points delivered with no critical bugs reported. Team estimation accuracy improving significantly.",
+      "source": "demo",
+      "confidence": 0.91,
+      "category": "planning",
+      "supporting_data": {
+        "completion_rate": "100%",
+        "story_points": 34,
+        "bugs_reported": 0
+      }
+    },
+    {
+      "title": "Effective use of feature flags",
+      "details": "Team successfully rolled out 3 features using feature flags, enabling safe, gradual rollouts with instant rollback capability.",
+      "source": "demo",
+      "confidence": 0.88,
+      "category": "deployment",
+      "supporting_data": {
+        "features_flagged": 3,
+        "rollbacks_needed": 0,
+        "gradual_rollout": true
+      }
+    }
+  ],
+  "didntGoWell": [
+    {
+      "title": "Large pull requests slowing reviews",
+      "details": "Several PRs exceeded 800 lines of changes, making thorough reviews difficult. PR #124 with 900 lines is still pending review after 3 days.",
+      "source": "demo",
+      "confidence": 0.9,
+      "category": "process",
+      "supporting_data": {
+        "large_prs": 3,
+        "avg_pr_size": "450 lines",
+        "longest_review_time": "3 days"
+      }
+    },
+    {
+      "title": "High priority bug lingered in backlog",
+      "details": "Critical message broker race condition (urgent priority) remained unresolved for over a week despite being assigned.",
+      "source": "demo",
+      "confidence": 0.95,
+      "category": "technical",
+      "supporting_data": {
+        "issue_id": "lin_ISSUE_2",
+        "priority": "Urgent",
+        "days_open": 7
+      }
+    },
+    {
+      "title": "CI pipeline instability",
+      "details": "Multiple mentions of 'flaky CI' and 'blocked' in team communications. Node 18 builds failing intermittently.",
+      "source": "demo",
+      "confidence": 0.85,
+      "category": "infrastructure",
+      "supporting_data": {
+        "blocked_mentions": 4,
+        "affected_version": "Node 18"
+      }
+    },
+    {
+      "title": "Insufficient test coverage on new features",
+      "details": "Several new components shipped without unit tests. Overall test coverage dropped from 78% to 72% this sprint.",
+      "source": "demo",
+      "confidence": 0.87,
+      "category": "quality",
+      "supporting_data": {
+        "coverage_before": "78%",
+        "coverage_after": "72%",
+        "untested_components": 4
+      }
+    },
+    {
+      "title": "Delayed code reviews blocking progress",
+      "details": "Average PR review time increased to 48 hours. Some developers blocked waiting for reviews, impacting sprint velocity.",
+      "source": "demo",
+      "confidence": 0.88,
+      "category": "process",
+      "supporting_data": {
+        "avg_review_time": "48 hours",
+        "blocked_devs": 3,
+        "velocity_impact": "-15%"
+      }
+    },
+    {
+      "title": "Unplanned work disrupting sprint",
+      "details": "40% of sprint capacity consumed by unplanned urgent requests. Original sprint commitments at risk.",
+      "source": "demo",
+      "confidence": 0.91,
+      "category": "planning",
+      "supporting_data": {
+        "unplanned_work": "40%",
+        "urgent_requests": 5,
+        "sprint_risk": "high"
+      }
+    },
+    {
+      "title": "Technical debt accumulating in legacy modules",
+      "details": "Refactoring backlog growing with 12 identified areas needing attention. Team postponing cleanup work due to feature pressure.",
+      "source": "demo",
+      "confidence": 0.84,
+      "category": "technical",
+      "supporting_data": {
+        "debt_items": 12,
+        "age_avg": "6 months",
+        "modules_affected": ["auth", "messaging", "api"]
+      }
+    },
+    {
+      "title": "Inconsistent commit message formatting",
+      "details": "30% of commits not following conventional commit standards, making changelog generation and history tracking difficult.",
+      "source": "demo",
+      "confidence": 0.82,
+      "category": "process",
+      "supporting_data": {
+        "non_compliant_commits": "30%",
+        "authors": ["charlie", "dana"],
+        "impact": "changelog automation"
+      }
+    },
+    {
+      "title": "Production deployment windows missed",
+      "details": "2 scheduled deployments postponed due to last-minute issues discovered. Need better pre-deployment validation.",
+      "source": "demo",
+      "confidence": 0.89,
+      "category": "deployment",
+      "supporting_data": {
+        "missed_windows": 2,
+        "reasons": ["failing tests", "config issues"],
+        "delay_avg": "2 days"
+      }
+    },
+    {
+      "title": "Insufficient monitoring on new services",
+      "details": "New microservices deployed without proper alerting setup. Potential issues might go unnoticed in production.",
+      "source": "demo",
+      "confidence": 0.86,
+      "category": "operations",
+      "supporting_data": {
+        "unmonitored_services": 3,
+        "missing_alerts": ["error rate", "latency", "availability"],
+        "risk_level": "medium"
+      }
+    },
+    {
+      "title": "Knowledge silos forming in specialized areas",
+      "details": "OAuth implementation only understood by 2 team members. Bus factor risk for critical authentication system.",
+      "source": "demo",
+      "confidence": 0.83,
+      "category": "knowledge",
+      "supporting_data": {
+        "siloed_areas": ["OAuth", "messaging", "CI/CD"],
+        "bus_factor": 2,
+        "documentation_gaps": true
+      }
+    },
+    {
+      "title": "Meeting overload reducing coding time",
+      "details": "Developers reporting 35% of time in meetings, up from 20% last sprint. Impact on feature delivery velocity.",
+      "source": "demo",
+      "confidence": 0.87,
+      "category": "productivity",
+      "supporting_data": {
+        "meeting_time": "35%",
+        "previous": "20%",
+        "developer_feedback": "negative"
+      }
+    }
+  ],
+  "actionItems": [
+    {
+      "title": "Implement PR size guidelines",
+      "details": "Set up automated checks to warn when PRs exceed 400 lines. Encourage breaking down large changes into smaller, focused PRs.",
+      "priority": "high",
+      "assignee": "team",
+      "category": "process",
+      "effort_estimate": "2 hours"
+    },
+    {
+      "title": "Address CI reliability issues",
+      "details": "Investigate Node 18 build failures and implement retry logic for transient failures. Consider upgrading dependencies.",
+      "priority": "high",
+      "assignee": "platform team",
+      "category": "infrastructure",
+      "effort_estimate": "1 day"
+    },
+    {
+      "title": "Review and prioritize urgent bugs weekly",
+      "details": "Add weekly bug triage meeting to ensure high-priority issues don't stagnate. Set SLA for urgent bug resolution.",
+      "priority": "medium",
+      "assignee": "team lead",
+      "category": "process",
+      "effort_estimate": "Recurring 30 min/week"
+    }
+  ]
+}
