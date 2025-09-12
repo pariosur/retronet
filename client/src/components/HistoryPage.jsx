@@ -18,7 +18,7 @@ function AnimatedItem({ children, index }) {
   );
 }
 
-function RetrosPage({ onNavigate, onLoadRetro }) {
+function HistoryPage({ onNavigate, onLoadRetro }) {
   const saved = JSON.parse(localStorage.getItem('retronet_retros') || '[]');
   const removeRetro = (key) => {
     const list = JSON.parse(localStorage.getItem('retronet_retros') || '[]');
@@ -29,7 +29,7 @@ function RetrosPage({ onNavigate, onLoadRetro }) {
   return (
     <AppLayout onNavigate={onNavigate}>
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Saved Retros</h1>
+        <h1 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">History</h1>
         {saved.length === 0 ? (
           <div className="text-sm text-gray-600 dark:text-gray-400">No retros saved yet.</div>
         ) : (
@@ -55,6 +55,6 @@ function RetrosPage({ onNavigate, onLoadRetro }) {
   );
 }
 
-export default RetrosPage;
+export default HistoryPage;
 
 

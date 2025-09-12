@@ -113,7 +113,7 @@ function InlineAdder({ onAdd }) {
   );
 }
 
-function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers }) {
+function DashboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers }) {
   const toItems = (arr, isSample = false) => (arr || []).map((text, idx) => ({ id: `${Date.now()}-${Math.random()}-${idx}`, text, isSample }));
   const [board, setBoard] = useState({ wentWell: [], didntGoWell: [], actionItems: [] });
   const [isGenerating, setIsGenerating] = useState(false);
@@ -248,9 +248,10 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
   };
 
   const applyRetroData = (data) => {
-    const aiWW = (data.wentWell || []).map(i => i.title);
-    const aiDW = (data.didntGoWell || []).map(i => i.title);
-    const aiAI = (data.actionItems || []).map(i => i.title);
+    // Combine title and details into full text for display
+    const aiWW = (data.wentWell || []).map(i => `${i.title}. ${i.details || ''}`);
+    const aiDW = (data.didntGoWell || []).map(i => `${i.title}. ${i.details || ''}`);
+    const aiAI = (data.actionItems || []).map(i => `${i.title}. ${i.details || ''}`);
     let nextBoardLocal = null;
     setBoard(prev => {
       const computed = {
@@ -414,7 +415,7 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
       }}
       selectedTitleKey={currentId}
       onNewRetro={() => {
-        // Create a fresh whiteboard with a brand-new id so Save won't overwrite
+        // Create a fresh dashboard with a brand-new id so Save won't overwrite
         const newId = `r-${Date.now()}`;
         setCurrentId(newId);
         localStorage.setItem('retronet_current_id', newId);
@@ -521,6 +522,6 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
   );
 }
 
-export default WhiteboardPage;
+export default DashboardPage;
 
 

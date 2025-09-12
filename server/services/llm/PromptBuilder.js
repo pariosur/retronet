@@ -589,7 +589,7 @@ Provide your analysis as a JSON object with the following structure:
   "wentWell": [
     {
       "title": "Clear, plain-language summary (4-8 words, active voice)",
-      "details": "Exactly two short sentences with specific examples, data points, and context. State what happened and why it was positive, with concrete evidence.",
+      "details": "MUST be exactly two complete sentences with specific examples, data points, and context. First sentence states what happened, second sentence explains why it was positive with concrete evidence.",
       "source": "ai",
       "confidence": 0.85,
       "category": "technical|process|team-dynamics|communication",
@@ -598,8 +598,8 @@ Provide your analysis as a JSON object with the following structure:
   ],
   "didntGoWell": [
     {
-      "title": "Clear, plain-language issue summary (4-8 words, active voice)",
-      "details": "Exactly two short sentences with specific examples and context. State what went wrong and the likely root cause with concrete evidence.",
+      "title": "Clear, plain-language issue summary (4-8 wor2ds, active voice)",
+      "details": "MUST be exactly two complete sentences with specific examples and context. First sentence states what went wrong, second sentence explains the root cause or impact with concrete evidence.",
       "source": "ai",
       "confidence": 0.75,
       "category": "technical|process|team-dynamics|communication",
@@ -609,7 +609,7 @@ Provide your analysis as a JSON object with the following structure:
   "actionItems": [
     {
       "title": "Clear, actionable recommendation (4-8 words)",
-      "details": "Exactly two short sentences stating what to do, the owners, and the expected outcome.",
+      "details": "MUST be exactly two complete sentences stating what to do and the expected outcome. First sentence describes the specific action, second sentence explains the expected benefit or result.",
       "source": "ai",
       "priority": "high|medium|low",
       "category": "technical|process|team-dynamics|communication",
@@ -619,6 +619,7 @@ Provide your analysis as a JSON object with the following structure:
 }
 
 Quality Requirements for Insights:
+- CRITICAL: The "details" field MUST contain exactly 2 complete sentences - no more, no less
 - Each insight must be backed by specific data points or patterns from the provided team data
 - Include concrete examples (commit messages, issue titles, Slack discussions, etc.)
 - Provide quantitative context where possible (number of commits, time patterns, frequency, etc.)
@@ -629,7 +630,8 @@ Quality Requirements for Insights:
 - When supported by the data, include at least 10 items in "wentWell", 10 in "didntGoWell", and 3 in "actionItems". If the data does not support that many high-quality items, include as many as are well-supported without fabrication.
 - Prioritize insights that will drive meaningful team discussions and concrete improvements
 - Each insight should be substantial enough to warrant discussion in a retrospective meeting
-- No artificial limits on number of insights, but emphasize relevance, specificity, and actionability over volume`;
+- No artificial limits on number of insights, but emphasize relevance, specificity, and actionability over volume
+- Remember: Every "details" field must be exactly 2 sentences - this is mandatory`;
 
     if (isGPT5 || isGemini) {
       // GPT-5/Gemini optimized prompt with comprehensive output format

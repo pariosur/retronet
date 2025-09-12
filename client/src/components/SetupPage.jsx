@@ -4,7 +4,7 @@ import axios from 'axios';
 import AppLayout from './AppLayout';
 
 function SetupPage({ onComplete, onNavigate }) {
-  // Date range moved to Whiteboard top bar for clarity
+  // Date range moved to Dashboard top bar for clarity
   const [linearStatus, setLinearStatus] = useState(null);
   const [testingLinear, setTestingLinear] = useState(false);
   const [slackStatus, setSlackStatus] = useState(null);

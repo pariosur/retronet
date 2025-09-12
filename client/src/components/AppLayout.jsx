@@ -5,9 +5,9 @@ import { useDarkMode } from '../hooks/useDarkMode';
 function Sidebar({ onNavigate }) {
   const items = [
     { key: 'guide', label: 'Getting Started', icon: FileText },
-    { key: 'whiteboard', label: 'Whiteboard', icon: LayoutGrid },
+    { key: 'dashboard', label: 'Dashboard', icon: LayoutGrid },
     { key: 'setup', label: 'Integrations', icon: Settings },
-    { key: 'retros', label: 'Retros', icon: BarChart },
+    { key: 'history', label: 'History', icon: BarChart },
 
   ];
   const [useDemo, setUseDemo] = useState(true);
@@ -95,7 +95,7 @@ function Sidebar({ onNavigate }) {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">retronet</div>
+      <div className="hidden md:block text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">retronet</div>
       <nav className="space-y-1 flex-1 overflow-y-auto">
         {items.map(item => (
           <button
@@ -182,7 +182,7 @@ function AppLayout({ children, onNavigate, headerTitle, onChangeTitle, headerPre
         className={`transform transition-transform duration-200 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 z-40 md:z-0 w-56 fixed md:static inset-y-0 left-0 flex flex-col
           ${collapsed ? '-translate-x-full md:-translate-x-0 md:hidden' : 'translate-x-0 md:translate-x-0 md:block'}`}
       >
-        <div className="flex items-center justify-between p-4 pb-0 md:hidden">
+        <div className="flex items-center justify-between p-4 md:hidden">
           <div className="text-3xl font-bold text-gray-900 dark:text-gray-100">retronet</div>
           <button
             onClick={() => setCollapsed(true)}

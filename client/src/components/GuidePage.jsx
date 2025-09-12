@@ -50,8 +50,8 @@ function GuidePage({ onNavigate }) {
               number="1"
               title="Try Demo Mode (Ready Now!)"
               description="Explore retronet with sample team data to see how AI-powered insights work before connecting your tools."
-              action="Open Whiteboard"
-              onClick={() => onNavigate("whiteboard")}
+              action="Open Dashboard"
+              onClick={() => onNavigate("dashboard")}
               icon={<LayoutGrid className="w-5 h-5" />}
             />
 
@@ -68,8 +68,8 @@ function GuidePage({ onNavigate }) {
               number="3"
               title="Generate Your First Retro"
               description="Select a date range and let GPT-5 analyze your team's activity to generate insights."
-              action="Open Whiteboard"
-              onClick={() => onNavigate("whiteboard")}
+              action="Open Dashboard"
+              onClick={() => onNavigate("dashboard")}
               icon={<LayoutGrid className="w-5 h-5" />}
             />
 

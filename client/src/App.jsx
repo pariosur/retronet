@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
-import WhiteboardPage from './components/WhiteboardPage';
+import DashboardPage from './components/DashboardPage';
 import SetupPage from './components/SetupPage';
-import RetrosPage from './components/RetrosPage';
+import HistoryPage from './components/HistoryPage';
 import GuidePage from './components/GuidePage';
 
 
@@ -20,7 +20,7 @@ function App() {
 
   const handleSetupComplete = (setupConfig) => {
     setConfig(prev => ({ ...prev, ...setupConfig }));
-    setCurrentPage('whiteboard');
+    setCurrentPage('dashboard');
   };
 
   // Demo and setup helpers not used in minimalist flow; keep for future demo mode
@@ -34,8 +34,8 @@ function App() {
       {currentPage === 'guide' && (
         <GuidePage onNavigate={handleNavigate} />
       )}
-      {currentPage === 'whiteboard' && (
-        <WhiteboardPage 
+      {currentPage === 'dashboard' && (
+        <DashboardPage 
           dateRange={config.dateRange}
           teamMembers={config.teamMembers}
           onChangeDateRange={(dr) => setConfig(prev => ({ ...prev, dateRange: dr }))}
@@ -48,8 +48,8 @@ function App() {
           onNavigate={handleNavigate}
         />
       )}
-      {currentPage === 'retros' && (
-        <RetrosPage 
+      {currentPage === 'history' && (
+        <HistoryPage 
           onNavigate={handleNavigate}
           onLoadRetro={(key) => {
             const list = JSON.parse(localStorage.getItem('retronet_retros') || '[]');
@@ -58,7 +58,7 @@ function App() {
               localStorage.setItem('retronet_board', JSON.stringify(match.board));
               setConfig(prev => ({ ...prev, dateRange: match.dateRange }));
             }
-            setCurrentPage('whiteboard');
+            setCurrentPage('dashboard');
           }}
         />
       )}
