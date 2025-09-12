@@ -2,10 +2,11 @@ import { useMemo, useState } from 'react';
 import WhiteboardPage from './components/WhiteboardPage';
 import SetupPage from './components/SetupPage';
 import RetrosPage from './components/RetrosPage';
+import GuidePage from './components/GuidePage';
 
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('whiteboard');
+  const [currentPage, setCurrentPage] = useState('guide');
   const initialDates = useMemo(() => {
     const start = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
     const end = new Date().toISOString().split('T')[0];
@@ -24,41 +25,37 @@ function App() {
 
   // Demo and setup helpers not used in minimalist flow; keep for future demo mode
 
+  const handleNavigate = (key) => {
+    setCurrentPage(key);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      {currentPage === 'guide' && (
+        <GuidePage onNavigate={handleNavigate} />
+      )}
       {currentPage === 'whiteboard' && (
         <WhiteboardPage 
           dateRange={config.dateRange}
           teamMembers={config.teamMembers}
           onChangeDateRange={(dr) => setConfig(prev => ({ ...prev, dateRange: dr }))}
-          onNavigate={(key) => {
-            if (key === 'setup') return setCurrentPage('setup');
-            if (key === 'retros') return setCurrentPage('retros');
-            setCurrentPage('whiteboard');
-          }} 
+          onNavigate={handleNavigate}
         />
       )}
       {currentPage === 'setup' && (
         <SetupPage 
           onComplete={handleSetupComplete}
-          onNavigate={(key) => {
-            if (key === 'setup') return setCurrentPage('setup');
-            if (key === 'retros') return setCurrentPage('retros');
-            setCurrentPage('whiteboard');
-          }}
+          onNavigate={handleNavigate}
         />
       )}
       {currentPage === 'retros' && (
         <RetrosPage 
-          onNavigate={(key) => {
-            if (key === 'setup') return setCurrentPage('setup');
-            setCurrentPage('whiteboard');
-          }}
+          onNavigate={handleNavigate}
           onLoadRetro={(key) => {
-            const list = JSON.parse(localStorage.getItem('retromate_retros') || '[]');
+            const list = JSON.parse(localStorage.getItem('retronet_retros') || '[]');
             const match = list.find((r) => r.key === key);
             if (match) {
-              localStorage.setItem('retromate_board', JSON.stringify(match.board));
+              localStorage.setItem('retronet_board', JSON.stringify(match.board));
               setConfig(prev => ({ ...prev, dateRange: match.dateRange }));
             }
             setCurrentPage('whiteboard');

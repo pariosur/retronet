@@ -144,10 +144,10 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
 
   useEffect(() => {
     // hydrate from localStorage
-    const saved = localStorage.getItem('retromate_board');
-    const savedTime = localStorage.getItem('retromate_last_generated');
-    const savedTitle = localStorage.getItem('retromate_title');
-    const savedId = localStorage.getItem('retromate_current_id');
+    const saved = localStorage.getItem('retronet_board');
+    const savedTime = localStorage.getItem('retronet_last_generated');
+    const savedTitle = localStorage.getItem('retronet_title');
+    const savedId = localStorage.getItem('retronet_current_id');
     if (saved) {
       try {
         setBoard(JSON.parse(saved));
@@ -183,17 +183,17 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
       if (!id) {
         id = `r-${Date.now()}`;
         setCurrentId(id);
-        localStorage.setItem('retromate_current_id', id);
+        localStorage.setItem('retronet_current_id', id);
       }
       const start = dateRange?.start; const end = dateRange?.end;
-      const retrosRaw = JSON.parse(localStorage.getItem('retromate_retros') || '[]');
+      const retrosRaw = JSON.parse(localStorage.getItem('retronet_retros') || '[]');
       const retros = Array.isArray(retrosRaw) ? retrosRaw.map(r => (r.id ? r : { id: r.key || `legacy-${Date.now()}`, ...r })) : [];
       const updated = { id, dateRange: { start, end }, title: title || 'Retro', board: boardToPersist, savedAt: new Date().toISOString() };
       const next = retros.filter(r => (r.id || r.key) !== id);
       next.unshift(updated);
-      localStorage.setItem('retromate_retros', JSON.stringify(next));
-      localStorage.setItem('retromate_board', JSON.stringify(boardToPersist));
-      localStorage.setItem('retromate_title', title || '');
+      localStorage.setItem('retronet_retros', JSON.stringify(next));
+      localStorage.setItem('retronet_board', JSON.stringify(boardToPersist));
+      localStorage.setItem('retronet_title', title || '');
       if (options.showStatus) { setSaveStatus('saved'); setTimeout(() => setSaveStatus(''), 1200); }
     } catch {
       if (options.showStatus) setSaveStatus('');
@@ -263,7 +263,7 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
     });
     const ts = new Date().toISOString();
     setLastGeneratedAt(ts);
-    localStorage.setItem('retromate_last_generated', ts);
+    localStorage.setItem('retronet_last_generated', ts);
     if (nextBoardLocal) { persistRetroToLocalStorage(nextBoardLocal, { showStatus: false }); }
   };
 
@@ -274,7 +274,7 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
       const res = await fetch(`http://localhost:3001/api/generate-retro/result/${sid}`);
       if (res.status === 200) {
         const data = await res.json();
-        localStorage.removeItem('retromate_active_session');
+        localStorage.removeItem('retronet_active_session');
         applyRetroData(data);
         done = true;
         break;
@@ -282,7 +282,7 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
       if (res.status === 500) {
         const { error } = await res.json().catch(() => ({ error: 'Generation failed' }));
         alert(error || 'Generation failed');
-        localStorage.removeItem('retromate_active_session');
+        localStorage.removeItem('retronet_active_session');
         break;
       }
       // 202 pending or 404 not yet available -> continue
@@ -312,7 +312,7 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
 
   // Resume active background generation after refresh/navigation
   useEffect(() => {
-    const active = localStorage.getItem('retromate_active_session');
+    const active = localStorage.getItem('retronet_active_session');
     if (active) {
       setIsGenerating(true);
       setProgressPct(0);
@@ -345,16 +345,16 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
     setEtaMs(null);
     try {
       const sid = (window.crypto?.randomUUID && window.crypto.randomUUID()) || `sess_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
-      localStorage.setItem('retromate_active_session', sid);
+      localStorage.setItem('retronet_active_session', sid);
       startProgressPolling(sid);
 
       // Read demo toggle from localStorage
       let useDemo = true;
       let demoVariant = 'large';
       try {
-        const raw = localStorage.getItem('retromate.useDemo');
+        const raw = localStorage.getItem('retronet.useDemo');
         useDemo = raw === null ? true : (raw === 'true');
-        const rawVar = localStorage.getItem('retromate.demoVariant');
+        const rawVar = localStorage.getItem('retronet.demoVariant');
         if (rawVar === 'small' || rawVar === 'large') demoVariant = rawVar;
       } catch {
         // Ignore localStorage access issues
@@ -385,14 +385,14 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
       headerTitle={title} 
       onChangeTitle={setTitle}
       headerPrefix={(() => {
-        const retros = JSON.parse(localStorage.getItem('retromate_retros') || '[]');
+        const retros = JSON.parse(localStorage.getItem('retronet_retros') || '[]');
         const ids = retros.map(r => r.id || r.key);
         const idx = ids.indexOf(currentId);
         if (idx === -1) return `#${retros.length + 1}`;
         return `#${retros.length - idx}`;
       })()}
       titleDropdownOptions={(() => {
-        const retros = JSON.parse(localStorage.getItem('retromate_retros') || '[]');
+        const retros = JSON.parse(localStorage.getItem('retronet_retros') || '[]');
         const total = retros.length;
         return retros.map((r, i) => ({
           key: r.id || r.key,
@@ -400,15 +400,15 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
         }));
       })()}
       onSelectTitleOption={(key) => {
-        const retros = JSON.parse(localStorage.getItem('retromate_retros') || '[]');
+        const retros = JSON.parse(localStorage.getItem('retronet_retros') || '[]');
         const match = retros.find(r => (r.id || r.key) === key);
         if (!match) return;
-        localStorage.setItem('retromate_board', JSON.stringify(match.board));
+        localStorage.setItem('retronet_board', JSON.stringify(match.board));
         setBoard(match.board);
         setLastGeneratedAt(match.savedAt);
         setTitle(match.title || 'Retro');
         setCurrentId(match.id || key);
-        localStorage.setItem('retromate_current_id', match.id || key);
+        localStorage.setItem('retronet_current_id', match.id || key);
         // also update the date range so filters make sense
         onChangeDateRange?.({ start: match.dateRange.start, end: match.dateRange.end });
       }}
@@ -417,7 +417,7 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
         // Create a fresh whiteboard with a brand-new id so Save won't overwrite
         const newId = `r-${Date.now()}`;
         setCurrentId(newId);
-        localStorage.setItem('retromate_current_id', newId);
+        localStorage.setItem('retronet_current_id', newId);
         setBoard({
           wentWell: toItems(placeholders.wentWell, true),
           didntGoWell: toItems(placeholders.didntGoWell, true),
@@ -426,13 +426,13 @@ function WhiteboardPage({ onNavigate, dateRange, onChangeDateRange, teamMembers 
         setLastGeneratedAt(null);
         setTitle('Retro');
         // Clear ephemeral hydration values
-        localStorage.setItem('retromate_board', JSON.stringify({
+        localStorage.setItem('retronet_board', JSON.stringify({
           wentWell: toItems(placeholders.wentWell, true),
           didntGoWell: toItems(placeholders.didntGoWell, true),
           actionItems: toItems(placeholders.actionItems, true)
         }));
-        localStorage.setItem('retromate_title', 'Retro');
-        localStorage.removeItem('retromate_last_generated');
+        localStorage.setItem('retronet_title', 'Retro');
+        localStorage.removeItem('retronet_last_generated');
       }}
     >
       <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 mb-4">

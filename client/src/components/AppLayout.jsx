@@ -4,6 +4,7 @@ import { useDarkMode } from '../hooks/useDarkMode';
 
 function Sidebar({ onNavigate }) {
   const items = [
+    { key: 'guide', label: 'Getting Started', icon: FileText },
     { key: 'whiteboard', label: 'Whiteboard', icon: LayoutGrid },
     { key: 'setup', label: 'Integrations', icon: Settings },
     { key: 'retros', label: 'Retros', icon: BarChart },
@@ -15,9 +16,9 @@ function Sidebar({ onNavigate }) {
   useEffect(() => {
     // Initialize from localStorage (default to true)
     try {
-      const raw = localStorage.getItem('retromate.useDemo');
+      const raw = localStorage.getItem('retronet.useDemo');
       if (raw === null) {
-        localStorage.setItem('retromate.useDemo', 'true');
+        localStorage.setItem('retronet.useDemo', 'true');
         setUseDemo(true);
       } else {
         setUseDemo(raw === 'true');
@@ -72,7 +73,7 @@ function Sidebar({ onNavigate }) {
       if (!ok) {
         // keep demo on
         setUseDemo(true);
-        try { localStorage.setItem('retromate.useDemo', 'true'); } catch {
+        try { localStorage.setItem('retronet.useDemo', 'true'); } catch {
           // Ignore storage errors
         }
         return;
@@ -81,20 +82,20 @@ function Sidebar({ onNavigate }) {
     
     // Clear any active generation session when switching modes
     try {
-      localStorage.removeItem('retromate_active_session');
+      localStorage.removeItem('retronet_active_session');
     } catch {
       // Ignore storage errors
     }
     
     setUseDemo(next);
-    try { localStorage.setItem('retromate.useDemo', String(next)); } catch {
+    try { localStorage.setItem('retronet.useDemo', String(next)); } catch {
       // Ignore storage errors
     }
   };
 
   return (
     <div className="flex flex-col h-full">
-      <div className="text-sm font-bold text-gray-900 dark:text-gray-100 mb-6">RetroMate</div>
+      <div className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">retronet</div>
       <nav className="space-y-1 flex-1 overflow-y-auto">
         {items.map(item => (
           <button
@@ -182,7 +183,7 @@ function AppLayout({ children, onNavigate, headerTitle, onChangeTitle, headerPre
           ${collapsed ? '-translate-x-full md:-translate-x-0 md:hidden' : 'translate-x-0 md:translate-x-0 md:block'}`}
       >
         <div className="flex items-center justify-between p-4 pb-0 md:hidden">
-          <div className="text-sm font-bold text-gray-900 dark:text-gray-100">RetroMate</div>
+          <div className="text-3xl font-bold text-gray-900 dark:text-gray-100">retronet</div>
           <button
             onClick={() => setCollapsed(true)}
             className="p-2 rounded-md border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300"

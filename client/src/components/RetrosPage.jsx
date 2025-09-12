@@ -19,11 +19,11 @@ function AnimatedItem({ children, index }) {
 }
 
 function RetrosPage({ onNavigate, onLoadRetro }) {
-  const saved = JSON.parse(localStorage.getItem('retromate_retros') || '[]');
+  const saved = JSON.parse(localStorage.getItem('retronet_retros') || '[]');
   const removeRetro = (key) => {
-    const list = JSON.parse(localStorage.getItem('retromate_retros') || '[]');
+    const list = JSON.parse(localStorage.getItem('retronet_retros') || '[]');
     const next = list.filter((r) => (r.id || r.key) !== key);
-    localStorage.setItem('retromate_retros', JSON.stringify(next));
+    localStorage.setItem('retronet_retros', JSON.stringify(next));
     location.reload();
   };
   return (

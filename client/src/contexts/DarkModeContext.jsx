@@ -5,7 +5,7 @@ export function DarkModeProvider({ children }) {
   const [darkMode, setDarkMode] = useState(() => {
     try {
       // Check localStorage first
-      const saved = localStorage.getItem('retromate_darkmode');
+      const saved = localStorage.getItem('retronet_darkmode');
       if (saved !== null) {
         return saved === 'true';
       }
@@ -30,7 +30,7 @@ export function DarkModeProvider({ children }) {
     
     // Save preference
     try {
-      localStorage.setItem('retromate_darkmode', darkMode.toString());
+      localStorage.setItem('retronet_darkmode', darkMode.toString());
     } catch (error) {
       // Silently fail if localStorage is not available
     }

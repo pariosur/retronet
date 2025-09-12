@@ -5,7 +5,6 @@ import AppLayout from './AppLayout';
 
 function SetupPage({ onComplete, onNavigate }) {
   // Date range moved to Whiteboard top bar for clarity
-  const [teamMembers, setTeamMembers] = useState('');
   const [linearStatus, setLinearStatus] = useState(null);
   const [testingLinear, setTestingLinear] = useState(false);
   const [slackStatus, setSlackStatus] = useState(null);
@@ -27,7 +26,7 @@ function SetupPage({ onComplete, onNavigate }) {
     e.preventDefault();
     onComplete({
       dateRange: undefined,
-      teamMembers: teamMembers.split(',').map(m => m.trim()).filter(Boolean)
+      teamMembers: []
     });
   };
 
@@ -168,7 +167,7 @@ function SetupPage({ onComplete, onNavigate }) {
 
         <div className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold">Linear Integration</h2>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Linear Integration</h2>
             <button
               type="button"
               onClick={testLinearConnection}
@@ -202,7 +201,7 @@ function SetupPage({ onComplete, onNavigate }) {
 
         <div className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold">Slack Integration</h2>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Slack Integration</h2>
             <button
               type="button"
               onClick={testSlackConnection}
@@ -229,14 +228,40 @@ function SetupPage({ onComplete, onNavigate }) {
             </div>
           )}
           
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            Make sure your SLACK_BOT_TOKEN is configured in server/.env (optional)
-          </p>
+          <div className="space-y-3">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Analyze team communication patterns and sentiment from your Slack workspace.
+            </p>
+            
+            <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-md">
+              <h4 className="text-sm font-medium text-blue-900 dark:text-blue-300 mb-2">Quick Setup:</h4>
+              <ol className="text-sm text-blue-800 dark:text-blue-400 space-y-1 list-decimal list-inside">
+                <li>
+                  <a 
+                    href="https://api.slack.com/apps" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="underline hover:text-blue-600 dark:hover:text-blue-300"
+                  >
+                    Create a Slack App
+                  </a> and get a Bot User OAuth Token
+                </li>
+                <li>Add the token to server/.env as SLACK_BOT_TOKEN</li>
+                <li>Invite the bot to channels you want analyzed (e.g., #general, #engineering)</li>
+              </ol>
+            </div>
+            
+            <div className="text-xs text-gray-500 dark:text-gray-400 space-y-1">
+              <p><strong>Privacy:</strong> Bot only accesses channels it's invited to</p>
+              <p><strong>Analyzes:</strong> Message sentiment, communication patterns, team activity</p>
+              <p><strong>Note:</strong> This integration is optional but provides valuable team insights</p>
+            </div>
+          </div>
         </div>
 
         <div className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold">GitHub Integration</h2>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">GitHub Integration</h2>
             <button
               type="button"
               onClick={testGithubConnection}
@@ -270,17 +295,14 @@ function SetupPage({ onComplete, onNavigate }) {
 
         <div className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <Brain className="w-5 h-5 text-purple-600" />
-              <h2 className="text-lg font-semibold">AI Analysis (Optional)</h2>
-            </div>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">OpenAI Integration</h2>
             <button
               type="button"
               onClick={testLlmConfiguration}
               disabled={testingLlm}
-              className="px-3 py-1 text-sm bg-purple-100 text-purple-700 rounded-md hover:bg-purple-200 disabled:opacity-50"
+              className="px-3 py-1 text-sm bg-gray-900 dark:bg-gray-600 text-white rounded-md hover:bg-black dark:hover:bg-gray-500 disabled:opacity-60"
             >
-              {testingLlm ? 'Testing...' : 'Test Configuration'}
+              {testingLlm ? 'Testing...' : 'Test Connection'}
             </button>
           </div>
           
@@ -293,133 +315,41 @@ function SetupPage({ onComplete, onNavigate }) {
               ) : (
                 <XCircle className="w-4 h-4" />
               )}
-              <div className="flex-1">
-                <span className="text-sm">{llmStatus.message}</span>
-                {llmStatus.provider && llmStatus.model && (
-                  <span className="text-xs opacity-75 dark:opacity-60 block">
-                    Provider: {llmStatus.provider}, Model: {llmStatus.model}
-                  </span>
-                )}
-                {llmStatus.details && (
-                  <span className="text-xs opacity-75 dark:opacity-60 block">
-                    {llmStatus.details}
-                  </span>
-                )}
-              </div>
+              <span className="text-sm">{llmStatus.message}</span>
+              {llmStatus.provider && llmStatus.model && (
+                <span className="text-xs opacity-75 dark:opacity-60">({llmStatus.model})</span>
+              )}
             </div>
           )}
-
-          <div className="space-y-4">
-            <div>
-              <label htmlFor="llm-provider" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                AI Provider
-              </label>
-              <select
-                id="llm-provider"
-                value={llmConfig.provider}
-                onChange={(e) => handleLlmConfigChange('provider', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400"
-              >
-                <option value="">Disabled (Rule-based analysis only)</option>
-                <option value="openai">OpenAI (GPT-4, GPT-3.5)</option>
-                <option value="anthropic">Anthropic (Claude)</option>
-                <option value="local">Local Model (Ollama)</option>
-              </select>
-            </div>
-
-            {llmConfig.provider && llmConfig.provider !== 'local' && (
-              <div>
-                <label htmlFor="llm-api-key" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  API Key
-                </label>
-                <div className="relative">
-                  <input
-                    id="llm-api-key"
-                    type={showApiKey ? 'text' : 'password'}
-                    value={llmConfig.apiKey}
-                    onChange={(e) => handleLlmConfigChange('apiKey', e.target.value)}
-                    placeholder={`Enter your ${llmConfig.provider.toUpperCase()} API key`}
-                    className="w-full px-3 py-2 pr-10 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowApiKey(!showApiKey)}
-                    aria-label={showApiKey ? 'Hide API key' : 'Show API key'}
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300"
-                  >
-                    {showApiKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {llmConfig.provider && (
-              <div>
-                <label htmlFor="llm-model" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Model
-                </label>
-                <select
-                  id="llm-model"
-                  value={llmConfig.model}
-                  onChange={(e) => handleLlmConfigChange('model', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400"
-                >
-                  {getProviderModels(llmConfig.provider).map(model => (
-                    <option key={model} value={model}>{model}</option>
-                  ))}
-                </select>
-              </div>
-            )}
-
-            {llmConfig.provider && (
-              <div className="flex items-center gap-4">
-                <label htmlFor="llm-privacy-mode" className="flex items-center gap-2">
-                  <input
-                    id="llm-privacy-mode"
-                    type="checkbox"
-                    checked={llmConfig.privacyMode}
-                    onChange={(e) => handleLlmConfigChange('privacyMode', e.target.checked)}
-                    className="rounded border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:ring-gray-700 dark:focus:ring-gray-400"
-                  />
-                  <span className="text-sm text-gray-700 dark:text-gray-300">Privacy Mode</span>
-                </label>
-              </div>
-            )}
-          </div>
-
-          <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-md">
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              {llmConfig.provider ? (
-                llmConfig.provider === 'local' ? (
-                  'Local models keep your data private and don\'t require API keys. Make sure Ollama is running locally.'
-                ) : llmConfig.privacyMode ? (
-                  'Privacy mode enabled: Data will be sanitized before sending to external AI services.'
-                ) : (
-                  'AI analysis will send team data to external services for enhanced insights. Enable privacy mode to sanitize sensitive information.'
-                )
-              ) : (
-                'AI analysis is disabled. Only rule-based insights will be generated from your team data.'
-              )}
+          
+          <div className="mb-4">
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+              Connect your OpenAI API key to power AI-driven retrospective insights with GPT-5.
             </p>
+            
+            <div className="relative">
+              <input
+                type={showApiKey ? 'text' : 'password'}
+                placeholder="Enter your OpenAI API key (sk-...)"
+                className="w-full px-3 py-2 pr-10 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400"
+              />
+              <button
+                type="button"
+                onClick={() => setShowApiKey(!showApiKey)}
+                aria-label={showApiKey ? 'Hide API key' : 'Show API key'}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300"
+              >
+                {showApiKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
+            </div>
           </div>
-        </div>
-
-        <div className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Team Members</h2>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Team Members (comma-separated)
-          </label>
-          <input
-            type="text"
-            value={teamMembers}
-            onChange={(e) => setTeamMembers(e.target.value)}
-            placeholder="john.doe, jane.smith, alex.wilson"
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
-          />
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-            Leave empty to include all team members
+          
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Make sure your OPENAI_API_KEY is configured in server/.env
           </p>
         </div>
+
+
 
         <button
           type="submit"

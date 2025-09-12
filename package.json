@@ -1,5 +1,5 @@
 {
-  "name": "retro-assistant",
+  "name": "retronet",
   "version": "1.0.0",
   "description": "AI-powered retro meeting assistant",
   "main": "server/index.js",

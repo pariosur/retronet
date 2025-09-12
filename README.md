@@ -1,4 +1,4 @@
-# Retro Assistant
+# retronet
 
 AI-powered retro meeting assistant that analyzes your team's Linear tickets, Slack messages, and GitHub activity to generate meaningful insights for sprint retrospectives.
 

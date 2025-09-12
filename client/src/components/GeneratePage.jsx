@@ -80,9 +80,9 @@ function GeneratePage({ config, onRetroGenerated, onBack, autoStart = false, onN
       let useDemo = true;
       let demoVariant = 'large';
       try {
-        const raw = localStorage.getItem('retromate.useDemo');
+        const raw = localStorage.getItem('retronet.useDemo');
         useDemo = raw === null ? true : (raw === 'true');
-        const rawVar = localStorage.getItem('retromate.demoVariant');
+        const rawVar = localStorage.getItem('retronet.demoVariant');
         if (rawVar === 'small' || rawVar === 'large') demoVariant = rawVar;
       } catch {
         // Ignore localStorage access issues (e.g., privacy mode)
