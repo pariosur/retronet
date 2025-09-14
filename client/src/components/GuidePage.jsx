@@ -21,7 +21,7 @@ function GuidePage({ onNavigate }) {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-            Welcome to retronet
+            Welcome to Retronet
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             AI-powered retrospective insights from your team's GitHub, Linear,
