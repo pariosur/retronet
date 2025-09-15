@@ -1,5 +1,4 @@
-.DS_Store
-.vscode
+
 .env
 node_modules
 dist
@@ -9,3 +8,4 @@ build
 .env.development.local
 .env.test.local
 .env.production.local
+env
